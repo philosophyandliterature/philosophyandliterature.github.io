@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard — Philosophy & Literature</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f1e8;
+      color: #29251f;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    header {
+      background: #29251f;
+      color: white;
+      padding: 25px 20px;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      color: #d8d2c7;
+      font-size: 14px;
+    }
+
+    .logout {
+      background: #8a3d32;
+      color: white;
+      border: 0;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 35px 20px 60px;
+    }
+
+    .welcome {
+      margin-bottom: 30px;
+    }
+
+    .welcome h2 {
+      margin-bottom: 5px;
+      font-size: 30px;
+    }
+
+    .welcome p {
+      color: #655e55;
+    }
+
+    .status {
+      background: #e8efe6;
+      border: 1px solid #cbd9c7;
+      padding: 12px 15px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+      color: #426b45;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+
+    .stat {
+      background: #fffdf8;
+      border: 1px solid #e1dbcf;
+      padding: 22px;
+      border-radius: 5px;
+      box-shadow: 0 3px 12px rgba(50,40,25,0.06);
+    }
+
+    .stat-number {
+      font-size: 30px;
+      font-weight: bold;
+      color: #80643b;
+    }
+
+    .stat-name {
+      margin-top: 5px;
+      color: #655e55;
+    }
+
+    .section-title {
+      font-size: 25px;
+      margin: 35px 0 18px;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .tool {
+      background: #fffdf8;
+      border: 1px solid #e1dbcf;
+      padding: 25px;
+      border-radius: 5px;
+    }
+
+    .tool h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .tool p {
+      color: #655e55;
+      font-size: 14px;
+    }
+
+    .tool button {
+      background: #29251f;
+      color: white;
+      border: 0;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .tool button:hover {
+      background: #3d372f;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 35px;
+      color: #6b4f2a;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 50px;
+      font-size: 18px;
+    }
+
+    #dashboard {
+      display: none;
+    }
+
+    @media (max-width: 750px) {
+      .stats,
+      .tools {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .header-inner {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .stats,
+      .tools {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>Philosophy & Literature</h1>
+        <p>Administration Panel</p>
+      </div>
+
+      <button class="logout" id="logoutButton">
+        Sign Out
+      </button>
+    </div>
+  </header>
+
+  <div id="loading">
+    Checking your account...
+  </div>
+
+  <main id="dashboard">
+
+    <section class="welcome">
+      <h2>Admin Dashboard</h2>
+      <p id="userInfo">Loading account information...</p>
+    </section>
+
+    <div class="status">
+      ✓ Secure admin session verified
+    </div>
+
+    <h2 class="section-title">Archive Statistics</h2>
+
+    <section class="stats">
+
+      <div class="stat">
+        <div class="stat-number" id="booksCount">0</div>
+        <div class="stat-name">Books</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="authorsCount">0</div>
+        <div class="stat-name">Authors</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="quotesCount">0</div>
+        <div class="stat-name">Quotes</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="articlesCount">0</div>
+        <div class="stat-name">Articles</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="galleryCount">0</div>
+        <div class="stat-name">Gallery</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="categoriesCount">0</div>
+        <div class="stat-name">Categories</div>
+      </div>
+
+    </section>
+
+    <h2 class="section-title">Manage Archive</h2>
+
+    <section class="tools">
+
+      <div class="tool">
+        <h3>Books</h3>
+        <p>Add and manage books and reading resources.</p>
+        <button onclick="comingSoon('Books')">Manage Books</button>
+      </div>
+
+      <div class="tool">
+        <h3>Authors</h3>
+        <p>Manage philosophers, writers and authors.</p>
+        <button onclick="comingSoon('Authors')">Manage Authors</button>
+      </div>
+
+      <div class="tool">
+        <h3>Quotes</h3>
+        <p>Add and manage philosophical and literary quotations.</p>
+        <button onclick="comingSoon('Quotes')">Manage Quotes</button>
+      </div>
+
+      <div class="tool">
+        <h3>Articles & Notes</h3>
+        <p>Create and manage essays, notes and articles.</p>
+        <button onclick="comingSoon('Articles')">Manage Articles</button>
+      </div>
+
+      <div class="tool">
+        <h3>Gallery</h3>
+        <p>Manage posters, artwork and visual resources.</p>
+        <button onclick="comingSoon('Gallery')">Manage Gallery</button>
+      </div>
+
+      <div class="tool">
+        <h3>Categories</h3>
+        <p>Organize the archive into useful categories.</p>
+        <button onclick="comingSoon('Categories')">Manage Categories</button>
+      </div>
+
+    </section>
+
+    <a class="back" href="index.html">
+      ← Back to website
+    </a>
+
+  </main>
+
+<script>
+
+  const SUPABASE_URL = "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+  const { createClient } = supabase;
+
+  const client = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  async function checkAdmin() {
+
+    const {
+      data: { session }
+    } = await client.auth.getSession();
+
+    if (!session) {
+      window.location.href = "admin.html";
+      return;
+    }
+
+    const user = session.user;
+
+    const { data: profile, error } = await client
+      .from("profiles")
+      .select("full_name, role")
+      .eq("id", user.id)
+      .single();
+
+    if (error || !profile || !["admin", "editor"].includes(profile.role)) {
+      await client.auth.signOut();
+      document.getElementById("loading").textContent =
+        "Access denied. Your account is not authorized.";
+      return;
+    }
+
+    document.getElementById("userInfo").textContent =
+      "Signed in as " + (profile.full_name || user.email) +
+      " • Role: " + profile.role;
+
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+
+    loadCounts();
+  }
+
+  async function getCount(table) {
+
+    const { count, error } = await client
+      .from(table)
+      .select("*", {
+        count: "exact",
+        head: true
+      });
+
+    if (error) {
+      return 0;
+    }
+
+    return count || 0;
+  }
+
+  async function loadCounts() {
+
+    const books = await getCount("books");
+    const authors = await getCount("authors");
+    const quotes = await getCount("quotes");
+    const articles = await getCount("articles");
+    const gallery = await getCount("gallery");
+    const categories = await getCount("categories");
+
+    document.getElementById("booksCount").textContent = books;
+    document.getElementById("authorsCount").textContent = authors;
+    document.getElementById("quotesCount").textContent = quotes;
+    document.getElementById("articlesCount").textContent = articles;
+    document.getElementById("galleryCount").textContent = gallery;
+    document.getElementById("categoriesCount").textContent = categories;
+  }
+
+  function comingSoon(section) {
+    alert(section + " management will be added next.");
+  }
+
+  document
+    .getElementById("logoutButton")
+    .addEventListener("click", async function() {
+
+      await client.auth.signOut();
+
+      window.location.href = "admin.html";
+    });
+
+  checkAdmin();
+
+</script>
+
+</body>
+</html>
