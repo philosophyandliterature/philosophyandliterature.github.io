@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Login — Philosophy & Literature</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f1e8;
+      color: #29251f;
+      font-family: Georgia, "Times New Roman", serif;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: #fffdf8;
+      border: 1px solid #e1dbcf;
+      padding: 40px 30px;
+      box-shadow: 0 8px 25px rgba(50,40,25,0.10);
+      border-radius: 6px;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6b6257;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cfc7b8;
+      border-radius: 4px;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #80643b;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 13px;
+      border: 0;
+      border-radius: 4px;
+      background: #29251f;
+      color: white;
+      font-size: 16px;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #3d372f;
+    }
+
+    #message {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+      color: #8a3d32;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      color: #6b4f2a;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-box">
+
+    <h1>Admin Login</h1>
+
+    <div class="subtitle">
+      Philosophy & Literature
+    </div>
+
+    <form id="loginForm">
+
+      <label for="email">Email</label>
+
+      <input
+        type="email"
+        id="email"
+        required
+        autocomplete="email"
+      >
+
+      <label for="password">Password</label>
+
+      <input
+        type="password"
+        id="password"
+        required
+        autocomplete="current-password"
+      >
+
+      <button type="submit">
+        Sign In
+      </button>
+
+    </form>
+
+    <div id="message"></div>
+
+    <a class="back" href="index.html">
+      ← Back to website
+    </a>
+
+  </div>
+
+<script>
+
+  const SUPABASE_URL = "https://vsrhycbtqwtlrqcdyqdj.supabase.co/rest/v1/";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+  const { createClient } = supabase;
+
+  const client = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  const form = document.getElementById("loginForm");
+  const message = document.getElementById("message");
+
+  form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    message.textContent = "Signing in...";
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const { error } = await client.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (error) {
+      message.textContent = error.message;
+      return;
+    }
+
+    message.style.color = "#426b45";
+    message.textContent = "Login successful. Opening dashboard...";
+
+    setTimeout(function() {
+      window.location.href = "admin-dashboard.html";
+    }, 700);
+
+  });
+
+</script>
+
+</body>
+</html>
