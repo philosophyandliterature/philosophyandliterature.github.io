@@ -696,7 +696,7 @@
   function editArticle(id) {
 
     const article =
-      articles.find(a => a.id === id);
+    articles.find(a => String(a.id) === String(id));
 
     if (!article) return;
 
