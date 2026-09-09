@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Authors Manager — Philosophy & Literature</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f1e8;
+      color: #29251f;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    header {
+      background: #29251f;
+      color: white;
+      padding: 22px 20px;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      color: #d8d2c7;
+      font-size: 14px;
+    }
+
+    .logout {
+      background: #8a3d32;
+      color: white;
+      border: 0;
+      padding: 9px 14px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px 60px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .add-button {
+      background: #29251f;
+      color: white;
+      border: 0;
+      padding: 11px 16px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .message {
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .success {
+      background: #e8efe6;
+      border: 1px solid #cbd9c7;
+      color: #426b45;
+    }
+
+    .error {
+      background: #f5e5e2;
+      border: 1px solid #dfc1bb;
+      color: #8a3d32;
+    }
+
+    .form-box {
+      background: #fffdf8;
+      border: 1px solid #e1dbcf;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .form-box h3 {
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #cfc7b8;
+      border-radius: 4px;
+      background: white;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .save {
+      background: #29251f;
+      color: white;
+      border: 0;
+      padding: 11px 18px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .cancel {
+      background: #ddd6c9;
+      color: #29251f;
+      border: 0;
+      padding: 11px 18px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .search {
+      margin-bottom: 20px;
+    }
+
+    .author-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .author {
+      background: #fffdf8;
+      border: 1px solid #e1dbcf;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .author h3 {
+      margin: 0 0 5px;
+      font-size: 21px;
+    }
+
+    .years {
+      color: #80643b;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .bio {
+      color: #655e55;
+      white-space: pre-line;
+    }
+
+    .actions {
+      margin-top: 15px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .actions button {
+      border: 0;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .edit {
+      background: #d8c8a9;
+    }
+
+    .delete {
+      background: #e5c4bd;
+      color: #7d3026;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 30px;
+      color: #6b4f2a;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 50px;
+    }
+
+    #app {
+      display: none;
+    }
+
+    @media (max-width: 650px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      header h1 {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <h1>Philosophy & Literature</h1>
+      <p>Authors Manager</p>
+    </div>
+
+    <button class="logout" id="logoutButton">Sign Out</button>
+  </div>
+</header>
+
+<div id="loading">
+  Checking your account...
+</div>
+
+<main id="app">
+
+  <div class="topbar">
+    <h2>Authors</h2>
+    <button class="add-button" id="addButton">+ Add Author</button>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <section class="form-box" id="authorFormBox">
+
+    <h3 id="formTitle">Add Author</h3>
+
+    <form id="authorForm">
+
+      <input type="hidden" id="authorId">
+
+      <div class="form-grid">
+
+        <div class="field full">
+          <label for="name">Author Name *</label>
+          <input id="name" required>
+        </div>
+
+        <div class="field">
+          <label for="birthYear">Birth Year</label>
+          <input id="birthYear" type="number">
+        </div>
+
+        <div class="field">
+          <label for="deathYear">Death Year</label>
+          <input id="deathYear" type="number">
+        </div>
+
+        <div class="field full">
+          <label for="imageUrl">Image URL</label>
+          <input id="imageUrl" type="url">
+        </div>
+
+        <div class="field full">
+          <label for="bio">Biography</label>
+          <textarea id="bio"></textarea>
+        </div>
+
+      </div>
+
+      <div class="form-buttons">
+        <button class="save" type="submit">Save Author</button>
+        <button class="cancel" type="button" id="cancelButton">
+          Cancel
+        </button>
+      </div>
+
+    </form>
+
+  </section>
+
+  <div class="search">
+    <input
+      id="search"
+      placeholder="Search authors..."
+    >
+  </div>
+
+  <section class="author-list" id="authorList"></section>
+
+  <a class="back" href="admin-dashboard.html">
+    ← Back to dashboard
+  </a>
+
+</main>
+
+<script>
+
+  const SUPABASE_URL = "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+  const { createClient } = supabase;
+
+  const client = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  let authors = [];
+
+  async function checkAdmin() {
+
+    const {
+      data: { session }
+    } = await client.auth.getSession();
+
+    if (!session) {
+      window.location.href = "admin.html";
+      return;
+    }
+
+    const { data: profile, error } = await client
+      .from("profiles")
+      .select("full_name, role")
+      .eq("id", session.user.id)
+      .single();
+
+    if (
+      error ||
+      !profile ||
+      !["admin", "editor"].includes(profile.role)
+    ) {
+      await client.auth.signOut();
+
+      document.getElementById("loading").textContent =
+        "Access denied. Your account is not authorized.";
+
+      return;
+    }
+
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    loadAuthors();
+  }
+
+  async function loadAuthors() {
+
+    const { data, error } = await client
+      .from("authors")
+      .select("*")
+      .order("name");
+
+    if (error) {
+
+      showMessage(
+        "Could not load authors: " + error.message,
+        true
+      );
+
+      return;
+    }
+
+    authors = data || [];
+
+    renderAuthors();
+  }
+
+  function renderAuthors() {
+
+    const list = document.getElementById("authorList");
+
+    const searchText =
+      document.getElementById("search").value
+      .toLowerCase()
+      .trim();
+
+    const filtered = authors.filter(function(author) {
+
+      return (author.name || "")
+        .toLowerCase()
+        .includes(searchText);
+    });
+
+    if (filtered.length === 0) {
+
+      list.innerHTML =
+        '<div class="author">No authors found.</div>';
+
+      return;
+    }
+
+    list.innerHTML = "";
+
+    filtered.forEach(function(author) {
+
+      const item = document.createElement("div");
+
+      item.className = "author";
+
+      let years = "";
+
+      if (author.birth_year) {
+        years += author.birth_year;
+      }
+
+      if (author.death_year) {
+        years += " – " + author.death_year;
+      }
+
+      item.innerHTML = `
+        <h3>${escapeHtml(author.name)}</h3>
+
+        ${
+          years
+          ? `<div class="years">${escapeHtml(years)}</div>`
+          : ""
+        }
+
+        ${
+          author.bio
+          ? `<div class="bio">${escapeHtml(author.bio)}</div>`
+          : ""
+        }
+
+        <div class="actions">
+
+          <button class="edit"
+            onclick="editAuthor('${author.id}')">
+            Edit
+          </button>
+
+          <button class="delete"
+            onclick="deleteAuthor('${author.id}')">
+            Delete
+          </button>
+
+        </div>
+      `;
+
+      list.appendChild(item);
+    });
+  }
+
+  function escapeHtml(value) {
+
+    return String(value || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function clearForm() {
+
+    document.getElementById("authorForm").reset();
+
+    document.getElementById("authorId").value = "";
+
+    document.getElementById("formTitle").textContent =
+      "Add Author";
+  }
+
+  function openForm() {
+
+    document.getElementById("authorFormBox").style.display =
+      "block";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  function editAuthor(id) {
+
+    const author = authors.find(function(item) {
+      return item.id === id;
+    });
+
+    if (!author) return;
+
+    document.getElementById("authorId").value = author.id;
+    document.getElementById("name").value = author.name || "";
+    document.getElementById("birthYear").value =
+      author.birth_year || "";
+    document.getElementById("deathYear").value =
+      author.death_year || "";
+    document.getElementById("imageUrl").value =
+      author.image_url || "";
+    document.getElementById("bio").value =
+      author.bio || "";
+
+    document.getElementById("formTitle").textContent =
+      "Edit Author";
+
+    openForm();
+  }
+
+  async function saveAuthor(event) {
+
+    event.preventDefault();
+
+    const id =
+      document.getElementById("authorId").value;
+
+    const authorData = {
+
+      name:
+        document.getElementById("name").value.trim(),
+
+      bio:
+        document.getElementById("bio").value.trim() || null,
+
+      birth_year:
+        document.getElementById("birthYear").value
+          ? Number(document.getElementById("birthYear").value)
+          : null,
+
+      death_year:
+        document.getElementById("deathYear").value
+          ? Number(document.getElementById("deathYear").value)
+          : null,
+
+      image_url:
+        document.getElementById("imageUrl").value.trim() || null
+    };
+
+    let result;
+
+    if (id) {
+
+      result = await client
+        .from("authors")
+        .update(authorData)
+        .eq("id", id);
+
+    } else {
+
+      result = await client
+        .from("authors")
+        .insert(authorData);
+    }
+
+    if (result.error) {
+
+      showMessage(
+        "Could not save author: " + result.error.message,
+        true
+      );
+
+      return;
+    }
+
+    showMessage(
+      id
+        ? "Author updated successfully."
+        : "Author added successfully."
+    );
+
+    clearForm();
+
+    document.getElementById("authorFormBox").style.display =
+      "none";
+
+    await loadAuthors();
+  }
+
+  async function deleteAuthor(id) {
+
+    const author = authors.find(function(item) {
+      return item.id === id;
+    });
+
+    if (!author) return;
+
+    const confirmed = confirm(
+      'Delete "' + author.name + '"?'
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await client
+      .from("authors")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+
+      showMessage(
+        "Could not delete author: " + error.message,
+        true
+      );
+
+      return;
+    }
+
+    showMessage("Author deleted successfully.");
+
+    await loadAuthors();
+  }
+
+  function showMessage(text, isError = false) {
+
+    const box = document.getElementById("message");
+
+    box.textContent = text;
+
+    box.className =
+      "message " + (isError ? "error" : "success");
+
+    box.style.display = "block";
+
+    setTimeout(function() {
+      box.style.display = "none";
+    }, 4000);
+  }
+
+  document
+    .getElementById("addButton")
+    .addEventListener("click", function() {
+
+      clearForm();
+
+      openForm();
+    });
+
+  document
+    .getElementById("cancelButton")
+    .addEventListener("click", function() {
+
+      clearForm();
+
+      document.getElementById("authorFormBox").style.display =
+        "none";
+    });
+
+  document
+    .getElementById("authorForm")
+    .addEventListener("submit", saveAuthor);
+
+  document
+    .getElementById("search")
+    .addEventListener("input", renderAuthors);
+
+  document
+    .getElementById("logoutButton")
+    .addEventListener("click", async function() {
+
+      await client.auth.signOut();
+
+      window.location.href = "admin.html";
+    });
+
+  checkAdmin();
+
+</script>
+
+</body>
+</html>
