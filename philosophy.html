@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Philosophy | Philosophy & Literature</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #f6f1e7;
+      color: #302d28;
+      line-height: 1.7;
+    }
+
+    header {
+      background: #292721;
+      color: #f6f1e7;
+      padding: 34px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+    }
+
+    header p {
+      margin: 0;
+      color: #d8d0c2;
+      font-size: 15px;
+    }
+
+    nav {
+      background: #403a33;
+      padding: 12px 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: #f6f1e7;
+      text-decoration: none;
+      margin: 0 9px;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 55px 20px;
+    }
+
+    .intro {
+      max-width: 760px;
+      margin: 0 auto 55px;
+      text-align: center;
+    }
+
+    .intro h2 {
+      font-size: 31px;
+      margin: 0 0 15px;
+    }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: #9b8b70;
+      margin: 18px auto 22px;
+    }
+
+    .intro p {
+      color: #625d55;
+      font-size: 16px;
+    }
+
+    .section {
+      margin-bottom: 55px;
+    }
+
+    .section-title {
+      border-bottom: 1px solid #d8d0c2;
+      padding-bottom: 10px;
+      margin-bottom: 22px;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 23px;
+    }
+
+    .section-title p {
+      margin: 5px 0 0;
+      color: #756e65;
+      font-size: 14px;
+    }
+
+    .thinkers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .thinker {
+      background: #fffdf8;
+      padding: 22px;
+      border: 1px solid #e3ddd2;
+      box-shadow: 0 2px 7px rgba(0,0,0,0.05);
+    }
+
+    .thinker h4 {
+      margin: 0 0 7px;
+      font-size: 20px;
+    }
+
+    .dates {
+      color: #8a806f;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .thinker p {
+      margin: 0;
+      color: #625d55;
+      font-size: 14px;
+    }
+
+    .books,
+    .quotes {
+      display: grid;
+      gap: 18px;
+    }
+
+    .book,
+    .quote {
+      background: #fffdf8;
+      padding: 24px;
+      border-left: 3px solid #9b8b70;
+      box-shadow: 0 2px 7px rgba(0,0,0,0.05);
+    }
+
+    .book h4 {
+      margin: 0 0 5px;
+      font-size: 20px;
+    }
+
+    .book .author {
+      color: #756e65;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .book p {
+      margin: 0;
+      color: #625d55;
+      font-size: 14px;
+    }
+
+    .quote blockquote {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-style: italic;
+    }
+
+    .quote .author {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .quote .source {
+      color: #756e65;
+      font-size: 13px;
+    }
+
+    .empty {
+      color: #756e65;
+      background: #eee7da;
+      padding: 18px;
+    }
+
+    footer {
+      background: #292721;
+      color: #d8d0c2;
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      header h1 {
+        font-size: 27px;
+      }
+
+      main {
+        padding: 38px 15px;
+      }
+
+      .thinkers {
+        grid-template-columns: 1fr;
+      }
+
+      .intro h2 {
+        font-size: 27px;
+      }
+
+      nav a {
+        margin: 0 5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Philosophy</h1>
+  <p>Thinkers, questions, traditions and works in the archive</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="philosophy.html">Philosophy</a>
+  <a href="index.html#literature">Literature</a>
+  <a href="library.html">Library</a>
+  <a href="quotes.html">Quotes</a>
+  <a href="index.html#articles">Articles</a>
+  <a href="index.html#gallery">Gallery</a>
+  <a href="index.html#about">About</a>
+</nav>
+
+<main>
+
+  <section class="intro">
+    <h2>Philosophy</h2>
+
+    <div class="divider"></div>
+
+    <p>
+      Philosophy begins with questions: What can we know?
+      How should we live? What is real? What makes a life
+      meaningful?
+    </p>
+
+    <p>
+      This section brings together thinkers, books and
+      philosophical quotations preserved in the archive.
+    </p>
+  </section>
+
+
+  <!-- THINKERS -->
+
+  <section class="section">
+
+    <div class="section-title">
+      <h3>Thinkers in the Archive</h3>
+      <p>Philosophers currently represented in the collection.</p>
+    </div>
+
+    <div id="thinkersContainer" class="thinkers">
+      <div class="empty">Loading thinkers...</div>
+    </div>
+
+  </section>
+
+
+  <!-- BOOKS -->
+
+  <section class="section">
+
+    <div class="section-title">
+      <h3>Philosophy Books</h3>
+      <p>Books classified under Philosophy in the library.</p>
+    </div>
+
+    <div id="booksContainer" class="books">
+      <div class="empty">Loading books...</div>
+    </div>
+
+  </section>
+
+
+  <!-- QUOTES -->
+
+  <section class="section">
+
+    <div class="section-title">
+      <h3>Selected Quotes</h3>
+      <p>Published philosophical quotations from the archive.</p>
+    </div>
+
+    <div id="quotesContainer" class="quotes">
+      <div class="empty">Loading quotes...</div>
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+  <p>© Philosophy & Literature</p>
+  <p>Built as an educational digital archive.</p>
+</footer>
+
+
+<script>
+
+  const SUPABASE_URL =
+    "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+  const { createClient } = supabase;
+
+  const client = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+  /* ==============================
+     LOAD THINKERS
+     ============================== */
+
+  async function loadThinkers() {
+
+    const container =
+      document.getElementById("thinkersContainer");
+
+    const { data, error } = await client
+      .from("authors")
+      .select("name, bio, birth_year, death_year")
+      .order("name");
+
+    if (error) {
+      container.innerHTML =
+        '<div class="empty">Unable to load thinkers.</div>';
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      container.innerHTML =
+        '<div class="empty">No thinkers have been added yet.</div>';
+      return;
+    }
+
+    container.innerHTML = data.map(person => {
+
+      let dates = "";
+
+      if (person.birth_year || person.death_year) {
+        dates =
+          `${person.birth_year || "?"}–${person.death_year || ""}`;
+      }
+
+      return `
+        <article class="thinker">
+
+          <h4>${escapeHtml(person.name)}</h4>
+
+          ${dates
+            ? `<div class="dates">${escapeHtml(dates)}</div>`
+            : ""
+          }
+
+          <p>
+            ${escapeHtml(
+              person.bio || "Philosopher represented in the archive."
+            )}
+          </p>
+
+        </article>
+      `;
+
+    }).join("");
+  }
+
+
+  /* ==============================
+     LOAD PHILOSOPHY BOOKS
+     ============================== */
+
+  async function loadBooks() {
+
+    const container =
+      document.getElementById("booksContainer");
+
+    const { data: category, error: categoryError } =
+      await client
+        .from("categories")
+        .select("id")
+        .eq("name", "Philosophy")
+        .maybeSingle();
+
+    if (categoryError) {
+      container.innerHTML =
+        '<div class="empty">Unable to load books.</div>';
+      return;
+    }
+
+    if (!category) {
+      container.innerHTML =
+        '<div class="empty">No Philosophy category has been created yet.</div>';
+      return;
+    }
+
+    const { data, error } = await client
+      .from("books")
+      .select(`
+        title,
+        subtitle,
+        description,
+        publication_year,
+        language,
+        authors(name)
+      `)
+      .eq("category_id", category.id)
+      .eq("is_published", true)
+      .order("title");
+
+    if (error) {
+      container.innerHTML =
+        '<div class="empty">Unable to load books.</div>';
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      container.innerHTML =
+        '<div class="empty">No published philosophy books yet.</div>';
+      return;
+    }
+
+    container.innerHTML = data.map(book => {
+
+      const author =
+        book.authors?.name || "Unknown author";
+
+      return `
+        <article class="book">
+
+          <h4>${escapeHtml(book.title)}</h4>
+
+          ${book.subtitle
+            ? `<div>${escapeHtml(book.subtitle)}</div>`
+            : ""
+          }
+
+          <div class="author">
+            ${escapeHtml(author)}
+            ${book.publication_year
+              ? ` · ${escapeHtml(String(book.publication_year))}`
+              : ""
+            }
+            ${book.language
+              ? ` · ${escapeHtml(book.language)}`
+              : ""
+            }
+          </div>
+
+          ${book.description
+            ? `<p>${escapeHtml(book.description)}</p>`
+            : ""
+          }
+
+        </article>
+      `;
+
+    }).join("");
+  }
+
+
+  /* ==============================
+     LOAD PHILOSOPHY QUOTES
+     ============================== */
+
+  async function loadQuotes() {
+
+    const container =
+      document.getElementById("quotesContainer");
+
+    const { data: category, error: categoryError } =
+      await client
+        .from("categories")
+        .select("id")
+        .eq("name", "Philosophy")
+        .maybeSingle();
+
+    if (categoryError || !category) {
+      container.innerHTML =
+        '<div class="empty">No Philosophy category found.</div>';
+      return;
+    }
+
+    const { data, error } = await client
+      .from("quotes")
+      .select(`
+        quote_text,
+        source,
+        authors(name)
+      `)
+      .eq("category_id", category.id)
+      .eq("is_published", true)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      container.innerHTML =
+        '<div class="empty">Unable to load quotes.</div>';
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      container.innerHTML =
+        '<div class="empty">No published philosophy quotes yet.</div>';
+      return;
+    }
+
+    container.innerHTML = data.map(quote => {
+
+      const author =
+        quote.authors?.name || "Unknown author";
+
+      return `
+        <article class="quote">
+
+          <blockquote>
+            “${escapeHtml(quote.quote_text)}”
+          </blockquote>
+
+          <div class="author">
+            — ${escapeHtml(author)}
+          </div>
+
+          ${quote.source
+            ? `<div class="source">${escapeHtml(quote.source)}</div>`
+            : ""
+          }
+
+        </article>
+      `;
+
+    }).join("");
+  }
+
+
+  /* ==============================
+     HTML SAFETY
+     ============================== */
+
+  function escapeHtml(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text || "";
+
+    return div.innerHTML;
+  }
+
+
+  /* ==============================
+     START
+     ============================== */
+
+  loadThinkers();
+  loadBooks();
+  loadQuotes();
+
+</script>
+
+</body>
+  </html>
