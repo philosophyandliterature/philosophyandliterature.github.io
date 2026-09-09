@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Books Manager — Philosophy & Literature</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f1e8;
+      color: #29251f;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    header {
+      background: #29251f;
+      color: white;
+      padding: 22px 20px;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      color: #d8d2c7;
+      font-size: 14px;
+    }
+
+    .logout {
+      background: #8a3d32;
+      color: white;
+      border: 0;
+      padding: 9px 14px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px 60px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .add-button {
+      background: #29251f;
+      color: white;
+      border: 0;
+      padding: 11px 16px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .message {
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .success {
+      background: #e8efe6;
+      border: 1px solid #cbd9c7;
+      color: #426b45;
+    }
+
+    .error {
+      background: #f5e5e2;
+      border: 1px solid #dfc1bb;
+      color: #8a3d32;
+    }
+
+    .form-box {
+      background: #fffdf8;
+      border: 1px solid #e1dbcf;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .form-box h3 {
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #cfc7b8;
+      border-radius: 4px;
+      background: white;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .checkbox {
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox input {
+      width: auto;
+    }
+
+    .form-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .save {
+      background: #29251f;
+      color: white;
+      border: 0;
+      padding: 11px 18px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .cancel {
+      background: #ddd6c9;
+      color: #29251f;
+      border: 0;
+      padding: 11px 18px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .search {
+      margin-bottom: 20px;
+    }
+
+    .book-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .book {
+      background: #fffdf8;
+      border: 1px solid #e1dbcf;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .book h3 {
+      margin: 0 0 5px;
+    }
+
+    .book-author {
+      color: #80643b;
+      margin-bottom: 8px;
+    }
+
+    .book-details {
+      color: #655e55;
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    .published {
+      background: #e8efe6;
+      color: #426b45;
+    }
+
+    .draft {
+      background: #eee8dc;
+      color: #6b6257;
+    }
+
+    .actions {
+      margin-top: 15px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .actions button {
+      border: 0;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    .edit {
+      background: #d8c8a9;
+    }
+
+    .delete {
+      background: #e5c4bd;
+      color: #7d3026;
+    }
+
+    .publish {
+      background: #d4dfd0;
+      color: #36583a;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 30px;
+      color: #6b4f2a;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 50px;
+    }
+
+    #app {
+      display: none;
+    }
+
+    @media (max-width: 650px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      header h1 {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <h1>Philosophy & Literature</h1>
+      <p>Books Manager</p>
+    </div>
+
+    <button class="logout" id="logoutButton">Sign Out</button>
+  </div>
+</header>
+
+<div id="loading">
+  Checking your account...
+</div>
+
+<main id="app">
+
+  <div class="topbar">
+    <h2>Books</h2>
+    <button class="add-button" id="addButton">+ Add Book</button>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <section class="form-box" id="bookFormBox">
+
+    <h3 id="formTitle">Add Book</h3>
+
+    <form id="bookForm">
+
+      <input type="hidden" id="bookId">
+
+      <div class="form-grid">
+
+        <div class="field full">
+          <label for="title">Book Title *</label>
+          <input id="title" required>
+        </div>
+
+        <div class="field full">
+          <label for="subtitle">Subtitle</label>
+          <input id="subtitle">
+        </div>
+
+        <div class="field">
+          <label for="author">Author</label>
+          <select id="author">
+            <option value="">Select author</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category">
+            <option value="">Select category</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="publicationYear">Publication Year</label>
+          <input id="publicationYear" type="number">
+        </div>
+
+        <div class="field">
+          <label for="language">Language</label>
+          <input id="language" placeholder="English, Hindi, etc.">
+        </div>
+
+        <div class="field">
+          <label for="isbn">ISBN</label>
+          <input id="isbn">
+        </div>
+
+        <div class="field">
+          <label for="coverUrl">Cover Image URL</label>
+          <input id="coverUrl" type="url">
+        </div>
+
+        <div class="field full">
+          <label for="pdfUrl">PDF URL</label>
+          <input id="pdfUrl" type="url">
+        </div>
+
+        <div class="field full">
+          <label for="description">Description</label>
+          <textarea id="description"></textarea>
+        </div>
+
+        <div class="field checkbox full">
+          <input id="isPublished" type="checkbox">
+          <label for="isPublished">Publish this book</label>
+        </div>
+
+      </div>
+
+      <div class="form-buttons">
+        <button class="save" type="submit">Save Book</button>
+        <button class="cancel" type="button" id="cancelButton">Cancel</button>
+      </div>
+
+    </form>
+
+  </section>
+
+  <div class="search">
+    <input
+      id="search"
+      placeholder="Search books by title..."
+    >
+  </div>
+
+  <section class="book-list" id="bookList">
+  </section>
+
+  <a class="back" href="admin-dashboard.html">
+    ← Back to dashboard
+  </a>
+
+</main>
+
+<script>
+
+  const SUPABASE_URL = "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+  const { createClient } = supabase;
+
+  const client = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  let books = [];
+  let authors = [];
+  let categories = [];
+
+  async function checkAdmin() {
+
+    const {
+      data: { session }
+    } = await client.auth.getSession();
+
+    if (!session) {
+      window.location.href = "admin.html";
+      return;
+    }
+
+    const { data: profile, error } = await client
+      .from("profiles")
+      .select("full_name, role")
+      .eq("id", session.user.id)
+      .single();
+
+    if (
+      error ||
+      !profile ||
+      !["admin", "editor"].includes(profile.role)
+    ) {
+      await client.auth.signOut();
+
+      document.getElementById("loading").textContent =
+        "Access denied. Your account is not authorized.";
+
+      return;
+    }
+
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    await loadAuthors();
+    await loadCategories();
+    await loadBooks();
+  }
+
+  async function loadAuthors() {
+
+    const { data, error } = await client
+      .from("authors")
+      .select("id, name")
+      .order("name");
+
+    if (!error) {
+      authors = data || [];
+    }
+
+    const select = document.getElementById("author");
+
+    select.innerHTML =
+      '<option value="">Select author</option>';
+
+    authors.forEach(function(author) {
+
+      const option = document.createElement("option");
+
+      option.value = author.id;
+      option.textContent = author.name;
+
+      select.appendChild(option);
+    });
+  }
+
+  async function loadCategories() {
+
+    const { data, error } = await client
+      .from("categories")
+      .select("id, name")
+      .order("name");
+
+    if (!error) {
+      categories = data || [];
+    }
+
+    const select = document.getElementById("category");
+
+    select.innerHTML =
+      '<option value="">Select category</option>';
+
+    categories.forEach(function(category) {
+
+      const option = document.createElement("option");
+
+      option.value = category.id;
+      option.textContent = category.name;
+
+      select.appendChild(option);
+    });
+  }
+
+  async function loadBooks() {
+
+    const { data, error } = await client
+      .from("books")
+      .select(`
+        *,
+        authors(name),
+        categories(name)
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+    if (error) {
+
+      showMessage(
+        "Could not load books: " + error.message,
+        true
+      );
+
+      return;
+    }
+
+    books = data || [];
+
+    renderBooks();
+  }
+
+  function renderBooks() {
+
+    const list = document.getElementById("bookList");
+
+    const searchText =
+      document.getElementById("search").value
+      .toLowerCase()
+      .trim();
+
+    const filtered = books.filter(function(book) {
+
+      return (book.title || "")
+        .toLowerCase()
+        .includes(searchText);
+    });
+
+    if (filtered.length === 0) {
+
+      list.innerHTML =
+        '<div class="book">No books found.</div>';
+
+      return;
+    }
+
+    list.innerHTML = "";
+
+    filtered.forEach(function(book) {
+
+      const item = document.createElement("div");
+
+      item.className = "book";
+
+      const authorName =
+        book.authors?.name || "Unknown author";
+
+      const categoryName =
+        book.categories?.name || "Uncategorized";
+
+      item.innerHTML = `
+        <h3>${escapeHtml(book.title)}</h3>
+
+        <div class="book-author">
+          ${escapeHtml(authorName)}
+        </div>
+
+        <div class="book-details">
+          ${escapeHtml(categoryName)}
+          ${book.language ? " • " + escapeHtml(book.language) : ""}
+          ${book.publication_year ? " • " + book.publication_year : ""}
+        </div>
+
+        <span class="badge ${
+          book.is_published ? "published" : "draft"
+        }">
+          ${book.is_published ? "Published" : "Draft"}
+        </span>
+
+        <div class="actions">
+
+          <button class="edit"
+            onclick="editBook('${book.id}')">
+            Edit
+          </button>
+
+          <button class="publish"
+            onclick="togglePublish('${book.id}', ${!book.is_published})">
+            ${book.is_published ? "Unpublish" : "Publish"}
+          </button>
+
+          <button class="delete"
+            onclick="deleteBook('${book.id}')">
+            Delete
+          </button>
+
+        </div>
+      `;
+
+      list.appendChild(item);
+    });
+  }
+
+  function escapeHtml(value) {
+
+    return String(value || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function openForm() {
+
+    document.getElementById("bookFormBox").style.display =
+      "block";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  function clearForm() {
+
+    document.getElementById("bookForm").reset();
+
+    document.getElementById("bookId").value = "";
+
+    document.getElementById("formTitle").textContent =
+      "Add Book";
+  }
+
+  function editBook(id) {
+
+    const book = books.find(function(item) {
+      return item.id === id;
+    });
+
+    if (!book) return;
+
+    document.getElementById("bookId").value = book.id;
+    document.getElementById("title").value = book.title || "";
+    document.getElementById("subtitle").value = book.subtitle || "";
+    document.getElementById("author").value = book.author_id || "";
+    document.getElementById("category").value = book.category_id || "";
+    document.getElementById("publicationYear").value =
+      book.publication_year || "";
+    document.getElementById("language").value =
+      book.language || "";
+    document.getElementById("isbn").value =
+      book.isbn || "";
+    document.getElementById("coverUrl").value =
+      book.cover_url || "";
+    document.getElementById("pdfUrl").value =
+      book.pdf_url || "";
+    document.getElementById("description").value =
+      book.description || "";
+    document.getElementById("isPublished").checked =
+      !!book.is_published;
+
+    document.getElementById("formTitle").textContent =
+      "Edit Book";
+
+    openForm();
+  }
+
+  async function saveBook(event) {
+
+    event.preventDefault();
+
+    const id =
+      document.getElementById("bookId").value;
+
+    const bookData = {
+
+      title:
+        document.getElementById("title").value.trim(),
+
+      subtitle:
+        document.getElementById("subtitle").value.trim() || null,
+
+      author_id:
+        document.getElementById("author").value || null,
+
+      category_id:
+        document.getElementById("category").value || null,
+
+      description:
+        document.getElementById("description").value.trim() || null,
+
+      publication_year:
+        document.getElementById("publicationYear").value
+          ? Number(document.getElementById("publicationYear").value)
+          : null,
+
+      language:
+        document.getElementById("language").value.trim() || null,
+
+      isbn:
+        document.getElementById("isbn").value.trim() || null,
+
+      cover_url:
+        document.getElementById("coverUrl").value.trim() || null,
+
+      pdf_url:
+        document.getElementById("pdfUrl").value.trim() || null,
+
+      is_published:
+        document.getElementById("isPublished").checked
+    };
+
+    let result;
+
+    if (id) {
+
+      result = await client
+        .from("books")
+        .update(bookData)
+        .eq("id", id);
+
+    } else {
+
+      result = await client
+        .from("books")
+        .insert(bookData);
+    }
+
+    if (result.error) {
+
+      showMessage(
+        "Could not save book: " + result.error.message,
+        true
+      );
+
+      return;
+    }
+
+    showMessage(
+      id ? "Book updated successfully." : "Book added successfully."
+    );
+
+    clearForm();
+
+    document.getElementById("bookFormBox").style.display =
+      "none";
+
+    await loadBooks();
+  }
+
+  async function deleteBook(id) {
+
+    const book = books.find(function(item) {
+      return item.id === id;
+    });
+
+    if (!book) return;
+
+    const confirmed = confirm(
+      'Delete "' + book.title + '"? This cannot be undone.'
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await client
+      .from("books")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+
+      showMessage(
+        "Could not delete book: " + error.message,
+        true
+      );
+
+      return;
+    }
+
+    showMessage("Book deleted successfully.");
+
+    await loadBooks();
+  }
+
+  async function togglePublish(id, value) {
+
+    const { error } = await client
+      .from("books")
+      .update({
+        is_published: value
+      })
+      .eq("id", id);
+
+    if (error) {
+
+      showMessage(
+        "Could not change publication status: " +
+        error.message,
+        true
+      );
+
+      return;
+    }
+
+    showMessage(
+      value
+        ? "Book published."
+        : "Book moved to draft."
+    );
+
+    await loadBooks();
+  }
+
+  function showMessage(text, isError = false) {
+
+    const box = document.getElementById("message");
+
+    box.textContent = text;
+
+    box.className =
+      "message " + (isError ? "error" : "success");
+
+    box.style.display = "block";
+
+    setTimeout(function() {
+      box.style.display = "none";
+    }, 4000);
+  }
+
+  document
+    .getElementById("addButton")
+    .addEventListener("click", function() {
+
+      clearForm();
+
+      openForm();
+    });
+
+  document
+    .getElementById("cancelButton")
+    .addEventListener("click", function() {
+
+      clearForm();
+
+      document.getElementById("bookFormBox").style.display =
+        "none";
+    });
+
+  document
+    .getElementById("bookForm")
+    .addEventListener("submit", saveBook);
+
+  document
+    .getElementById("search")
+    .addEventListener("input", renderBooks);
+
+  document
+    .getElementById("logoutButton")
+    .addEventListener("click", async function() {
+
+      await client.auth.signOut();
+
+      window.location.href = "admin.html";
+    });
+
+  checkAdmin();
+
+</script>
+
+</body>
+</html>
