@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Library | Philosophy & Literature</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #f6f1e7;
+      color: #302d28;
+      line-height: 1.7;
+    }
+
+    header {
+      background: #292721;
+      color: #f6f1e7;
+      padding: 34px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+    }
+
+    header p {
+      margin: 0;
+      color: #d8d0c2;
+      font-size: 15px;
+    }
+
+    nav {
+      background: #403a33;
+      padding: 12px 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: #f6f1e7;
+      text-decoration: none;
+      margin: 0 9px;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: auto;
+      padding: 55px 20px;
+    }
+
+    .intro {
+      max-width: 760px;
+      margin: 0 auto 50px;
+      text-align: center;
+    }
+
+    .intro h2 {
+      font-size: 31px;
+      margin: 0 0 15px;
+    }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: #9b8b70;
+      margin: 18px auto 22px;
+    }
+
+    .intro p {
+      color: #625d55;
+      font-size: 16px;
+    }
+
+    .library-tools {
+      margin-bottom: 25px;
+    }
+
+    .search {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid #d5cec2;
+      border-radius: 3px;
+      background: #fffdf8;
+      color: #302d28;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 15px;
+    }
+
+    .books {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .book {
+      display: flex;
+      gap: 20px;
+      background: #fffdf8;
+      border: 1px solid #e3ddd2;
+      padding: 22px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .cover {
+      width: 110px;
+      min-width: 110px;
+      height: 155px;
+      background: #eee7da;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .no-cover {
+      text-align: center;
+      padding: 12px;
+      color: #8a806f;
+      font-size: 13px;
+    }
+
+    .book-info {
+      min-width: 0;
+    }
+
+    .book h3 {
+      margin: 0 0 5px;
+      font-size: 21px;
+      line-height: 1.35;
+    }
+
+    .subtitle {
+      color: #625d55;
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+
+    .author {
+      color: #756e65;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .description {
+      color: #625d55;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .empty {
+      background: #eee7da;
+      padding: 22px;
+      color: #756e65;
+      text-align: center;
+      grid-column: 1 / -1;
+    }
+
+    footer {
+      background: #292721;
+      color: #d8d0c2;
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 750px) {
+      main {
+        padding: 38px 15px;
+      }
+
+      .books {
+        grid-template-columns: 1fr;
+      }
+
+      .book {
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 27px;
+      }
+
+      nav a {
+        margin: 0 5px;
+      }
+
+      .book {
+        gap: 14px;
+      }
+
+      .cover {
+        width: 85px;
+        min-width: 85px;
+        height: 125px;
+      }
+
+      .book h3 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Library</h1>
+  <p>Books and reading resources in the archive</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="philosophy.html">Philosophy</a>
+  <a href="index.html#literature">Literature</a>
+  <a href="library.html">Library</a>
+  <a href="quotes.html">Quotes</a>
+  <a href="index.html#articles">Articles</a>
+  <a href="index.html#gallery">Gallery</a>
+  <a href="index.html#about">About</a>
+</nav>
+
+<main>
+
+  <section class="intro">
+    <h2>Library</h2>
+
+    <div class="divider"></div>
+
+    <p>
+      A growing collection of books and reading resources
+      connected with philosophy and literature.
+    </p>
+
+    <p>
+      Only books marked as published in the archive are
+      displayed here.
+    </p>
+  </section>
+
+  <section class="library-tools">
+    <input
+      type="search"
+      id="search"
+      class="search"
+      placeholder="Search by title, author or language..."
+      oninput="renderBooks()"
+    >
+  </section>
+
+  <section id="booksContainer" class="books">
+    <div class="empty">Loading books...</div>
+  </section>
+
+</main>
+
+<footer>
+  <p>© Philosophy & Literature</p>
+  <p>Built as an educational digital archive.</p>
+</footer>
+
+<script>
+
+  const SUPABASE_URL =
+    "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+  const { createClient } = supabase;
+
+  const client = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  let books = [];
+
+
+  /* ==============================
+     LOAD PUBLISHED BOOKS
+     ============================== */
+
+  async function loadBooks() {
+
+    const container =
+      document.getElementById("booksContainer");
+
+    const { data, error } = await client
+      .from("books")
+      .select(`
+        title,
+        subtitle,
+        description,
+        publication_year,
+        language,
+        cover_url,
+        authors(name),
+        categories(name)
+      `)
+      .eq("is_published", true)
+      .order("title");
+
+    if (error) {
+
+      container.innerHTML =
+        '<div class="empty">Unable to load the library.</div>';
+
+      return;
+    }
+
+    books = data || [];
+
+    renderBooks();
+  }
+
+
+  /* ==============================
+     DISPLAY BOOKS
+     ============================== */
+
+  function renderBooks() {
+
+    const container =
+      document.getElementById("booksContainer");
+
+    const search =
+      document.getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered =
+      books.filter(book => {
+
+        const title =
+          (book.title || "").toLowerCase();
+
+        const author =
+          (book.authors?.name || "").toLowerCase();
+
+        const language =
+          (book.language || "").toLowerCase();
+
+        return (
+          title.includes(search) ||
+          author.includes(search) ||
+          language.includes(search)
+        );
+      });
+
+
+    if (filtered.length === 0) {
+
+      container.innerHTML =
+        '<div class="empty">No published books found.</div>';
+
+      return;
+    }
+
+
+    container.innerHTML =
+      filtered.map(book => {
+
+        const author =
+          book.authors?.name || "Unknown author";
+
+        let cover = `
+          <div class="cover">
+            <div class="no-cover">
+              Cover not available
+            </div>
+          </div>
+        `;
+
+        if (book.cover_url) {
+
+          cover = `
+            <div class="cover">
+              <img
+                src="${escapeHtml(book.cover_url)}"
+                alt="Cover of ${escapeHtml(book.title)}"
+                onerror="this.parentElement.innerHTML='<div class=&quot;no-cover&quot;>Cover not available</div>'"
+              >
+            </div>
+          `;
+        }
+
+
+        return `
+          <article class="book">
+
+            ${cover}
+
+            <div class="book-info">
+
+              <h3>
+                ${escapeHtml(book.title)}
+              </h3>
+
+              ${
+                book.subtitle
+                  ? `<div class="subtitle">
+                      ${escapeHtml(book.subtitle)}
+                    </div>`
+                  : ""
+              }
+
+              <div class="author">
+                ${escapeHtml(author)}
+
+                ${
+                  book.publication_year
+                    ? ` · ${escapeHtml(String(book.publication_year))}`
+                    : ""
+                }
+
+                ${
+                  book.language
+                    ? ` · ${escapeHtml(book.language)}`
+                    : ""
+                }
+              </div>
+
+              ${
+                book.description
+                  ? `<p class="description">
+                      ${escapeHtml(book.description)}
+                    </p>`
+                  : ""
+              }
+
+            </div>
+
+          </article>
+        `;
+
+      }).join("");
+  }
+
+
+  /* ==============================
+     HTML SAFETY
+     ============================== */
+
+  function escapeHtml(text) {
+
+    const div =
+      document.createElement("div");
+
+    div.textContent = text || "";
+
+    return div.innerHTML;
+  }
+
+
+  /* ==============================
+     START
+     ============================== */
+
+  loadBooks();
+
+</script>
+
+</body>
+</html>
