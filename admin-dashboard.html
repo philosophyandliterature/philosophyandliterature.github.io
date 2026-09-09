@@ -395,8 +395,14 @@
     return;
   }
 
+  if (section === "Authors") {
+    window.location.href = "authors-manager.html";
+    return;
+  }
+
   alert(section + " management will be added next.");
- }
+}
+ 
 
   document
     .getElementById("logoutButton")
