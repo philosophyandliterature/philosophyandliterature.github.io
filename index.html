@@ -292,10 +292,9 @@
 
 </section>
 
-<section class="quote-section">
-  <blockquote>“The unexamined life is not worth living.”</blockquote>
-  <div class="quote-note">
-    — Socrates, as recorded in Plato's <em>Apology</em>
+<section class="quote-section" id="quotes">
+  <div id="quotesContainer">
+    <p>Loading quotes...</p>
   </div>
 </section>
 
@@ -318,6 +317,67 @@
   <p>© Philosophy & Literature</p>
   <p>Built as an educational digital archive.</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+  const SUPABASE_URL = "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+  const { createClient } = supabase;
+
+  const client = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  async function loadPublishedQuotes() {
+
+    const container = document.getElementById("quotesContainer");
+
+    const { data, error } = await client
+      .from("quotes")
+      .select(`
+        quote_text,
+        source,
+        authors(name)
+      `)
+      .eq("is_published", true)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      container.innerHTML = "<p>Unable to load quotes.</p>";
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      container.innerHTML = "<p>No published quotes yet.</p>";
+      return;
+    }
+
+    container.innerHTML = data.map(quote => {
+
+      const author = quote.authors?.name || "Unknown author";
+      const source = quote.source
+        ? `<div class="quote-note">— ${escapeHtml(author)}, ${escapeHtml(quote.source)}</div>`
+        : `<div class="quote-note">— ${escapeHtml(author)}</div>`;
+
+      return `
+        <blockquote>
+          “${escapeHtml(quote.quote_text)}”
+        </blockquote>
+        ${source}
+      `;
+
+    }).join("");
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text || "";
+    return div.innerHTML;
+  }
+
+  loadPublishedQuotes();
+        </script>
 </body>
 </html>
