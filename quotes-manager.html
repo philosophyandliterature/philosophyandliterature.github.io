@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Manage Quotes | Philosophy & Literature</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 22px;
+    }
+
+    header p {
+      margin: 0;
+      color: #d1d5db;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .back {
+      background: #374151;
+      color: white;
+    }
+
+    .logout {
+      background: #b91c1c;
+      color: white;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .save {
+      margin-top: 18px;
+      background: #111827;
+      color: white;
+    }
+
+    .cancel {
+      margin-top: 18px;
+      background: #e5e7eb;
+      color: #111827;
+      display: none;
+    }
+
+    .search {
+      margin-bottom: 15px;
+    }
+
+    .quote-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .quote-text {
+      font-family: Georgia, serif;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .quote-meta {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .edit {
+      background: #2563eb;
+      color: white;
+    }
+
+    .delete {
+      background: #dc2626;
+      color: white;
+    }
+
+    .publish {
+      background: #059669;
+      color: white;
+    }
+
+    .unpublish {
+      background: #d97706;
+      color: white;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .published {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .draft {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 14px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .quote-text {
+        font-size: 17px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Manage Quotes</h1>
+  <p>Philosophy & Literature — Editor Panel</p>
+</header>
+
+<div class="container">
+
+  <div class="topbar">
+    <button class="back" onclick="goBack()">← Dashboard</button>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <div class="card">
+    <h2 id="formTitle">Add New Quote</h2>
+
+    <label for="quoteText">Quote *</label>
+    <textarea id="quoteText" placeholder="Enter the quotation"></textarea>
+
+    <label for="author">Author</label>
+    <select id="author">
+      <option value="">Select author</option>
+    </select>
+
+    <label for="source">Source</label>
+    <input
+      type="text"
+      id="source"
+      placeholder="Book, essay, lecture, etc."
+    >
+
+    <label for="category">Category</label>
+    <select id="category">
+      <option value="">Select category</option>
+    </select>
+
+    <label>
+      <input type="checkbox" id="published" style="width:auto;">
+      Publish this quote
+    </label>
+
+    <button class="save" onclick="saveQuote()">Save Quote</button>
+    <button class="cancel" id="cancelButton" onclick="cancelEdit()">Cancel Edit</button>
+  </div>
+
+  <div class="card">
+    <h2>Quotes</h2>
+
+    <input
+      class="search"
+      type="text"
+      id="search"
+      placeholder="Search quotes..."
+      oninput="renderQuotes()"
+    >
+
+    <div id="quotesList">
+      Loading quotes...
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+  /* =====================================================
+     SUPABASE CONNECTION
+     Use the SAME values as admin-dashboard.html
+     ===================================================== */
+
+  const SUPABASE_URL = "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+  const { createClient } = supabase;
+
+  const client = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  let currentUser = null;
+  let editingId = null;
+  let quotes = [];
+  let authors = [];
+  let categories = [];
+
+
+  /* =====================================================
+     PAGE START
+     ===================================================== */
+
+  async function init() {
+
+    const {
+      data: { session }
+    } = await client.auth.getSession();
+
+    if (!session) {
+      window.location.href = "admin.html";
+      return;
+    }
+
+    currentUser = session.user;
+
+    const { data: profile, error } = await client
+      .from("profiles")
+      .select("full_name, role")
+      .eq("id", currentUser.id)
+      .single();
+
+    if (error || !profile || !["admin", "editor"].includes(profile.role)) {
+      alert("You are not authorized to access this page.");
+      await client.auth.signOut();
+      window.location.href = "admin.html";
+      return;
+    }
+
+    await loadAuthors();
+    await loadCategories();
+    await loadQuotes();
+  }
+
+
+  /* =====================================================
+     LOAD AUTHORS
+     ===================================================== */
+
+  async function loadAuthors() {
+
+    const { data, error } = await client
+      .from("authors")
+      .select("id, name")
+      .order("name");
+
+    if (error) {
+      showMessage("Could not load authors: " + error.message, true);
+      return;
+    }
+
+    authors = data || [];
+
+    const select = document.getElementById("author");
+
+    select.innerHTML = '<option value="">Select author</option>';
+
+    authors.forEach(author => {
+
+      const option = document.createElement("option");
+
+      option.value = author.id;
+      option.textContent = author.name;
+
+      select.appendChild(option);
+    });
+  }
+
+
+  /* =====================================================
+     LOAD CATEGORIES
+     ===================================================== */
+
+  async function loadCategories() {
+
+    const { data, error } = await client
+      .from("categories")
+      .select("id, name")
+      .order("name");
+
+    if (error) {
+      showMessage("Could not load categories: " + error.message, true);
+      return;
+    }
+
+    categories = data || [];
+
+    const select = document.getElementById("category");
+
+    select.innerHTML = '<option value="">Select category</option>';
+
+    categories.forEach(category => {
+
+      const option = document.createElement("option");
+
+      option.value = category.id;
+      option.textContent = category.name;
+
+      select.appendChild(option);
+    });
+  }
+
+
+  /* =====================================================
+     LOAD QUOTES
+     ===================================================== */
+
+  async function loadQuotes() {
+
+    const { data, error } = await client
+      .from("quotes")
+      .select(`
+        *,
+        authors(id, name),
+        categories(id, name)
+      `)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      showMessage("Could not load quotes: " + error.message, true);
+      return;
+    }
+
+    quotes = data || [];
+
+    renderQuotes();
+  }
+
+
+  /* =====================================================
+     DISPLAY QUOTES
+     ===================================================== */
+
+  function renderQuotes() {
+
+    const list = document.getElementById("quotesList");
+
+    const search = document
+      .getElementById("search")
+      .value
+      .toLowerCase()
+      .trim();
+
+    const filtered = quotes.filter(quote => {
+
+      const text = (quote.quote_text || "").toLowerCase();
+      const source = (quote.source || "").toLowerCase();
+      const author = (quote.authors?.name || "").toLowerCase();
+
+      return (
+        text.includes(search) ||
+        source.includes(search) ||
+        author.includes(search)
+      );
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = "<p>No quotes found.</p>";
+      return;
+    }
+
+    list.innerHTML = filtered.map(quote => {
+
+      const authorName = quote.authors?.name || "Unknown author";
+      const categoryName = quote.categories?.name || "No category";
+
+      const statusClass = quote.is_published
+        ? "published"
+        : "draft";
+
+      const statusText = quote.is_published
+        ? "Published"
+        : "Draft";
+
+      const toggleClass = quote.is_published
+        ? "unpublish"
+        : "publish";
+
+      const toggleText = quote.is_published
+        ? "Unpublish"
+        : "Publish";
+
+      return `
+        <div class="quote-item">
+
+          <div class="status ${statusClass}">
+            ${statusText}
+          </div>
+
+          <div class="quote-text">
+            “${escapeHtml(quote.quote_text || "")}”
+          </div>
+
+          <div class="quote-meta">
+            — ${escapeHtml(authorName)}
+            ${quote.source ? " · " + escapeHtml(quote.source) : ""}
+            · ${escapeHtml(categoryName)}
+          </div>
+
+          <div class="actions">
+
+            <button
+              class="edit"
+              onclick="editQuote('${quote.id}')">
+              Edit
+            </button>
+
+            <button
+              class="${toggleClass}"
+              onclick="togglePublish('${quote.id}', ${quote.is_published})">
+              ${toggleText}
+            </button>
+
+            <button
+              class="delete"
+              onclick="deleteQuote('${quote.id}')">
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+  }
+
+
+  /* =====================================================
+     SAVE QUOTE
+     ===================================================== */
+
+  async function saveQuote() {
+
+    const quoteText = document
+      .getElementById("quoteText")
+      .value
+      .trim();
+
+    const authorId =
+      document.getElementById("author").value || null;
+
+    const source =
+      document.getElementById("source").value.trim() || null;
+
+    const categoryId =
+      document.getElementById("category").value || null;
+
+    const isPublished =
+      document.getElementById("published").checked;
+
+    if (!quoteText) {
+      showMessage("Please enter the quote.", true);
+      return;
+    }
+
+    const quoteData = {
+      quote_text: quoteText,
+      author_id: authorId,
+      source: source,
+      category_id: categoryId,
+      is_published: isPublished
+    };
+
+    let error;
+
+    if (editingId) {
+
+      const result = await client
+        .from("quotes")
+        .update(quoteData)
+        .eq("id", editingId);
+
+      error = result.error;
+
+    } else {
+
+      const result = await client
+        .from("quotes")
+        .insert(quoteData);
+
+      error = result.error;
+    }
+
+    if (error) {
+      showMessage("Error: " + error.message, true);
+      return;
+    }
+
+    showMessage(
+      editingId
+        ? "Quote updated successfully."
+        : "Quote added successfully."
+    );
+
+    cancelEdit();
+
+    await loadQuotes();
+  }
+
+
+  /* =====================================================
+     EDIT QUOTE
+     ===================================================== */
+
+  function editQuote(id) {
+
+    const quote = quotes.find(q => q.id === id);
+
+    if (!quote) return;
+
+    editingId = id;
+
+    document.getElementById("formTitle").textContent =
+      "Edit Quote";
+
+    document.getElementById("quoteText").value =
+      quote.quote_text || "";
+
+    document.getElementById("author").value =
+      quote.author_id || "";
+
+    document.getElementById("source").value =
+      quote.source || "";
+
+    document.getElementById("category").value =
+      quote.category_id || "";
+
+    document.getElementById("published").checked =
+      quote.is_published;
+
+    document.getElementById("cancelButton").style.display =
+      "inline-block";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+
+  /* =====================================================
+     CANCEL EDIT
+     ===================================================== */
+
+  function cancelEdit() {
+
+    editingId = null;
+
+    document.getElementById("formTitle").textContent =
+      "Add New Quote";
+
+    document.getElementById("quoteText").value = "";
+    document.getElementById("author").value = "";
+    document.getElementById("source").value = "";
+    document.getElementById("category").value = "";
+    document.getElementById("published").checked = false;
+
+    document.getElementById("cancelButton").style.display =
+      "none";
+  }
+
+
+  /* =====================================================
+     DELETE QUOTE
+     ===================================================== */
+
+  async function deleteQuote(id) {
+
+    const confirmed = confirm(
+      "Are you sure you want to delete this quote?"
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await client
+      .from("quotes")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      showMessage("Could not delete quote: " + error.message, true);
+      return;
+    }
+
+    showMessage("Quote deleted successfully.");
+
+    await loadQuotes();
+  }
+
+
+  /* =====================================================
+     PUBLISH / UNPUBLISH
+     ===================================================== */
+
+  async function togglePublish(id, currentStatus) {
+
+    const { error } = await client
+      .from("quotes")
+      .update({
+        is_published: !currentStatus
+      })
+      .eq("id", id);
+
+    if (error) {
+      showMessage("Could not update quote: " + error.message, true);
+      return;
+    }
+
+    await loadQuotes();
+  }
+
+
+  /* =====================================================
+     LOGOUT
+     ===================================================== */
+
+  async function logout() {
+
+    await client.auth.signOut();
+
+    window.location.href = "admin.html";
+  }
+
+
+  /* =====================================================
+     BACK TO DASHBOARD
+     ===================================================== */
+
+  function goBack() {
+
+    window.location.href = "admin-dashboard.html";
+  }
+
+
+  /* =====================================================
+     MESSAGE
+     ===================================================== */
+
+  function showMessage(text, isError = false) {
+
+    const message = document.getElementById("message");
+
+    message.textContent = text;
+
+    message.className =
+      "message " + (isError ? "error" : "success");
+
+    message.style.display = "block";
+
+    setTimeout(() => {
+      message.style.display = "none";
+    }, 4000);
+  }
+
+
+  /* =====================================================
+     HTML SAFETY
+     ===================================================== */
+
+  function escapeHtml(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+  }
+
+
+  /* =====================================================
+     START
+     ===================================================== */
+
+  init();
+
+</script>
+
+</body>
+</html>
