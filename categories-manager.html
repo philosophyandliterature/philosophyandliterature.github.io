@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Categories Manager — Philosophy & Literature</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f1e8;
+      color: #29251f;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    header {
+      background: #29251f;
+      color: white;
+      padding: 22px 20px;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      color: #d8d2c7;
+      font-size: 14px;
+    }
+
+    .logout {
+      background: #8a3d32;
+      color: white;
+      border: 0;
+      padding: 9px 14px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 20px 60px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .add-button {
+      background: #29251f;
+      color: white;
+      border: 0;
+      padding: 11px 16px;
+      border-radius: 4px;
+    }
+
+    .message {
+      display: none;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    .success {
+      background: #e8efe6;
+      border: 1px solid #cbd9c7;
+      color: #426b45;
+    }
+
+    .error {
+      background: #f5e5e2;
+      border: 1px solid #dfc1bb;
+      color: #8a3d32;
+    }
+
+    .form-box {
+      display: none;
+      background: #fffdf8;
+      border: 1px solid #e1dbcf;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+    }
+
+    .form-box h3 {
+      margin-top: 0;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #cfc7b8;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .save {
+      background: #29251f;
+      color: white;
+      border: 0;
+      padding: 11px 18px;
+      border-radius: 4px;
+    }
+
+    .cancel {
+      background: #ddd6c9;
+      color: #29251f;
+      border: 0;
+      padding: 11px 18px;
+      border-radius: 4px;
+    }
+
+    .search {
+      margin-bottom: 20px;
+    }
+
+    .category-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .category {
+      background: #fffdf8;
+      border: 1px solid #e1dbcf;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .category h3 {
+      margin: 0 0 7px;
+      font-size: 21px;
+    }
+
+    .category p {
+      color: #655e55;
+      margin: 0;
+    }
+
+    .actions {
+      margin-top: 15px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .actions button {
+      border: 0;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+
+    .edit {
+      background: #d8c8a9;
+    }
+
+    .delete {
+      background: #e5c4bd;
+      color: #7d3026;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 30px;
+      color: #6b4f2a;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 50px;
+    }
+
+    #app {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 21px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+
+    <div>
+      <h1>Philosophy & Literature</h1>
+      <p>Categories Manager</p>
+    </div>
+
+    <button class="logout" id="logoutButton">
+      Sign Out
+    </button>
+
+  </div>
+</header>
+
+<div id="loading">
+  Checking your account...
+</div>
+
+<main id="app">
+
+  <div class="topbar">
+
+    <h2>Categories</h2>
+
+    <button class="add-button" id="addButton">
+      + Add Category
+    </button>
+
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <section class="form-box" id="categoryFormBox">
+
+    <h3 id="formTitle">Add Category</h3>
+
+    <form id="categoryForm">
+
+      <input type="hidden" id="categoryId">
+
+      <div class="field">
+
+        <label for="name">
+          Category Name *
+        </label>
+
+        <input id="name" required>
+
+      </div>
+
+      <div class="field">
+
+        <label for="description">
+          Description
+        </label>
+
+        <textarea id="description"></textarea>
+
+      </div>
+
+      <div class="form-buttons">
+
+        <button class="save" type="submit">
+          Save Category
+        </button>
+
+        <button
+          class="cancel"
+          type="button"
+          id="cancelButton">
+          Cancel
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+  <div class="search">
+
+    <input
+      id="search"
+      placeholder="Search categories..."
+    >
+
+  </div>
+
+  <section
+    class="category-list"
+    id="categoryList">
+  </section>
+
+  <a
+    class="back"
+    href="admin-dashboard.html">
+    ← Back to dashboard
+  </a>
+
+</main>
+
+<script>
+
+  const SUPABASE_URL = "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+  const { createClient } = supabase;
+
+  const client = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  let categories = [];
+
+  async function checkAdmin() {
+
+    const {
+      data: { session }
+    } = await client.auth.getSession();
+
+    if (!session) {
+      window.location.href = "admin.html";
+      return;
+    }
+
+    const { data: profile, error } = await client
+      .from("profiles")
+      .select("full_name, role")
+      .eq("id", session.user.id)
+      .single();
+
+    if (
+      error ||
+      !profile ||
+      !["admin", "editor"].includes(profile.role)
+    ) {
+
+      await client.auth.signOut();
+
+      document.getElementById("loading").textContent =
+        "Access denied. Your account is not authorized.";
+
+      return;
+    }
+
+    document.getElementById("loading").style.display =
+      "none";
+
+    document.getElementById("app").style.display =
+      "block";
+
+    loadCategories();
+  }
+
+  async function loadCategories() {
+
+    const { data, error } = await client
+      .from("categories")
+      .select("*")
+      .order("name");
+
+    if (error) {
+
+      showMessage(
+        "Could not load categories: " +
+        error.message,
+        true
+      );
+
+      return;
+    }
+
+    categories = data || [];
+
+    renderCategories();
+  }
+
+  function renderCategories() {
+
+    const list =
+      document.getElementById("categoryList");
+
+    const searchText =
+      document.getElementById("search").value
+      .toLowerCase()
+      .trim();
+
+    const filtered = categories.filter(function(category) {
+
+      return (category.name || "")
+        .toLowerCase()
+        .includes(searchText);
+    });
+
+    if (filtered.length === 0) {
+
+      list.innerHTML =
+        '<div class="category">No categories found.</div>';
+
+      return;
+    }
+
+    list.innerHTML = "";
+
+    filtered.forEach(function(category) {
+
+      const item =
+        document.createElement("div");
+
+      item.className = "category";
+
+      item.innerHTML = `
+
+        <h3>
+          ${escapeHtml(category.name)}
+        </h3>
+
+        ${
+          category.description
+          ? `<p>${escapeHtml(category.description)}</p>`
+          : ""
+        }
+
+        <div class="actions">
+
+          <button
+            class="edit"
+            onclick="editCategory('${category.id}')">
+            Edit
+          </button>
+
+          <button
+            class="delete"
+            onclick="deleteCategory('${category.id}')">
+            Delete
+          </button>
+
+        </div>
+      `;
+
+      list.appendChild(item);
+    });
+  }
+
+  function escapeHtml(value) {
+
+    return String(value || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function clearForm() {
+
+    document
+      .getElementById("categoryForm")
+      .reset();
+
+    document
+      .getElementById("categoryId")
+      .value = "";
+
+    document
+      .getElementById("formTitle")
+      .textContent = "Add Category";
+  }
+
+  function openForm() {
+
+    document
+      .getElementById("categoryFormBox")
+      .style.display = "block";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  function editCategory(id) {
+
+    const category =
+      categories.find(function(item) {
+        return item.id === id;
+      });
+
+    if (!category) return;
+
+    document
+      .getElementById("categoryId")
+      .value = category.id;
+
+    document
+      .getElementById("name")
+      .value = category.name || "";
+
+    document
+      .getElementById("description")
+      .value = category.description || "";
+
+    document
+      .getElementById("formTitle")
+      .textContent = "Edit Category";
+
+    openForm();
+  }
+
+  async function saveCategory(event) {
+
+    event.preventDefault();
+
+    const id =
+      document.getElementById("categoryId").value;
+
+    const categoryData = {
+
+      name:
+        document.getElementById("name")
+        .value
+        .trim(),
+
+      description:
+        document.getElementById("description")
+        .value
+        .trim() || null
+    };
+
+    let result;
+
+    if (id) {
+
+      result = await client
+        .from("categories")
+        .update(categoryData)
+        .eq("id", id);
+
+    } else {
+
+      result = await client
+        .from("categories")
+        .insert(categoryData);
+    }
+
+    if (result.error) {
+
+      showMessage(
+        "Could not save category: " +
+        result.error.message,
+        true
+      );
+
+      return;
+    }
+
+    showMessage(
+      id
+        ? "Category updated successfully."
+        : "Category added successfully."
+    );
+
+    clearForm();
+
+    document
+      .getElementById("categoryFormBox")
+      .style.display = "none";
+
+    await loadCategories();
+  }
+
+  async function deleteCategory(id) {
+
+    const category =
+      categories.find(function(item) {
+        return item.id === id;
+      });
+
+    if (!category) return;
+
+    const confirmed = confirm(
+      'Delete "' + category.name + '"?'
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await client
+      .from("categories")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+
+      showMessage(
+        "Could not delete category: " +
+        error.message,
+        true
+      );
+
+      return;
+    }
+
+    showMessage(
+      "Category deleted successfully."
+    );
+
+    await loadCategories();
+  }
+
+  function showMessage(text, isError = false) {
+
+    const box =
+      document.getElementById("message");
+
+    box.textContent = text;
+
+    box.className =
+      "message " +
+      (isError ? "error" : "success");
+
+    box.style.display = "block";
+
+    setTimeout(function() {
+
+      box.style.display = "none";
+
+    }, 4000);
+  }
+
+  document
+    .getElementById("addButton")
+    .addEventListener("click", function() {
+
+      clearForm();
+      openForm();
+
+    });
+
+  document
+    .getElementById("cancelButton")
+    .addEventListener("click", function() {
+
+      clearForm();
+
+      document
+        .getElementById("categoryFormBox")
+        .style.display = "none";
+
+    });
+
+  document
+    .getElementById("categoryForm")
+    .addEventListener("submit", saveCategory);
+
+  document
+    .getElementById("search")
+    .addEventListener("input", renderCategories);
+
+  document
+    .getElementById("logoutButton")
+    .addEventListener("click", async function() {
+
+      await client.auth.signOut();
+
+      window.location.href = "admin.html";
+
+    });
+
+  checkAdmin();
+
+</script>
+
+</body>
+</html>
