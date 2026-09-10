@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Manage Articles | Philosophy & Literature</title>
+  <title>Articles Manager | Philosophy & Literature</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -27,7 +27,7 @@
     }
 
     header h1 {
-      margin: 0 0 6px;
+      margin: 0 0 5px;
       font-size: 22px;
     }
 
@@ -46,12 +46,12 @@
     .topbar {
       display: flex;
       gap: 10px;
-      flex-wrap: wrap;
       margin-bottom: 20px;
+      flex-wrap: wrap;
     }
 
     button {
-      border: none;
+      border: 0;
       border-radius: 8px;
       padding: 10px 15px;
       cursor: pointer;
@@ -103,6 +103,12 @@
     textarea {
       min-height: 160px;
       resize: vertical;
+    }
+
+    .help {
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 5px;
     }
 
     .save {
@@ -158,11 +164,6 @@
       color: white;
     }
 
-    .delete {
-      background: #dc2626;
-      color: white;
-    }
-
     .publish {
       background: #059669;
       color: white;
@@ -170,6 +171,11 @@
 
     .unpublish {
       background: #d97706;
+      color: white;
+    }
+
+    .delete {
+      background: #dc2626;
       color: white;
     }
 
@@ -192,29 +198,33 @@
     }
 
     .message {
-      padding: 10px;
+      display: none;
+      padding: 12px;
       border-radius: 8px;
       margin-bottom: 15px;
-      display: none;
+      line-height: 1.5;
+      word-break: break-word;
     }
 
     .success {
+      display: block;
       background: #dcfce7;
       color: #166534;
     }
 
     .error {
+      display: block;
       background: #fee2e2;
       color: #991b1b;
     }
 
-    .help {
+    .loading {
       color: #6b7280;
-      font-size: 12px;
-      margin-top: 5px;
+      padding: 10px 0;
     }
 
     @media (max-width: 600px) {
+
       .container {
         padding: 14px;
       }
@@ -240,457 +250,713 @@
 <div class="container">
 
   <div class="topbar">
-    <button class="back" onclick="goBack()">← Dashboard</button>
-    <button class="logout" onclick="logout()">Logout</button>
+    <button class="back" id="backButton">
+      ← Dashboard
+    </button>
+
+    <button class="logout" id="logoutButton">
+      Logout
+    </button>
   </div>
 
   <div id="message" class="message"></div>
 
-  <div class="card">
-    <h2 id="formTitle">Add New Article</h2>
+  <!-- ARTICLE FORM -->
 
-    <label for="title">Title *</label>
+  <div class="card">
+
+    <h2 id="formTitle">
+      Add New Article
+    </h2>
+
+    <label for="title">
+      Title *
+    </label>
+
     <input
-      type="text"
       id="title"
+      type="text"
       placeholder="Enter article title"
     >
 
-    <label for="slug">Slug *</label>
+    <label for="slug">
+      Slug *
+    </label>
+
     <input
-      type="text"
       id="slug"
+      type="text"
       placeholder="example-article-title"
     >
+
     <div class="help">
       Use lowercase words separated by hyphens.
     </div>
 
-    <label for="excerpt">Excerpt</label>
+    <label for="excerpt">
+      Excerpt
+    </label>
+
     <textarea
       id="excerpt"
       placeholder="Short description of the article"
       style="min-height:90px;"
     ></textarea>
 
-    <label for="content">Article Content *</label>
+    <label for="content">
+      Article Content *
+    </label>
+
     <textarea
       id="content"
       placeholder="Write the full article here..."
     ></textarea>
 
-    <label for="authorName">Author Name</label>
+    <label for="authorName">
+      Author Name
+    </label>
+
     <input
-      type="text"
       id="authorName"
+      type="text"
       placeholder="Name shown as article author"
     >
 
-    <label for="category">Category</label>
+    <label for="category">
+      Category
+    </label>
+
     <select id="category">
-      <option value="">Select category</option>
+      <option value="">
+        Select category
+      </option>
     </select>
 
-    <label for="coverUrl">Cover Image URL</label>
+    <label for="coverUrl">
+      Cover Image URL
+    </label>
+
     <input
-      type="url"
       id="coverUrl"
+      type="url"
       placeholder="https://..."
     >
 
     <label>
-      <input type="checkbox" id="published" style="width:auto;">
+      <input
+        type="checkbox"
+        id="published"
+        style="width:auto;"
+      >
+
       Publish this article
     </label>
 
-    <button class="save" onclick="saveArticle()">
+    <button
+      class="save"
+      id="saveButton">
       Save Article
     </button>
 
     <button
       class="cancel"
-      id="cancelButton"
-      onclick="cancelEdit()">
+      id="cancelButton">
       Cancel Edit
     </button>
+
   </div>
 
+
+  <!-- ARTICLES LIST -->
+
   <div class="card">
-    <h2>Articles & Notes</h2>
+
+    <h2>
+      Articles & Notes
+    </h2>
 
     <input
       class="search"
       type="text"
       id="search"
       placeholder="Search articles..."
-      oninput="renderArticles()"
     >
 
     <div id="articlesList">
-      Loading articles...
+      <div class="loading">
+        Loading articles...
+      </div>
     </div>
+
   </div>
 
 </div>
 
+
 <script>
 
-  /* =====================================================
-     SUPABASE CONNECTION
-     ===================================================== */
+/* =====================================================
+   SUPABASE
+   ===================================================== */
 
-  const SUPABASE_URL = "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+const SUPABASE_URL =
+  "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
 
-  const { createClient } = supabase;
-
-  const client = createClient(
+const client =
+  supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
 
 
-  let currentUser = null;
-  let editingId = null;
-  let articles = [];
-  let categories = [];
+/* =====================================================
+   STATE
+   ===================================================== */
+
+let currentUser = null;
+let editingId = null;
+let articles = [];
+let categories = [];
 
 
-  /* =====================================================
-     INITIALIZE
-     ===================================================== */
+/* =====================================================
+   HELPERS
+   ===================================================== */
 
-  async function init() {
+function get(id) {
+  return document.getElementById(id);
+}
+
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+function showMessage(text, isError = false) {
+
+  const box = get("message");
+
+  box.textContent = text;
+
+  box.className =
+    "message " +
+    (isError ? "error" : "success");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* =====================================================
+   INITIALIZE
+   ===================================================== */
+
+async function init() {
+
+  try {
 
     const {
-      data: { session }
+      data: { session },
+      error: sessionError
     } = await client.auth.getSession();
 
-    if (!session) {
-      window.location.href = "admin.html";
-      return;
+
+    if (sessionError) {
+
+      throw sessionError;
+
     }
 
-    currentUser = session.user;
 
-    const { data: profile, error } = await client
+    if (!session) {
+
+      window.location.href = "admin.html";
+
+      return;
+
+    }
+
+
+    currentUser =
+      session.user;
+
+
+    const {
+      data: profile,
+      error: profileError
+    } = await client
       .from("profiles")
       .select("full_name, role")
       .eq("id", currentUser.id)
       .single();
 
+
+    if (profileError) {
+
+      throw profileError;
+
+    }
+
+
     if (
-      error ||
       !profile ||
       !["admin", "editor"].includes(profile.role)
     ) {
-      alert("You are not authorized to access this page.");
 
-      await client.auth.signOut();
+      showMessage(
+        "You are not authorized to access this page.",
+        true
+      );
 
-      window.location.href = "admin.html";
       return;
+
     }
+
 
     await loadCategories();
+
     await loadArticles();
+
   }
 
+  catch (error) {
 
-  /* =====================================================
-     LOAD CATEGORIES
-     ===================================================== */
+    console.error(error);
 
-  async function loadCategories() {
+    showMessage(
+      "Initialization error: " +
+      (error.message || String(error)),
+      true
+    );
 
-    const { data, error } = await client
-      .from("categories")
-      .select("id, name")
-      .order("name");
+    get("articlesList").innerHTML =
+      "<p>Could not load articles.</p>";
+  }
+}
 
-    if (error) {
-      showMessage(
-        "Could not load categories: " + error.message,
-        true
-      );
-      return;
-    }
 
-    categories = data || [];
+/* =====================================================
+   LOAD CATEGORIES
+   ===================================================== */
 
-    const select = document.getElementById("category");
+async function loadCategories() {
+
+  const select =
+    get("category");
+
+
+  select.innerHTML =
+    '<option value="">Loading categories...</option>';
+
+
+  const {
+    data,
+    error
+  } = await client
+    .from("categories")
+    .select("id, name")
+    .order("name");
+
+
+  if (error) {
 
     select.innerHTML =
-      '<option value="">Select category</option>';
+      '<option value="">Unable to load categories</option>';
 
-    categories.forEach(category => {
+    showMessage(
+      "Could not load categories: " +
+      error.message,
+      true
+    );
 
-      const option = document.createElement("option");
-
-      option.value = category.id;
-      option.textContent = category.name;
-
-      select.appendChild(option);
-    });
+    return;
   }
 
 
-  /* =====================================================
-     LOAD ARTICLES
-     ===================================================== */
+  categories =
+    data || [];
 
-  async function loadArticles() {
 
-    const { data, error } = await client
-      .from("articles")
-      .select(`
-        *,
-        categories(id, name)
-      `)
-      .order("created_at", { ascending: false });
+  select.innerHTML =
+    '<option value="">Select category</option>';
 
-    if (error) {
-      showMessage(
-        "Could not load articles: " + error.message,
-        true
-      );
-      return;
-    }
 
-    articles = data || [];
+  if (categories.length === 0) {
 
-    renderArticles();
+    select.innerHTML +=
+      '<option value="">No categories found</option>';
+
+    return;
   }
 
 
-  /* =====================================================
-     RENDER ARTICLES
-     ===================================================== */
+  categories.forEach(function(category) {
 
-  function renderArticles() {
+    const option =
+      document.createElement("option");
 
-    const list =
-      document.getElementById("articlesList");
+    option.value =
+      category.id;
 
-    const search =
-      document.getElementById("search").value
-        .toLowerCase()
-        .trim();
+    option.textContent =
+      category.name;
 
-    const filtered = articles.filter(article => {
+    select.appendChild(option);
 
-      const title =
-        (article.title || "").toLowerCase();
+  });
+}
 
-      const excerpt =
-        (article.excerpt || "").toLowerCase();
 
-      const author =
-        (article.author_name || "").toLowerCase();
+/* =====================================================
+   LOAD ARTICLES
+   ===================================================== */
+
+async function loadArticles() {
+
+  get("articlesList").innerHTML =
+    '<div class="loading">Loading articles...</div>';
+
+
+  const {
+    data,
+    error
+  } = await client
+    .from("articles")
+    .select(`
+      *,
+      categories (
+        id,
+        name
+      )
+    `)
+    .order(
+      "created_at",
+      { ascending: false }
+    );
+
+
+  if (error) {
+
+    get("articlesList").innerHTML =
+      "<p>Could not load articles.</p>";
+
+    showMessage(
+      "Could not load articles: " +
+      error.message,
+      true
+    );
+
+    return;
+  }
+
+
+  articles =
+    data || [];
+
+
+  renderArticles();
+}
+
+
+/* =====================================================
+   RENDER ARTICLES
+   ===================================================== */
+
+function renderArticles() {
+
+  const list =
+    get("articlesList");
+
+
+  const search =
+    get("search")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  const filtered =
+    articles.filter(function(article) {
 
       return (
-        title.includes(search) ||
-        excerpt.includes(search) ||
-        author.includes(search)
+
+        String(article.title || "")
+          .toLowerCase()
+          .includes(search)
+
+        ||
+
+        String(article.excerpt || "")
+          .toLowerCase()
+          .includes(search)
+
+        ||
+
+        String(article.author_name || "")
+          .toLowerCase()
+          .includes(search)
+
       );
+
     });
 
 
-    if (filtered.length === 0) {
+  if (filtered.length === 0) {
 
-      list.innerHTML =
-        "<p>No articles found.</p>";
+    list.innerHTML =
+      "<p>No articles found.</p>";
 
-      return;
-    }
+    return;
+  }
 
 
-    list.innerHTML = filtered.map(article => {
+  list.innerHTML =
+    filtered.map(function(article) {
+
+      const published =
+        !!article.is_published;
+
 
       const category =
-        article.categories?.name || "No category";
-
-      const statusClass =
-        article.is_published
-          ? "published"
-          : "draft";
-
-      const statusText =
-        article.is_published
-          ? "Published"
-          : "Draft";
-
-      const toggleClass =
-        article.is_published
-          ? "unpublish"
-          : "publish";
-
-      const toggleText =
-        article.is_published
-          ? "Unpublish"
-          : "Publish";
+        article.categories &&
+        article.categories.name
+          ? article.categories.name
+          : "No category";
 
 
       return `
+
         <div class="article-item">
 
-          <div class="status ${statusClass}">
-            ${statusText}
+          <div class="status ${
+            published
+              ? "published"
+              : "draft"
+          }">
+
+            ${
+              published
+                ? "Published"
+                : "Draft"
+            }
+
           </div>
+
 
           <div class="article-title">
-            ${escapeHtml(article.title || "")}
+
+            ${escapeHtml(
+              article.title || ""
+            )}
+
           </div>
+
 
           <div class="article-excerpt">
-            ${escapeHtml(article.excerpt || "")}
+
+            ${escapeHtml(
+              article.excerpt || ""
+            )}
+
           </div>
 
+
           <div class="article-meta">
-            ${article.author_name
-              ? "By " + escapeHtml(article.author_name) + " · "
-              : ""}
+
+            ${
+              article.author_name
+                ? "By " +
+                  escapeHtml(
+                    article.author_name
+                  ) +
+                  " · "
+                : ""
+            }
+
             ${escapeHtml(category)}
+
           </div>
+
 
           <div class="actions">
 
             <button
               class="edit"
-              onclick="editArticle('${article.id}')">
+              data-action="edit"
+              data-id="${article.id}">
+
               Edit
+
             </button>
 
+
             <button
-              class="${toggleClass}"
-              onclick="togglePublish('${article.id}', ${article.is_published})">
-              ${toggleText}
+              class="${
+                published
+                  ? "unpublish"
+                  : "publish"
+              }"
+              data-action="publish"
+              data-id="${article.id}">
+
+              ${
+                published
+                  ? "Unpublish"
+                  : "Publish"
+              }
+
             </button>
+
 
             <button
               class="delete"
-              onclick="deleteArticle('${article.id}')">
+              data-action="delete"
+              data-id="${article.id}">
+
               Delete
+
             </button>
 
           </div>
 
         </div>
+
       `;
 
     }).join("");
+}
+
+
+/* =====================================================
+   SAVE ARTICLE
+   ===================================================== */
+
+async function saveArticle() {
+
+  const title =
+    get("title").value.trim();
+
+  const slug =
+    get("slug").value.trim();
+
+  const excerpt =
+    get("excerpt").value.trim() || null;
+
+  const content =
+    get("content").value.trim();
+
+  const authorName =
+    get("authorName").value.trim() || null;
+
+  const categoryId =
+    get("category").value || null;
+
+  const coverUrl =
+    get("coverUrl").value.trim() || null;
+
+  const isPublished =
+    get("published").checked;
+
+
+  if (!title) {
+
+    showMessage(
+      "Please enter an article title.",
+      true
+    );
+
+    return;
   }
 
-  /* =====================================================
-     SHOW MESSAGE
-     ===================================================== */
 
-  function showMessage(text, isError = false) {
+  if (!slug) {
 
-    const message = document.getElementById("message");
+    showMessage(
+      "Please enter a slug.",
+      true
+    );
 
-    message.textContent = text;
-    message.className =
-      "message " + (isError ? "error" : "success");
-
-    message.style.display = "block";
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    return;
   }
-  /* =====================================================
-     SAVE ARTICLE
-     ===================================================== */
-
-  async function saveArticle() {
-
-    const title =
-      document.getElementById("title").value.trim();
-
-    const slug =
-      document.getElementById("slug").value.trim();
-
-    const excerpt =
-      document.getElementById("excerpt").value.trim() || null;
-
-    const content =
-      document.getElementById("content").value.trim();
-
-    const authorName =
-      document.getElementById("authorName").value.trim() || null;
-
-    const categoryId =
-      document.getElementById("category").value || null;
-
-    const coverUrl =
-      document.getElementById("coverUrl").value.trim() || null;
-
-    const isPublished =
-      document.getElementById("published").checked;
 
 
-    if (!title) {
-      showMessage("Please enter an article title.", true);
-      return;
-    }
+  if (!content) {
 
-    if (!slug) {
-      showMessage("Please enter a slug.", true);
-      return;
-    }
+    showMessage(
+      "Please enter article content.",
+      true
+    );
 
-    if (!content) {
-      showMessage("Please enter the article content.", true);
-      return;
-    }
+    return;
+  }
 
 
-    const articleData = {
-      title: title,
-      slug: slug,
-      excerpt: excerpt,
-      content: content,
-      author_name: authorName,
-      category_id: categoryId,
-      cover_url: coverUrl,
-      is_published: isPublished
-    };
+  const articleData = {
+
+    title: title,
+
+    slug: slug,
+
+    excerpt: excerpt,
+
+    content: content,
+
+    author_name: authorName,
+
+    category_id: categoryId,
+
+    cover_url: coverUrl,
+
+    is_published: isPublished
+
+  };
 
 
-    let error;
+  get("saveButton").disabled =
+    true;
+
+
+  try {
+
+    let result;
 
 
     if (editingId) {
 
-      const result = await client
-        .from("articles")
-        .update(articleData)
-        .eq("id", editingId);
+      result =
+        await client
+          .from("articles")
+          .update(articleData)
+          .eq("id", editingId);
 
-      error = result.error;
+    }
 
-    } else {
+    else {
 
-      const result = await client
-        .from("articles")
-        .insert(articleData);
+      result =
+        await client
+          .from("articles")
+          .insert(articleData);
 
-      error = result.error;
     }
 
 
-    if (error) {
+    if (result.error) {
 
-      showMessage(
-        "Error: " + error.message,
-        true
-      );
+      throw result.error;
 
-      return;
     }
 
 
@@ -701,67 +967,381 @@
     );
 
 
-    cancelEdit();
+    resetForm();
+
 
     await loadArticles();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      "Could not save article: " +
+      (error.message || String(error)),
+      true
+    );
+
+  }
+
+  finally {
+
+    get("saveButton").disabled =
+      false;
+  }
+}
+
+
+/* =====================================================
+   EDIT ARTICLE
+   ===================================================== */
+
+function editArticle(id) {
+
+  const article =
+    articles.find(function(item) {
+
+      return String(item.id) ===
+        String(id);
+
+    });
+
+
+  if (!article) {
+
+    showMessage(
+      "Article not found.",
+      true
+    );
+
+    return;
   }
 
 
-  /* =====================================================
-     EDIT ARTICLE
-     ===================================================== */
-
-  function editArticle(id) {
-
-    const article =
-    articles.find(a => String(a.id) === String(id));
-
-    if (!article) return;
-
-    editingId = id;
-
-    document.getElementById("formTitle").textContent =
-      "Edit Article";
-
-    document.getElementById("title").value =
-      article.title || "";
-
-    document.getElementById("slug").value =
-      article.slug || "";
-
-    document.getElementById("excerpt").value =
-      article.excerpt || "";
-
-    document.getElementById("content").value =
-      article.content || "";
-
-    document.getElementById("authorName").value =
-      article.author_name || "";
-
-    document.getElementById("category").value =
-      article.category_id || "";
-
-    document.getElementById("coverUrl").value =
-      article.cover_url || "";
-
-    document.getElementById("published").checked =
-      article.is_published;
+  editingId =
+    String(article.id);
 
 
-    document.getElementById("cancelButton").style.display =
-      "inline-block";
+  get("formTitle").textContent =
+    "Edit Article";
 
 
-    window.scrollTo({
-  top: 0,
-  behavior: "smooth"
-});
+  get("title").value =
+    article.title || "";
+
+
+  get("slug").value =
+    article.slug || "";
+
+
+  get("excerpt").value =
+    article.excerpt || "";
+
+
+  get("content").value =
+    article.content || "";
+
+
+  get("authorName").value =
+    article.author_name || "";
+
+
+  get("category").value =
+    article.category_id || "";
+
+
+  get("coverUrl").value =
+    article.cover_url || "";
+
+
+  get("published").checked =
+    !!article.is_published;
+
+
+  get("cancelButton").style.display =
+    "inline-block";
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
-init().catch(function(error) {
+
+/* =====================================================
+   RESET FORM
+   ===================================================== */
+
+function resetForm() {
+
+  editingId =
+    null;
+
+
+  get("formTitle").textContent =
+    "Add New Article";
+
+
+  get("title").value =
+    "";
+
+  get("slug").value =
+    "";
+
+  get("excerpt").value =
+    "";
+
+  get("content").value =
+    "";
+
+  get("authorName").value =
+    "";
+
+  get("category").value =
+    "";
+
+  get("coverUrl").value =
+    "";
+
+  get("published").checked =
+    false;
+
+
+  get("cancelButton").style.display =
+    "none";
+}
+
+
+/* =====================================================
+   PUBLISH / UNPUBLISH
+   ===================================================== */
+
+async function togglePublish(
+  id,
+  currentStatus
+) {
+
+  const {
+    error
+  } = await client
+    .from("articles")
+    .update({
+      is_published:
+        !currentStatus
+    })
+    .eq("id", id);
+
+
+  if (error) {
+
+    showMessage(
+      "Could not change publish status: " +
+      error.message,
+      true
+    );
+
+    return;
+  }
+
+
   showMessage(
-    "INIT ERROR: " + error.message,
-    true
+    currentStatus
+      ? "Article unpublished."
+      : "Article published."
   );
-  console.error(error);
-});
+
+
+  await loadArticles();
+}
+
+
+/* =====================================================
+   DELETE ARTICLE
+   ===================================================== */
+
+async function deleteArticle(id) {
+
+  const article =
+    articles.find(function(item) {
+
+      return String(item.id) ===
+        String(id);
+
+    });
+
+
+  if (!article) return;
+
+
+  const confirmed =
+    confirm(
+      'Delete "' +
+      (article.title || "this article") +
+      '"?'
+    );
+
+
+  if (!confirmed) return;
+
+
+  const {
+    error
+  } = await client
+    .from("articles")
+    .delete()
+    .eq("id", id);
+
+
+  if (error) {
+
+    showMessage(
+      "Could not delete article: " +
+      error.message,
+      true
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Article deleted successfully."
+  );
+
+
+  if (
+    editingId &&
+    String(editingId) === String(id)
+  ) {
+
+    resetForm();
+
+  }
+
+
+  await loadArticles();
+}
+
+
+/* =====================================================
+   BUTTON EVENTS
+   ===================================================== */
+
+get("saveButton")
+  .addEventListener(
+    "click",
+    saveArticle
+  );
+
+
+get("cancelButton")
+  .addEventListener(
+    "click",
+    resetForm
+  );
+
+
+get("search")
+  .addEventListener(
+    "input",
+    renderArticles
+  );
+
+
+get("backButton")
+  .addEventListener(
+    "click",
+    function() {
+
+      window.location.href =
+        "admin-dashboard.html";
+
+    }
+  );
+
+
+get("logoutButton")
+  .addEventListener(
+    "click",
+    async function() {
+
+      await client.auth.signOut();
+
+      window.location.href =
+        "admin.html";
+
+    }
+  );
+
+
+/* =====================================================
+   ARTICLE BUTTON HANDLER
+   ===================================================== */
+
+get("articlesList")
+  .addEventListener(
+    "click",
+    function(event) {
+
+      const button =
+        event.target.closest(
+          "button[data-action]"
+        );
+
+
+      if (!button) return;
+
+
+      const id =
+        button.dataset.id;
+
+      const action =
+        button.dataset.action;
+
+
+      if (action === "edit") {
+
+        editArticle(id);
+
+      }
+
+
+      if (action === "publish") {
+
+        const article =
+          articles.find(function(item) {
+
+            return String(item.id) ===
+              String(id);
+
+          });
+
+
+        if (article) {
+
+          togglePublish(
+            id,
+            !!article.is_published
+          );
+
+        }
+
+      }
+
+
+      if (action === "delete") {
+
+        deleteArticle(id);
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   START
+   =======================================
