@@ -793,12 +793,28 @@
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
 
-  const { createClient } = supabase;
+  let client;
 
-  const client = createClient(
+try {
+  if (!window.supabase) {
+    throw new Error("Supabase library did not load.");
+  }
+
+  client = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
+
+} catch (error) {
+
+  console.error("Supabase startup error:", error);
+
+  document.querySelectorAll(".empty").forEach(el => {
+    el.textContent =
+      "Supabase error: " + error.message;
+  });
+
+}
 
 
   /* ==============================
