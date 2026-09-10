@@ -103,6 +103,34 @@ textarea {
   resize: vertical;
 }
 
+.file-input {
+  padding: 9px;
+}
+
+.preview {
+  margin-top: 12px;
+}
+
+.preview img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f3f4f6;
+}
+
+.current-image {
+  margin-top: 10px;
+}
+
+.current-image img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f3f4f6;
+}
+
 .message {
   display: none;
   padding: 12px;
@@ -126,6 +154,11 @@ textarea {
   margin-top: 16px;
   background: #111827;
   color: white;
+}
+
+.save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .cancel {
@@ -216,6 +249,13 @@ textarea {
   padding: 10px 0;
 }
 
+.help {
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 6px;
+}
+
 @media(max-width:600px) {
   .topbar {
     flex-direction: column;
@@ -265,14 +305,23 @@ textarea {
       placeholder="Describe the artwork or visual..."
     ></textarea>
 
-    <label for="imageUrl">Image URL *</label>
+    <label for="imageFile">Image *</label>
+
     <input
-      id="imageUrl"
-      type="url"
-      placeholder="https://..."
+      id="imageFile"
+      class="file-input"
+      type="file"
+      accept="image/*"
     >
 
+    <div class="help">
+      Choose an image directly from your phone.
+    </div>
+
+    <div id="imagePreview" class="preview"></div>
+
     <label for="category">Category</label>
+
     <select id="category">
       <option value="">Select category</option>
     </select>
@@ -330,9 +379,12 @@ const client =
     SUPABASE_KEY
   );
 
+const BUCKET_NAME = "gallery";
+
 let galleryItems = [];
 let categories = [];
 let editingId = null;
+let currentImageUrl = null;
 
 function showMessage(text, error = false) {
 
@@ -581,6 +633,66 @@ function renderGallery() {
     }).join("");
 }
 
+async function uploadImage(file) {
+
+  if (!file) {
+    return null;
+  }
+
+  const {
+    data: sessionData,
+    error: sessionError
+  } = await client.auth.getSession();
+
+  if (sessionError) {
+    throw sessionError;
+  }
+
+  if (!sessionData.session) {
+    throw new Error("You are not logged in.");
+  }
+
+  const userId =
+    sessionData.session.user.id;
+
+  const extension =
+    file.name.includes(".")
+      ? file.name.split(".").pop().toLowerCase()
+      : "jpg";
+
+  const safeExtension =
+    extension.replace(/[^a-z0-9]/g, "");
+
+  const fileName =
+    `${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2, 8)}.${safeExtension}`;
+
+  const filePath =
+    `${userId}/${fileName}`;
+
+  const {
+    error
+  } = await client.storage
+    .from(BUCKET_NAME)
+    .upload(filePath, file, {
+      cacheControl: "3600",
+      upsert: false
+    });
+
+  if (error) {
+    throw error;
+  }
+
+  const {
+    data
+  } = client.storage
+    .from(BUCKET_NAME)
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}
+
 async function saveItem() {
 
   const title =
@@ -591,9 +703,9 @@ async function saveItem() {
     document.getElementById("description")
       .value.trim();
 
-  const imageUrl =
-    document.getElementById("imageUrl")
-      .value.trim();
+  const imageFile =
+    document.getElementById("imageFile")
+      .files[0];
 
   const categoryId =
     document.getElementById("category")
@@ -603,30 +715,59 @@ async function saveItem() {
     document.getElementById("published")
       .checked;
 
-  if (!title || !imageUrl) {
+  if (!title) {
 
     showMessage(
-      "Please fill Title and Image URL.",
+      "Please enter a title.",
       true
     );
 
     return;
   }
 
-  const payload = {
+  if (!editingId && !imageFile) {
 
-    title: title,
+    showMessage(
+      "Please choose an image.",
+      true
+    );
 
-    description: description,
+    return;
+  }
 
-    image_url: imageUrl,
+  const saveButton =
+    document.getElementById("saveButton");
 
-    category_id: categoryId,
-
-    is_published: published
-  };
+  saveButton.disabled = true;
+  saveButton.textContent = "Uploading...";
 
   try {
+
+    let imageUrl =
+      currentImageUrl;
+
+    if (imageFile) {
+
+      imageUrl =
+        await uploadImage(imageFile);
+    }
+
+    if (!imageUrl) {
+      throw new Error("Image upload failed.");
+    }
+
+    const payload = {
+
+      title: title,
+
+      description: description,
+
+      image_url: imageUrl,
+
+      category_id: categoryId,
+
+      is_published: published
+    };
 
     let result;
 
@@ -668,6 +809,15 @@ async function saveItem() {
       "Save error: " + error.message,
       true
     );
+
+  } finally {
+
+    saveButton.disabled = false;
+
+    saveButton.textContent =
+      editingId
+        ? "Update Gallery Item"
+        : "Save Gallery Item";
   }
 }
 
@@ -682,14 +832,14 @@ function editItem(id) {
 
   editingId = item.id;
 
+  currentImageUrl =
+    item.image_url || null;
+
   document.getElementById("title")
     .value = item.title || "";
 
   document.getElementById("description")
     .value = item.description || "";
-
-  document.getElementById("imageUrl")
-    .value = item.image_url || "";
 
   document.getElementById("category")
     .value = item.category_id || "";
@@ -706,12 +856,28 @@ function editItem(id) {
   document.getElementById("cancelButton")
     .style.display = "inline-block";
 
+  document.getElementById("imagePreview")
+    .innerHTML =
+      currentImageUrl
+        ? `
+          <div class="current-image">
+            <strong>Current image:</strong>
+            <br><br>
+            <img
+              src="${escapeHtml(currentImageUrl)}"
+              alt="Current image"
+            >
+          </div>
+        `
+        : "";
+
   window.scrollTo(0, 0);
 }
 
 function resetForm() {
 
   editingId = null;
+  currentImageUrl = null;
 
   document.getElementById("title")
     .value = "";
@@ -719,7 +885,7 @@ function resetForm() {
   document.getElementById("description")
     .value = "";
 
-  document.getElementById("imageUrl")
+  document.getElementById("imageFile")
     .value = "";
 
   document.getElementById("category")
@@ -736,6 +902,9 @@ function resetForm() {
 
   document.getElementById("cancelButton")
     .style.display = "none";
+
+  document.getElementById("imagePreview")
+    .innerHTML = "";
 }
 
 async function togglePublish(id) {
@@ -747,59 +916,79 @@ async function togglePublish(id) {
 
   if (!item) return;
 
-  const {
-    error
-  } = await client
-    .from("gallery")
-    .update({
-      is_published:
-        !item.is_published
-    })
-    .eq("id", item.id);
+  try {
 
-  if (error) {
+    const {
+      error
+    } = await client
+      .from("gallery")
+      .update({
+        is_published:
+          !item.is_published
+      })
+      .eq("id", id);
+
+    if (error) {
+      throw error;
+    }
 
     showMessage(
-      "Publish error: " +
-      error.message,
-      true
+      item.is_published
+        ? "Gallery item unpublished."
+        : "Gallery item published."
     );
 
-    return;
-  }
+    await loadGallery();
 
-  await loadGallery();
+  } catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      "Publish error: " + error.message,
+      true
+    );
+  }
 }
 
 async function deleteItem(id) {
 
-  if (!confirm("Delete this gallery item?")) {
+  if (
+    !confirm(
+      "Delete this gallery item?"
+    )
+  ) {
     return;
   }
 
-  const {
-    error
-  } = await client
-    .from("gallery")
-    .delete()
-    .eq("id", id);
+  try {
 
-  if (error) {
+    const {
+      error
+    } = await client
+      .from("gallery")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      throw error;
+    }
 
     showMessage(
-      "Delete error: " +
-      error.message,
-      true
+      "Gallery item deleted successfully."
     );
 
-    return;
+    await loadGallery();
+
+  } catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      "Delete error: " + error.message,
+      true
+    );
   }
-
-  showMessage(
-    "Gallery item deleted successfully."
-  );
-
-  await loadGallery();
 }
 
 document
@@ -824,12 +1013,51 @@ document
   );
 
 document
+  .getElementById("imageFile")
+  .addEventListener(
+    "change",
+    function () {
+
+      const file =
+        this.files[0];
+
+      const preview =
+        document.getElementById(
+          "imagePreview"
+        );
+
+      if (!file) {
+        preview.innerHTML = "";
+        return;
+      }
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        function (event) {
+
+          preview.innerHTML =
+            `
+              <strong>Selected image:</strong>
+              <br><br>
+              <img
+                src="${event.target.result}"
+                alt="Selected image"
+              >
+            `;
+        };
+
+      reader.readAsDataURL(file);
+    }
+  );
+
+document
   .getElementById("backButton")
   .addEventListener(
     "click",
-    () => {
-      location.href =
-        "admin-dashboard.html";
+    function () {
+      location.href = "admin-dashboard.html";
     }
   );
 
@@ -837,12 +1065,11 @@ document
   .getElementById("logoutButton")
   .addEventListener(
     "click",
-    async () => {
+    async function () {
 
       await client.auth.signOut();
 
-      location.href =
-        "admin.html";
+      location.href = "admin.html";
     }
   );
 
