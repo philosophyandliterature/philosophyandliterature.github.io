@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gallery | Philosophy & Literature</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #222;
+}
+
+header {
+  background: #111827;
+  color: white;
+  padding: 28px 18px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-family: Georgia, serif;
+  font-size: 32px;
+}
+
+header p {
+  margin: 0;
+  color: #d1d5db;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  background: #374151;
+  color: white;
+  text-decoration: none;
+  border-radius: 7px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px #00000015;
+}
+
+.card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-content {
+  padding: 18px;
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-family: Georgia, serif;
+  font-size: 23px;
+}
+
+.description {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.category {
+  display: inline-block;
+  background: #e5e7eb;
+  color: #374151;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.loading,
+.empty,
+.error {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.error {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 27px;
+  }
+
+  .container {
+    padding: 14px;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Gallery</h1>
+  <p>Philosophy & Literature</p>
+</header>
+
+<div class="container">
+
+  <a class="back" href="index.html">← Back to Home</a>
+
+  <div id="gallery" class="gallery">
+    <div class="loading">
+      Loading gallery...
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+  "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+const client =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+async function loadGallery() {
+
+  const container =
+    document.getElementById("gallery");
+
+  try {
+
+    const {
+      data: items,
+      error
+    } = await client
+      .from("gallery")
+      .select("*")
+      .eq("is_published", true)
+      .order("created_at", {
+        ascending: false
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    if (!items || !items.length) {
+
+      container.innerHTML =
+        "<div class='empty'>No gallery items published yet.</div>";
+
+      return;
+    }
+
+    const categoryIds = [
+      ...new Set(
+        items
+          .map(item => item.category_id)
+          .filter(Boolean)
+      )
+    ];
+
+    let categories = [];
+
+    if (categoryIds.length) {
+
+      const result =
+        await client
+          .from("categories")
+          .select("id,name")
+          .in("id", categoryIds);
+
+      if (!result.error) {
+        categories = result.data || [];
+      }
+    }
+
+    const categoryMap = {};
+
+    categories.forEach(category => {
+      categoryMap[category.id] =
+        category.name;
+    });
+
+    container.innerHTML =
+      items.map(item => {
+
+        const category =
+          categoryMap[item.category_id] || "";
+
+        return `
+          <article class="card">
+
+            ${
+              item.image_url
+                ? `
+                  <img
+                    src="${escapeHtml(item.image_url)}"
+                    alt="${escapeHtml(item.title)}"
+                    onerror="this.style.display='none'"
+                  >
+                `
+                : ""
+            }
+
+            <div class="card-content">
+
+              <h2>
+                ${escapeHtml(item.title)}
+              </h2>
+
+              ${
+                item.description
+                  ? `
+                    <div class="description">
+                      ${escapeHtml(item.description)}
+                    </div>
+                  `
+                  : ""
+              }
+
+              ${
+                category
+                  ? `
+                    <span class="category">
+                      ${escapeHtml(category)}
+                    </span>
+                  `
+                  : ""
+              }
+
+            </div>
+
+          </article>
+        `;
+
+      }).join("");
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      `
+        <div class="error">
+          Could not load gallery.
+        </div>
+      `;
+  }
+}
+
+loadGallery();
+
+</script>
+
+</body>
+</html>
