@@ -583,7 +583,25 @@
     }).join("");
   }
 
+  /* =====================================================
+     SHOW MESSAGE
+     ===================================================== */
 
+  function showMessage(text, isError = false) {
+
+    const message = document.getElementById("message");
+
+    message.textContent = text;
+    message.className =
+      "message " + (isError ? "error" : "success");
+
+    message.style.display = "block";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
   /* =====================================================
      SAVE ARTICLE
      ===================================================== */
