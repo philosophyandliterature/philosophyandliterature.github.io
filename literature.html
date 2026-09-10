@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Literature | Philosophy & Literature</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #f4eee3;
+  color: #211c20;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.7;
+}
+
+/* HEADER */
+
+header {
+  min-height: 72vh;
+  padding: 55px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  background:
+    radial-gradient(circle at 20% 20%, #6e263633, transparent 30%),
+    radial-gradient(circle at 80% 70%, #162b4633, transparent 35%),
+    linear-gradient(135deg, #201822, #3b202b 55%, #182738);
+
+  color: #f8f1e5;
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: "“";
+  position: absolute;
+  font-size: 300px;
+  line-height: 1;
+  color: #ffffff0b;
+  top: -45px;
+  left: 5px;
+}
+
+.header-content {
+  max-width: 750px;
+  position: relative;
+  z-index: 1;
+}
+
+.label {
+  color: #d8b477;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+header h1 {
+  font-size: clamp(45px, 12vw, 82px);
+  line-height: 1.05;
+  margin: 18px 0;
+  font-weight: normal;
+}
+
+header p {
+  max-width: 600px;
+  margin: auto;
+  color: #ddd2c7;
+  font-size: 18px;
+}
+
+.divider {
+  width: 75px;
+  height: 2px;
+  background: #c69b5c;
+  margin: 28px auto;
+}
+
+/* NAVIGATION */
+
+nav {
+  background: #17151a;
+  padding: 13px 8px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+nav a {
+  color: #eee5d8;
+  text-decoration: none;
+  display: inline-block;
+  margin: 3px 8px;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: #d8b477;
+}
+
+/* INTRO */
+
+.intro {
+  max-width: 850px;
+  margin: auto;
+  padding: 70px 22px 45px;
+  text-align: center;
+}
+
+.intro h2 {
+  font-size: 34px;
+  font-weight: normal;
+  color: #482633;
+}
+
+.intro p {
+  color: #5d5552;
+  font-size: 17px;
+}
+
+/* COLLECTIONS */
+
+.collections {
+  max-width: 1050px;
+  margin: auto;
+  padding: 20px 20px 80px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.card {
+  background: #fffaf1;
+  border: 1px solid #dfd1c0;
+  padding: 30px 25px;
+  border-radius: 5px;
+  position: relative;
+
+  box-shadow: 0 7px 20px rgba(45, 28, 35, 0.08);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  background: #713346;
+}
+
+.card-number {
+  color: #9a7040;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.card h3 {
+  color: #492433;
+  font-size: 25px;
+  font-weight: normal;
+  margin: 8px 0 12px;
+}
+
+.card p {
+  color: #625957;
+}
+
+.card a {
+  color: #713346;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* FEATURE QUOTE */
+
+.quote {
+  background: #1d2633;
+  color: #f5ecdf;
+  padding: 75px 22px;
+  text-align: center;
+}
+
+.quote blockquote {
+  max-width: 760px;
+  margin: auto;
+  font-size: clamp(23px, 5vw, 34px);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.quote .author {
+  margin-top: 25px;
+  color: #d8b477;
+}
+
+/* WRITERS */
+
+.writers {
+  max-width: 850px;
+  margin: auto;
+  padding: 75px 22px;
+  text-align: center;
+}
+
+.writers h2 {
+  color: #482633;
+  font-size: 32px;
+  font-weight: normal;
+}
+
+.writer-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.writer {
+  padding: 10px 17px;
+  background: #eadcca;
+  color: #4a3038;
+  border-radius: 30px;
+}
+
+/* FOOTER */
+
+footer {
+  background: #17151a;
+  color: #bdb3aa;
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 14px;
+}
+
+/* PHONE */
+
+@media (max-width: 800px) {
+
+  header {
+    min-height: 65vh;
+    padding: 45px 20px;
+  }
+
+  header h1 {
+    font-size: 50px;
+  }
+
+  .collections {
+    grid-template-columns: 1fr;
+    padding: 15px 15px 60px;
+  }
+
+  .card {
+    padding: 27px 22px;
+  }
+
+  .intro {
+    padding-top: 55px;
+  }
+
+  nav a {
+    margin: 4px 6px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header id="top">
+
+  <div class="header-content">
+
+    <div class="label">The Midnight Writer</div>
+
+    <h1>Literature</h1>
+
+    <div class="divider"></div>
+
+    <p>
+      Stories, poems, writers and worlds created from words —
+      where imagination becomes a way of understanding life.
+    </p>
+
+  </div>
+
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="philosophy.html">Philosophy</a>
+  <a href="library.html">Library</a>
+  <a href="quotes.html">Quotes</a>
+  <a href="gallery.html">Gallery</a>
+</nav>
+
+<main>
+
+<section class="intro">
+
+  <div class="label">Enter the world of words</div>
+
+  <h2>Every story carries an idea.</h2>
+
+  <p>
+    Literature allows us to enter lives we have never lived,
+    places we have never seen, and questions we may never have
+    thought to ask.
+  </p>
+
+</section>
+
+
+<section class="collections">
+
+  <article class="card">
+
+    <div class="card-number">01 — POETRY</div>
+
+    <h3>Poetry</h3>
+
+    <p>
+      Poems, poets and the language of emotion, memory,
+      beauty and human experience.
+    </p>
+
+    <a href="#">Explore Poetry →</a>
+
+  </article>
+
+
+  <article class="card">
+
+    <div class="card-number">02 — FICTION</div>
+
+    <h3>Fiction</h3>
+
+    <p>
+      Novels, short stories and imagined worlds that reveal
+      something real about human life.
+    </p>
+
+    <a href="#">Explore Fiction →</a>
+
+  </article>
+
+
+  <article class="card">
+
+    <div class="card-number">03 — ESSAYS</div>
+
+    <h3>Essays</h3>
+
+    <p>
+      Literary essays, reflections and ideas written by
+      thinkers and writers across generations.
+    </p>
+
+    <a href="#">Read Essays →</a>
+
+  </article>
+
+
+  <article class="card">
+
+    <div class="card-number">04 — MOVEMENTS</div>
+
+    <h3>Literary Movements</h3>
+
+    <p>
+      Romanticism, modernism, realism and other movements
+      that transformed the way humans write and think.
+    </p>
+
+    <a href="#">Discover Movements →</a>
+
+  </article>
+
+
+  <article class="card">
+
+    <div class="card-number">05 — WRITERS</div>
+
+    <h3>Writers</h3>
+
+    <p>
+      Explore authors, their lives, works, ideas and the
+      worlds they left behind.
+    </p>
+
+    <a href="#writers">Meet the Writers →</a>
+
+  </article>
+
+
+  <article class="card">
+
+    <div class="card-number">06 — IDEAS</div>
+
+    <h3>Literary Ideas</h3>
+
+    <p>
+      Themes of love, death, freedom, identity, loneliness,
+      society and the meaning of being human.
+    </p>
+
+    <a href="#">Explore Ideas →</a>
+
+  </article>
+
+</section>
+
+
+<section class="quote">
+
+  <blockquote>
+    “A reader lives a thousand lives before he dies.”
+  </blockquote>
+
+  <div class="author">
+    — A literary tradition of imagination
+  </div>
+
+</section>
+
+
+<section class="writers" id="writers">
+
+  <div class="label">Voices on the page</div>
+
+  <h2>Writers</h2>
+
+  <div class="divider"></div>
+
+  <p>
+    A growing collection of writers whose words continue
+    to shape how we see ourselves and the world.
+  </p>
+
+  <div class="writer-list">
+
+    <span class="writer">Leo Tolstoy</span>
+    <span class="writer">Virginia Woolf</span>
+    <span class="writer">Fyodor Dostoevsky</span>
+    <span class="writer">Franz Kafka</span>
+    <span class="writer">George Orwell</span>
+    <span class="writer">Albert Camus</span>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+
+  <p>© Philosophy & Literature</p>
+  <p>The Midnight Writer — a growing literary archive.</p>
+
+</footer>
+
+</body>
+  </html>
