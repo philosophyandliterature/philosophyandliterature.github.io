@@ -758,4 +758,10 @@
 });
 }
 
-init();
+init().catch(function(error) {
+  showMessage(
+    "INIT ERROR: " + error.message,
+    true
+  );
+  console.error(error);
+});
