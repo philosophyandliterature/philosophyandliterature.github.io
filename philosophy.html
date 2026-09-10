@@ -13,209 +13,563 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --night: #0b1020;
+      --night-2: #11182b;
+      --ivory: #f5f0e6;
+      --paper: #fbf8f1;
+      --ink: #202534;
+      --muted: #747887;
+      --gold: #b89a62;
+      --line: rgba(32,37,52,0.14);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
+      background: var(--paper);
+      color: var(--ink);
       font-family: Georgia, "Times New Roman", serif;
-      background: #f6f1e7;
-      color: #302d28;
       line-height: 1.7;
     }
 
-    header {
-      background: #292721;
-      color: #f6f1e7;
-      padding: 34px 20px;
-      text-align: center;
+    a {
+      color: inherit;
     }
 
-    header h1 {
-      margin: 0 0 8px;
-      font-size: 32px;
-    }
-
-    header p {
-      margin: 0;
-      color: #d8d0c2;
-      font-size: 15px;
-    }
+    /* NAV */
 
     nav {
-      background: #403a33;
-      padding: 12px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(11,16,32,0.94);
+      backdrop-filter: blur(10px);
+      padding: 13px 12px;
       text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     nav a {
-      color: #f6f1e7;
+      color: #eee9de;
       text-decoration: none;
-      margin: 0 9px;
-      font-size: 14px;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      margin: 0 7px;
+      letter-spacing: 0.03em;
     }
 
     nav a:hover {
-      text-decoration: underline;
+      color: #d5b878;
     }
+
+    /* HERO */
+
+    .hero {
+      position: relative;
+      min-height: 78vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 75% 25%, rgba(184,154,98,0.15), transparent 28%),
+        radial-gradient(circle at 15% 80%, rgba(94,115,170,0.12), transparent 30%),
+        linear-gradient(135deg, var(--night), var(--night-2));
+      color: var(--ivory);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(1050px, 100%);
+      margin: auto;
+      padding: 85px 24px;
+    }
+
+    .eyebrow {
+      font-family: Arial, sans-serif;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(54px, 12vw, 112px);
+      line-height: 0.92;
+      font-weight: normal;
+      letter-spacing: -0.045em;
+    }
+
+    .hero h1 span {
+      display: block;
+      color: #cbbf9f;
+    }
+
+    .hero-text {
+      max-width: 610px;
+      margin: 32px 0 0;
+      font-size: 18px;
+      color: #c9c6c0;
+    }
+
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 35px;
+    }
+
+    .hero-links a {
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 30px;
+      padding: 8px 15px;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      color: #e9e3d8;
+      transition: 0.25s ease;
+    }
+
+    .hero-links a:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* DECORATIVE CONSTELLATION */
+
+    .orbit {
+      position: absolute;
+      width: 430px;
+      height: 430px;
+      right: -110px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 1px solid rgba(184,154,98,0.18);
+      border-radius: 50%;
+      animation: drift 12s ease-in-out infinite;
+    }
+
+    .orbit::before,
+    .orbit::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(184,154,98,0.12);
+    }
+
+    .orbit::before {
+      inset: 55px;
+    }
+
+    .orbit::after {
+      inset: 120px;
+    }
+
+    .star {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 14px rgba(184,154,98,0.6);
+    }
+
+    .star.one {
+      top: 17%;
+      left: 28%;
+    }
+
+    .star.two {
+      top: 67%;
+      left: 19%;
+    }
+
+    .star.three {
+      top: 35%;
+      right: 14%;
+    }
+
+    @keyframes drift {
+      0%,100% {
+        transform: translateY(-50%) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-50%) rotate(5deg);
+      }
+    }
+
+    /* MAIN */
 
     main {
-      max-width: 1000px;
+      width: min(1050px, 100%);
       margin: auto;
-      padding: 55px 20px;
+      padding: 85px 22px;
     }
 
-    .intro {
-      max-width: 760px;
-      margin: 0 auto 55px;
-      text-align: center;
+    section {
+      margin-bottom: 100px;
     }
 
-    .intro h2 {
-      font-size: 31px;
-      margin: 0 0 15px;
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+      margin-bottom: 32px;
     }
 
-    .divider {
-      width: 48px;
-      height: 2px;
-      background: #9b8b70;
-      margin: 18px auto 22px;
-    }
-
-    .intro p {
-      color: #625d55;
-      font-size: 16px;
-    }
-
-    .section {
-      margin-bottom: 55px;
-    }
-
-    .section-title {
-      border-bottom: 1px solid #d8d0c2;
-      padding-bottom: 10px;
-      margin-bottom: 22px;
-    }
-
-    .section-title h3 {
+    .section-heading h2 {
       margin: 0;
-      font-size: 23px;
+      font-size: 34px;
+      font-weight: normal;
+      letter-spacing: -0.02em;
     }
 
-    .section-title p {
-      margin: 5px 0 0;
-      color: #756e65;
-      font-size: 14px;
+    .section-heading span {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
     }
+
+    /* THINKERS */
 
     .thinkers {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line);
     }
 
     .thinker {
-      background: #fffdf8;
-      padding: 22px;
-      border: 1px solid #e3ddd2;
-      box-shadow: 0 2px 7px rgba(0,0,0,0.05);
+      padding: 25px 12px 25px 0;
+      border-bottom: 1px solid var(--line);
+      transition: 0.25s ease;
     }
 
-    .thinker h4 {
-      margin: 0 0 7px;
-      font-size: 20px;
+    .thinker:nth-child(even) {
+      padding-left: 25px;
+      border-left: 1px solid var(--line);
+    }
+
+    .thinker:hover {
+      transform: translateX(5px);
+    }
+
+    .thinker h3 {
+      margin: 0 0 3px;
+      font-size: 23px;
+      font-weight: normal;
     }
 
     .dates {
-      color: #8a806f;
-      font-size: 13px;
-      margin-bottom: 10px;
+      color: var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      margin-bottom: 9px;
     }
 
     .thinker p {
       margin: 0;
-      color: #625d55;
+      color: var(--muted);
       font-size: 14px;
+      max-width: 440px;
     }
 
-    .books,
-    .quotes {
+    /* IDEAS */
+
+    .ideas {
       display: grid;
-      gap: 18px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
     }
 
-    .book,
-    .quote {
-      background: #fffdf8;
-      padding: 24px;
-      border-left: 3px solid #9b8b70;
-      box-shadow: 0 2px 7px rgba(0,0,0,0.05);
+    .idea {
+      background: var(--paper);
+      min-height: 125px;
+      padding: 23px;
+      text-decoration: none;
+      transition: 0.25s ease;
     }
 
-    .book h4 {
-      margin: 0 0 5px;
-      font-size: 20px;
+    .idea:hover {
+      background: #f0eadc;
     }
 
-    .book .author {
-      color: #756e65;
-      font-size: 14px;
-      margin-bottom: 10px;
+    .idea-number {
+      color: var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
     }
 
-    .book p {
+    .idea h3 {
+      margin: 18px 0 0;
+      font-size: 19px;
+      font-weight: normal;
+    }
+
+    /* WORKS */
+
+    .works {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .work {
+      text-decoration: none;
+      padding: 30px 25px;
+      min-height: 190px;
+      background: var(--night);
+      color: var(--ivory);
+      position: relative;
+      overflow: hidden;
+      transition: 0.25s ease;
+    }
+
+    .work:hover {
+      transform: translateY(-5px);
+    }
+
+    .work small {
+      color: var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .work h3 {
+      margin: 22px 0 7px;
+      font-size: 25px;
+      font-weight: normal;
+    }
+
+    .work p {
       margin: 0;
-      color: #625d55;
-      font-size: 14px;
-    }
-
-    .quote blockquote {
-      margin: 0 0 12px;
-      font-size: 20px;
-      font-style: italic;
-    }
-
-    .quote .author {
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .quote .source {
-      color: #756e65;
+      color: #aeb1bb;
       font-size: 13px;
     }
 
-    .empty {
-      color: #756e65;
-      background: #eee7da;
-      padding: 18px;
+    .arrow {
+      position: absolute;
+      right: 22px;
+      bottom: 18px;
+      color: var(--gold);
+      font-size: 20px;
     }
 
-    footer {
-      background: #292721;
-      color: #d8d0c2;
-      text-align: center;
-      padding: 28px 20px;
+    /* BOOKS */
+
+    .books {
+      display: grid;
+      gap: 0;
+    }
+
+    .book {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      padding: 23px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .book h3 {
+      margin: 0 0 4px;
+      font-size: 20px;
+      font-weight: normal;
+    }
+
+    .book .author {
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .book p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .book-meta {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      text-align: right;
+    }
+
+    /* QUOTES */
+
+    .quotes {
+      display: grid;
+      gap: 20px;
+    }
+
+    .quote {
+      padding: 30px;
+      background: #eee8dc;
+      border-left: 2px solid var(--gold);
+    }
+
+    .quote blockquote {
+      margin: 0 0 14px;
+      font-size: clamp(20px, 4vw, 28px);
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    .quote-author {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      color: var(--gold);
+    }
+
+    .quote-source {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    /* EMPTY / ERROR */
+
+    .empty {
+      grid-column: 1 / -1;
+      padding: 22px;
+      color: var(--muted);
+      background: #eee8dc;
       font-size: 14px;
     }
 
+    /* FOOTER */
+
+    footer {
+      background: var(--night);
+      color: #aeb1bb;
+      text-align: center;
+      padding: 45px 20px;
+      font-size: 13px;
+    }
+
+    footer strong {
+      display: block;
+      color: var(--ivory);
+      font-size: 18px;
+      font-weight: normal;
+      margin-bottom: 6px;
+    }
+
+    /* MOBILE */
+
     @media (max-width: 700px) {
-      header h1 {
-        font-size: 27px;
+
+      nav {
+        white-space: nowrap;
+        overflow-x: auto;
+        text-align: left;
+        padding-left: 10px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      .hero {
+        min-height: 76vh;
+      }
+
+      .hero-inner {
+        padding: 75px 20px;
+      }
+
+      .hero h1 {
+        font-size: 60px;
+      }
+
+      .hero-text {
+        font-size: 16px;
+      }
+
+      .orbit {
+        width: 280px;
+        height: 280px;
+        right: -150px;
+        top: 70%;
       }
 
       main {
-        padding: 38px 15px;
+        padding: 65px 18px;
+      }
+
+      section {
+        margin-bottom: 75px;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading span {
+        display: block;
+        margin-top: 5px;
+      }
+
+      .section-heading h2 {
+        font-size: 29px;
       }
 
       .thinkers {
         grid-template-columns: 1fr;
       }
 
-      .intro h2 {
-        font-size: 27px;
+      .thinker,
+      .thinker:nth-child(even) {
+        padding: 22px 0;
+        border-left: 0;
       }
 
-      nav a {
-        margin: 0 5px;
+      .ideas {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .idea {
+        min-height: 115px;
+        padding: 18px;
+      }
+
+      .works {
+        grid-template-columns: 1fr;
+      }
+
+      .work {
+        min-height: 165px;
+      }
+
+      .book {
+        grid-template-columns: 1fr;
+      }
+
+      .book-meta {
+        text-align: left;
+      }
+
+      .quote {
+        padding: 24px;
       }
     }
   </style>
@@ -223,49 +577,63 @@
 
 <body>
 
-<header>
-  <h1>Philosophy</h1>
-  <p>Thinkers, questions, traditions and works in the archive</p>
-</header>
-
 <nav>
   <a href="index.html">Home</a>
   <a href="philosophy.html">Philosophy</a>
-  <a href="index.html#literature">Literature</a>
+  <a href="literature.html">Literature</a>
   <a href="library.html">Library</a>
   <a href="quotes.html">Quotes</a>
-  <a href="index.html#articles">Articles</a>
-  <a href="index.html#gallery">Gallery</a>
+  <a href="articles.html">Articles</a>
+  <a href="gallery.html">Gallery</a>
   <a href="index.html#about">About</a>
 </nav>
 
+
+<header class="hero">
+
+  <div class="orbit">
+    <span class="star one"></span>
+    <span class="star two"></span>
+    <span class="star three"></span>
+  </div>
+
+  <div class="hero-inner">
+
+    <div class="eyebrow">Philosophy & Literature · Archive</div>
+
+    <h1>
+      Questions
+      <span>that refuse</span>
+      to disappear.
+    </h1>
+
+    <p class="hero-text">
+      Philosophy begins where easy answers end.
+      Explore the thinkers, ideas, books and voices
+      gathered in this living archive.
+    </p>
+
+    <div class="hero-links">
+      <a href="#thinkers">Thinkers</a>
+      <a href="#ideas">Ideas</a>
+      <a href="#works">Works & Voices</a>
+      <a href="#quotes">Quotes</a>
+    </div>
+
+  </div>
+
+</header>
+
+
 <main>
-
-  <section class="intro">
-    <h2>Philosophy</h2>
-
-    <div class="divider"></div>
-
-    <p>
-      Philosophy begins with questions: What can we know?
-      How should we live? What is real? What makes a life
-      meaningful?
-    </p>
-
-    <p>
-      This section brings together thinkers, books and
-      philosophical quotations preserved in the archive.
-    </p>
-  </section>
-
 
   <!-- THINKERS -->
 
-  <section class="section">
+  <section id="thinkers">
 
-    <div class="section-title">
-      <h3>Thinkers in the Archive</h3>
-      <p>Philosophers currently represented in the collection.</p>
+    <div class="section-heading">
+      <h2>Thinkers</h2>
+      <span>Voices in the archive</span>
     </div>
 
     <div id="thinkersContainer" class="thinkers">
@@ -275,13 +643,115 @@
   </section>
 
 
+  <!-- IDEAS -->
+
+  <section id="ideas">
+
+    <div class="section-heading">
+      <h2>Ideas</h2>
+      <span>Ways of asking</span>
+    </div>
+
+    <div class="ideas">
+
+      <a class="idea" href="articles.html">
+        <div class="idea-number">01</div>
+        <h3>Ethics</h3>
+      </a>
+
+      <a class="idea" href="articles.html">
+        <div class="idea-number">02</div>
+        <h3>Existentialism</h3>
+      </a>
+
+      <a class="idea" href="articles.html">
+        <div class="idea-number">03</div>
+        <h3>Knowledge</h3>
+      </a>
+
+      <a class="idea" href="articles.html">
+        <div class="idea-number">04</div>
+        <h3>Metaphysics</h3>
+      </a>
+
+      <a class="idea" href="articles.html">
+        <div class="idea-number">05</div>
+        <h3>Political Philosophy</h3>
+      </a>
+
+      <a class="idea" href="articles.html">
+        <div class="idea-number">06</div>
+        <h3>Philosophy of Mind</h3>
+      </a>
+
+      <a class="idea" href="articles.html">
+        <div class="idea-number">07</div>
+        <h3>Aesthetics</h3>
+      </a>
+
+      <a class="idea" href="articles.html">
+        <div class="idea-number">08</div>
+        <h3>Logic</h3>
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- WORKS & VOICES -->
+
+  <section id="works">
+
+    <div class="section-heading">
+      <h2>Works & Voices</h2>
+      <span>Continue exploring</span>
+    </div>
+
+    <div class="works">
+
+      <a class="work" href="library.html">
+        <small>The Library</small>
+        <h3>Books</h3>
+        <p>
+          Enter the collection of works preserved
+          in the archive.
+        </p>
+        <div class="arrow">→</div>
+      </a>
+
+      <a class="work" href="quotes.html">
+        <small>Fragments</small>
+        <h3>Quotes</h3>
+        <p>
+          Words that remain long after the argument
+          has ended.
+        </p>
+        <div class="arrow">→</div>
+      </a>
+
+      <a class="work" href="articles.html">
+        <small>The Journal</small>
+        <h3>Articles</h3>
+        <p>
+          Essays and reflections on ideas worth
+          slowing down for.
+        </p>
+        <div class="arrow">→</div>
+      </a>
+
+    </div>
+
+  </section>
+
+
   <!-- BOOKS -->
 
-  <section class="section">
+  <section id="books">
 
-    <div class="section-title">
-      <h3>Philosophy Books</h3>
-      <p>Books classified under Philosophy in the library.</p>
+    <div class="section-heading">
+      <h2>Philosophy Books</h2>
+      <span>From the library</span>
     </div>
 
     <div id="booksContainer" class="books">
@@ -293,11 +763,11 @@
 
   <!-- QUOTES -->
 
-  <section class="section">
+  <section id="quotes">
 
-    <div class="section-title">
-      <h3>Selected Quotes</h3>
-      <p>Published philosophical quotations from the archive.</p>
+    <div class="section-heading">
+      <h2>Voices</h2>
+      <span>Selected quotations</span>
     </div>
 
     <div id="quotesContainer" class="quotes">
@@ -310,8 +780,8 @@
 
 
 <footer>
-  <p>© Philosophy & Literature</p>
-  <p>Built as an educational digital archive.</p>
+  <strong>Philosophy & Literature</strong>
+  An evolving archive of ideas, books and voices.
 </footer>
 
 
@@ -332,7 +802,7 @@
 
 
   /* ==============================
-     LOAD THINKERS
+     THINKERS
      ============================== */
 
   async function loadThinkers() {
@@ -369,16 +839,18 @@
       return `
         <article class="thinker">
 
-          <h4>${escapeHtml(person.name)}</h4>
+          <h3>${escapeHtml(person.name)}</h3>
 
-          ${dates
-            ? `<div class="dates">${escapeHtml(dates)}</div>`
-            : ""
+          ${
+            dates
+              ? `<div class="dates">${escapeHtml(dates)}</div>`
+              : ""
           }
 
           <p>
             ${escapeHtml(
-              person.bio || "Philosopher represented in the archive."
+              person.bio ||
+              "Philosopher represented in the archive."
             )}
           </p>
 
@@ -390,7 +862,7 @@
 
 
   /* ==============================
-     LOAD PHILOSOPHY BOOKS
+     PHILOSOPHY BOOKS
      ============================== */
 
   async function loadBooks() {
@@ -405,15 +877,9 @@
         .eq("name", "Philosophy")
         .maybeSingle();
 
-    if (categoryError) {
+    if (categoryError || !category) {
       container.innerHTML =
-        '<div class="empty">Unable to load books.</div>';
-      return;
-    }
-
-    if (!category) {
-      container.innerHTML =
-        '<div class="empty">No Philosophy category has been created yet.</div>';
+        '<div class="empty">No Philosophy category found.</div>';
       return;
     }
 
@@ -451,29 +917,43 @@
       return `
         <article class="book">
 
-          <h4>${escapeHtml(book.title)}</h4>
+          <div>
 
-          ${book.subtitle
-            ? `<div>${escapeHtml(book.subtitle)}</div>`
-            : ""
-          }
+            <h3>${escapeHtml(book.title)}</h3>
 
-          <div class="author">
-            ${escapeHtml(author)}
-            ${book.publication_year
-              ? ` · ${escapeHtml(String(book.publication_year))}`
-              : ""
+            ${
+              book.subtitle
+                ? `<div>${escapeHtml(book.subtitle)}</div>`
+                : ""
             }
-            ${book.language
-              ? ` · ${escapeHtml(book.language)}`
-              : ""
+
+            <div class="author">
+              ${escapeHtml(author)}
+            </div>
+
+            ${
+              book.description
+                ? `<p>${escapeHtml(book.description)}</p>`
+                : ""
             }
+
           </div>
 
-          ${book.description
-            ? `<p>${escapeHtml(book.description)}</p>`
-            : ""
-          }
+          <div class="book-meta">
+
+            ${
+              book.publication_year
+                ? escapeHtml(String(book.publication_year))
+                : ""
+            }
+
+            ${
+              book.language
+                ? `<br>${escapeHtml(book.language)}`
+                : ""
+            }
+
+          </div>
 
         </article>
       `;
@@ -483,7 +963,7 @@
 
 
   /* ==============================
-     LOAD PHILOSOPHY QUOTES
+     PHILOSOPHY QUOTES
      ============================== */
 
   async function loadQuotes() {
@@ -539,13 +1019,14 @@
             “${escapeHtml(quote.quote_text)}”
           </blockquote>
 
-          <div class="author">
+          <div class="quote-author">
             — ${escapeHtml(author)}
           </div>
 
-          ${quote.source
-            ? `<div class="source">${escapeHtml(quote.source)}</div>`
-            : ""
+          ${
+            quote.source
+              ? `<div class="quote-source">${escapeHtml(quote.source)}</div>`
+              : ""
           }
 
         </article>
@@ -561,23 +1042,4 @@
 
   function escapeHtml(text) {
 
-    const div = document.createElement("div");
-
-    div.textContent = text || "";
-
-    return div.innerHTML;
-  }
-
-
-  /* ==============================
-     START
-     ============================== */
-
-  loadThinkers();
-  loadBooks();
-  loadQuotes();
-
-</script>
-
-</body>
-  </html>
+    con
