@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Articles & Notes Manager</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f1ea;
+  color: #202020;
+}
+
+.wrap {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.back {
+  color: #5b2b32;
+  text-decoration: none;
+}
+
+.panel {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px #00000012;
+}
+
+label {
+  display: block;
+  font-weight: 700;
+  margin: 14px 0 6px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 9px;
+  font: inherit;
+  background: #fff;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.content {
+  min-height: 300px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.check input {
+  width: auto;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #5b2b32;
+  color: #fff;
+}
+
+button.secondary {
+  background: #777;
+}
+
+button.danger {
+  background: #9a3030;
+}
+
+.status {
+  margin-top: 12px;
+  min-height: 20px;
+  font-weight: 600;
+}
+
+.item {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.item h3 {
+  margin: 0 0 7px;
+}
+
+.meta {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.empty {
+  color: #666;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 650px) {
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .wrap {
+    padding: 14px;
+  }
+
+  h1 {
+    font-size: 23px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="top">
+    <h1>Articles & Notes Manager</h1>
+
+    <a class="back" href="index.html">
+      ← Back to site
+    </a>
+  </div>
+
+
+  <!-- LOGIN -->
+
+  <div id="loginPanel" class="panel hidden">
+
+    <h2>Admin login required</h2>
+
+    <p>
+      Please sign in to manage articles and notes.
+    </p>
+
+    <button id="loginBtn">
+      Sign in
+    </button>
+
+    <div id="loginStatus" class="status"></div>
+
+  </div>
+
+
+  <!-- MANAGER -->
+
+  <div id="manager" class="hidden">
+
+
+    <!-- FORM -->
+
+    <div class="panel">
+
+      <h2 id="formHeading">
+        Add Article / Note
+      </h2>
+
+
+      <form id="articleForm">
+
+
+        <label for="title">
+          Title *
+        </label>
+
+        <input
+          id="title"
+          required
+        >
+
+
+        <div class="row">
+
+          <div>
+
+            <label for="slug">
+              Slug *
+            </label>
+
+            <input
+              id="slug"
+              required
+              placeholder="example-my-note"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label for="authorName">
+              Author name
+            </label>
+
+            <input
+              id="authorName"
+              placeholder="Author name"
+            >
+
+          </div>
+
+        </div>
+
+
+        <label for="excerpt">
+          Excerpt
+        </label>
+
+        <textarea
+          id="excerpt"
+          rows="4"
+          placeholder="Short introduction shown on the articles page"
+        ></textarea>
+
+
+        <label for="content">
+          Content *
+        </label>
+
+        <textarea
+          id="content"
+          class="content"
+          required
+          placeholder="Write the full article or note here..."
+        ></textarea>
+
+
+        <div class="row">
+
+
+          <div>
+
+            <label for="category">
+              Category
+            </label>
+
+            <select id="category">
+
+              <option value="">
+                No category
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div>
+
+            <label for="coverUrl">
+              Cover image URL
+            </label>
+
+            <input
+              id="coverUrl"
+              type="url"
+              placeholder="https://..."
+            >
+
+            <small>
+              Optional. Paste a public image URL.
+            </small>
+
+          </div>
+
+
+        </div>
+
+
+        <label class="check">
+
+          <input
+            id="published"
+            type="checkbox"
+          >
+
+          Publish this article
+
+        </label>
+
+
+        <div class="buttons">
+
+          <button
+            type="submit"
+            id="saveBtn"
+          >
+            Save Article
+          </button>
+
+          <button
+            type="button"
+            class="secondary"
+            id="clearBtn"
+          >
+            Clear
+          </button>
+
+        </div>
+
+
+        <div
+          id="formStatus"
+          class="status"
+        ></div>
+
+
+      </form>
+
+    </div>
+
+
+
+    <!-- ARTICLE LIST -->
+
+    <div class="panel">
+
+      <div class="top">
+
+        <h2>
+          Articles & Notes
+        </h2>
+
+        <button
+          type="button"
+          id="refreshBtn"
+        >
+          Refresh
+        </button>
+
+      </div>
+
+
+      <div id="list">
+
+        <p class="empty">
+          Loading articles…
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+  "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+const { createClient } = supabase;
+
+const client =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+
+/* =========================
+   HELPERS
+========================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+let editingId = null;
+
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(
+      /[&<>'"]/g,
+      ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;"
+      }[ch])
+    );
+
+}
+
+
+function slugify(text) {
+
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+}
+
+
+function setStatus(
+  element,
+  text,
+  error = false
+) {
+
+  element.textContent = text;
+
+  element.style.color =
+    error
+      ? "#a12626"
+      : "#23633b";
+
+}
+
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+async function init() {
+
+  const {
+    data: {
+      session
+    }
+  } =
+    await client.auth.getSession();
+
+
+  if (!session) {
+
+    $("loginPanel")
+      .classList
+      .remove("hidden");
+
+    return;
+
+  }
+
+
+  $("manager")
+    .classList
+    .remove("hidden");
+
+
+  await loadCategories();
+
+  await loadArticles();
+
+}
+
+
+
+/* =========================
+   LOGIN
+========================= */
+
+$("loginBtn")
+  .addEventListener(
+    "click",
+    async () => {
+
+      const email =
+        prompt(
+          "Enter your admin email:"
+        );
+
+      if (!email) return;
+
+
+      const password =
+        prompt(
+          "Enter your password:"
+        );
+
+      if (!password) return;
+
+
+      const {
+        error
+      } =
+        await client.auth
+          .signInWithPassword({
+            email,
+            password
+          });
+
+
+      if (error) {
+
+        setStatus(
+          $("loginStatus"),
+          error.message,
+          true
+        );
+
+        return;
+
+      }
+
+
+      location.reload();
+
+    }
+  );
+
+
+
+/* =========================
+   LOAD CATEGORIES
+========================= */
+
+async function loadCategories() {
+
+  const {
+    data,
+    error
+  } =
+    await client
+      .from("categories")
+      .select("id,name")
+      .order("name");
+
+
+  if (error) {
+
+    setStatus(
+      $("formStatus"),
+      "Could not load categories: "
+      + error.message,
+      true
+    );
+
+    return;
+
+  }
+
+
+  $("category").innerHTML =
+
+    '<option value="">No category</option>'
+
+    +
+
+    (data || [])
+      .map(
+        category =>
+
+          `<option value="${escapeHtml(category.id)}">
+            ${escapeHtml(category.name)}
+          </option>`
+
+      )
+      .join("");
+
+}
+
+
+
+/* =========================
+   LOAD ARTICLES
+========================= */
+
+async function loadArticles() {
+
+  $("list").innerHTML =
+    '<p class="empty">Loading articles…</p>';
+
+
+  const {
+    data,
+    error
+  } =
+    await client
+      .from("articles")
+      .select(`
+        id,
+        title,
+        slug,
+        excerpt,
+        content,
+        author_name,
+        category_id,
+        cover_url,
+        is_published,
+        published_at,
+        created_at
+      `)
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
+
+
+  if (error) {
+
+    $("list").innerHTML =
+
+      `<p class="empty">
+        Could not load articles:
+        ${escapeHtml(error.message)}
+      </p>`;
+
+    return;
+
+  }
+
+
+  if (!data || !data.length) {
+
+    $("list").innerHTML =
+      '<p class="empty">No articles or notes yet.</p>';
+
+    return;
+
+  }
+
+
+  $("list").innerHTML =
+
+    data
+      .map(
+        article => `
+
+          <div class="item">
+
+            <h3>
+              ${escapeHtml(article.title)}
+            </h3>
+
+
+            <div class="meta">
+
+              ${article.is_published
+                ? "Published"
+                : "Draft"}
+
+              ·
+
+              ${escapeHtml(
+                article.author_name
+                || "No author"
+              )}
+
+              ·
+
+              ${escapeHtml(
+                article.slug
+              )}
+
+            </div>
+
+
+            ${
+              article.excerpt
+                ? `<p>
+                    ${escapeHtml(
+                      article.excerpt
+                    )}
+                   </p>`
+                : ""
+            }
+
+
+            <div class="actions">
+
+              <button
+                type="button"
+                onclick="editArticle('${article.id}')"
+              >
+                Edit
+              </button>
+
+
+              <button
+                type="button"
+                class="secondary"
+                onclick="togglePublish(
+                  '${article.id}',
+                  ${!article.is_published}
+                )"
+              >
+                ${
+                  article.is_published
+                    ? "Unpublish"
+                    : "Publish"
+                }
+              </button>
+
+
+              <button
+                type="button"
+                class="danger"
+                onclick="deleteArticle('${article.id}')"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+
+        `
+      )
+      .join("");
+
+}
+
+
+
+/* =========================
+   SAVE ARTICLE
+========================= */
+
+async function saveArticle(event) {
+
+  event.preventDefault();
+
+
+  setStatus(
+    $("formStatus"),
+    "Saving…"
+  );
+
+
+  const isPublished =
+    $("published").checked;
+
+
+  let slug =
+    $("slug").value.trim();
+
+
+  if (!slug) {
+
+    slug =
+      slugify(
+        $("title").value
+      );
+
+  }
+
+
+  const payload = {
+
+    title:
+      $("title").value.trim(),
+
+    slug:
+
+      slug,
+
+    excerpt:
+
+      $("excerpt").value.trim()
+      || null,
+
+    content:
+
+      $("content").value.trim(),
+
+    author_name:
+
+      $("authorName").value.trim()
+      || null,
+
+    category_id:
+
+      $("category").value
+      || null,
+
+    cover_url:
+
+      $("coverUrl").value.trim()
+      || null,
+
+    is_published:
+
+      isPublished,
+
+    published_at:
+
+      isPublished
+        ? new Date().toISOString()
+        : null,
+
+    updated_at:
+
+      new Date().toISOString()
+
+  };
+
+
+  let result;
+
+
+  if (editingId) {
+
+    result =
+      await client
+        .from("articles")
+        .update(payload)
+        .eq(
+          "id",
+          editingId
+        );
+
+  }
+
+  else {
+
+    result =
+      await client
+        .from("articles")
+        .insert(payload);
+
+  }
+
+
+  if (result.error) {
+
+    setStatus(
+      $("formStatus"),
+      result.error.message,
+      true
+    );
+
+    return;
+
+  }
+
+
+  setStatus(
+    $("formStatus"),
+    "Saved successfully."
+  );
+
+
+  clearForm();
+
+  await loadArticles();
+
+}
+
+
+
+/* =========================
+   EDIT ARTICLE
+========================= */
+
+window.editArticle =
+  async function(id) {
+
+    const {
+      data,
+      error
+    } =
+      await client
+        .from("articles")
+        .select("*")
+        .eq(
+          "id",
+          id
+        )
+        .single();
+
+
+    if (error) {
+
+      setStatus(
+        $("formStatus"),
+        error.message,
+        true
+      );
+
+      return;
+
+    }
+
+
+    editingId = id;
+
+
+    $("formHeading").textContent =
+      "Edit Article / Note";
+
+
+    $("title").value =
+      data.title || "";
+
+
+    $("slug").value =
+      data.slug || "";
+
+
+    $("excerpt").value =
+      data.excerpt || "";
+
+
+    $("content").value =
+      data.content || "";
+
+
+    $("authorName").value =
+      data.author_name || "";
+
+
+    $("category").value =
+      data.category_id || "";
+
+
+    $("coverUrl").value =
+      data.cover_url || "";
+
+
+    $("published").checked =
+      !!data.is_published;
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  };
+
+
+
+/* =========================
+   PUBLISH / UNPUBLISH
+========================= */
+
+window.togglePublish =
+  async function(
+    id,
+    next
+  ) {
+
+    const payload = {
+
+      is_published:
+        next,
+
+      updated_at:
+        new Date().toISOString(),
+
+      published_at:
+        next
+          ? new Date().toISOString()
+          : null
+
+    };
+
+
+    const {
+      error
+    } =
+      await client
+        .from("articles")
+        .update(payload)
+        .eq(
+          "id",
+          id
+        );
+
+
+    if (error) {
+
+      alert(
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    await loadArticles();
+
+  };
+
+
+
+/* =========================
+   DELETE
+========================= */
+
+window.deleteArticle =
+  async function(id) {
+
+    if (
+      !confirm(
+        "Delete this article or note?"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    const {
+      error
+    } =
+      await client
+        .from("articles")
+        .delete()
+        .eq(
+          "id",
+          id
+        );
+
+
+    if (error) {
+
+      alert(
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    await loadArticles();
+
+  };
+
+
+
+/* =========================
+   CLEAR FORM
+========================= */
+
+function clearForm() {
+
+  editingId = null;
+
+
+  $("formHeading").textContent =
+    "Add Article / Note";
+
+
+  $("articleForm").reset();
+
+
+  $("category").value = "";
+
+}
+
+
+$("articleForm")
+  .addEventListener(
+    "submit",
+    saveArticle
+  );
+
+
+$("clearBtn")
+  .addEventListener(
+    "click",
+    clearForm
+  );
+
+
+$("refreshBtn")
+  .addEventListener(
+    "click",
+    loadArticles
+  );
+
+
+$("title")
+  .addEventListener(
+    "input",
+    () => {
+
+      if (
+        !editingId
+        &&
+        !$("slug").value.trim()
+      ) {
+
+        $("slug").value =
+          slugify(
+            $("title").value
+          );
+
+      }
+
+    }
+  );
+
+
+
+/* =========================
+   START
+========================= */
+
+init();
+
+</script>
+
+</body>
+  </html>
