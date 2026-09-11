@@ -450,6 +450,16 @@ authors(name),
                     </p>`
                   : ""
               }
+              ${
+  book.pdf_url
+    ? `<button
+        class="pdf-button"
+        onclick="downloadBookPdf('${escapeHtml(book.pdf_url)}')"
+      >
+        📖 Read / Download PDF
+      </button>`
+    : ""
+              }
 
             </div>
 
@@ -473,7 +483,49 @@ authors(name),
 
     return div.innerHTML;
   }
+async function downloadBookPdf(path) {
 
+  if (!path) {
+    alert("PDF is not available.");
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      `${SUPABASE_URL}/functions/v1/get-book-pdf`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_PUBLISHABLE_KEY
+        },
+        body: JSON.stringify({
+          path: path
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.url) {
+      throw new Error(
+        result.error || "Unable to open PDF."
+      );
+    }
+
+    window.open(result.url, "_blank");
+
+  } catch (error) {
+
+    console.error("PDF ERROR:", error);
+
+    alert(
+      error.message ||
+      "Unable to open PDF."
+    );
+  }
+}
 
   /* ==============================
      START
