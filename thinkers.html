@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Thinkers — Philosophy & Literature</title>
+
+<style>
+:root{
+  --ink:#172541;
+  --deep:#0b1220;
+  --paper:#f4efe4;
+  --light:#fbf8f1;
+  --gold:#b08a3e;
+  --gold-light:#d6bd7c;
+  --burgundy:#682f36;
+  --forest:#334838;
+  --brown:#563d2e;
+  --muted:#6b675f;
+  --line:#d9d1c1;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:#211f22;
+  font-family:Georgia,"Times New Roman",serif;
+}
+
+nav{
+  background:var(--deep);
+  color:white;
+  padding:18px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  border-bottom:1px solid rgba(214,189,124,.35);
+}
+
+nav .brand{
+  color:var(--gold-light);
+  font-family:Arial,sans-serif;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+
+nav .links{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+nav a{
+  color:#f5f0e7;
+  text-decoration:none;
+  font-family:Arial,sans-serif;
+  font-size:12px;
+}
+
+nav a:hover{
+  color:var(--gold-light);
+}
+
+.hero{
+  background:
+    radial-gradient(circle at 80% 20%,rgba(176,138,62,.18),transparent 30%),
+    radial-gradient(circle at 15% 80%,rgba(104,47,54,.28),transparent 35%),
+    var(--deep);
+  color:#f5f0e7;
+  padding:90px 5% 80px;
+}
+
+.hero small{
+  color:var(--gold-light);
+  font-family:Arial,sans-serif;
+  font-size:11px;
+  letter-spacing:4px;
+}
+
+.hero h1{
+  margin:20px 0 18px;
+  font-size:clamp(50px,8vw,100px);
+  font-weight:normal;
+  line-height:.95;
+}
+
+.hero p{
+  max-width:700px;
+  color:#d8d1c7;
+  font-size:18px;
+  line-height:1.7;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:70px 5%;
+}
+
+.intro{
+  max-width:750px;
+  margin-bottom:45px;
+}
+
+.intro h2{
+  font-size:38px;
+  font-weight:normal;
+  margin:0 0 12px;
+  color:var(--ink);
+}
+
+.intro p{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.author-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+
+.author-card{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  background:var(--light);
+  border:1px solid var(--line);
+  padding:0;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.author-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 14px 35px rgba(23,37,65,.12);
+}
+
+.author-image{
+  width:100%;
+  height:270px;
+  object-fit:cover;
+  display:block;
+  background:#e7dfd1;
+}
+
+.author-image.no-image{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:70px;
+  color:var(--gold);
+  font-family:Georgia,serif;
+}
+
+.author-content{
+  padding:25px;
+}
+
+.author-label{
+  color:var(--gold);
+  font-family:Arial,sans-serif;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.author-card h3{
+  color:var(--ink);
+  font-size:30px;
+  font-weight:normal;
+  margin:10px 0 8px;
+}
+
+.dates{
+  color:var(--burgundy);
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.author-bio{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+}
+
+.read-profile{
+  display:inline-block;
+  margin-top:18px;
+  color:var(--ink);
+  font-family:Arial,sans-serif;
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+.loading,
+.empty,
+.error{
+  padding:30px;
+  background:var(--light);
+  border:1px solid var(--line);
+  text-align:center;
+}
+
+.error{
+  color:#8a2424;
+}
+
+footer{
+  background:var(--deep);
+  color:#d8d1c7;
+  text-align:center;
+  padding:30px;
+  font-family:Arial,sans-serif;
+  font-size:12px;
+}
+
+@media(max-width:850px){
+  .author-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+  nav{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  nav .links{
+    gap:12px;
+  }
+
+  .hero{
+    padding:65px 6% 60px;
+  }
+
+  .container{
+    padding:50px 6%;
+  }
+
+  .author-grid{
+    grid-template-columns:1fr;
+  }
+
+  .author-image{
+    height:300px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="brand">PHILOSOPHY & LITERATURE</div>
+
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="philosophy.html">Philosophy</a>
+    <a href="library.html">Library</a>
+    <a href="quotes.html">Quotes</a>
+    <a href="articles.html">Articles</a>
+    <a href="gallery.html">Gallery</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <small>THE PEOPLE BEHIND THE QUESTIONS</small>
+
+  <h1>Thinkers</h1>
+
+  <p>
+    Philosophers, teachers, writers, and questioners whose ideas
+    have shaped the way human beings understand themselves and the world.
+  </p>
+</section>
+
+<main class="container">
+
+  <div class="intro">
+    <h2>Meet the thinkers.</h2>
+
+    <p>
+      Explore the lives, ideas, and philosophical thought of the people
+      who gave philosophy its questions — and its enduring conversations.
+    </p>
+  </div>
+
+  <section id="authorGrid" class="author-grid">
+    <div class="loading">
+      Loading thinkers...
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Philosophy & Literature
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL =
+  "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+const client =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+function escapeHtml(value){
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function formatDate(year,era){
+  if(!year) return "";
+  return year + (era ? " " + era : "");
+}
+
+async function loadThinkers(){
+
+  const grid =
+    document.getElementById("authorGrid");
+
+  const { data: authors, error } =
+    await client
+      .from("authors")
+      .select("*")
+      .order("name");
+
+  if(error){
+
+    console.error(error);
+
+    grid.innerHTML =
+      '<div class="error">Could not load thinkers.</div>';
+
+    return;
+  }
+
+  if(!authors || authors.length === 0){
+
+    grid.innerHTML =
+      '<div class="empty">No thinkers have been added yet.</div>';
+
+    return;
+  }
+
+  grid.innerHTML =
+    authors.map(author => {
+
+      let dates = "";
+
+      if(author.birth_year){
+        dates += formatDate(
+          author.birth_year,
+          author.birth_era
+        );
+      }
+
+      if(author.death_year){
+        dates +=
+          " – " +
+          formatDate(
+            author.death_year,
+            author.death_era
+          );
+      }
+
+      const bio =
+        author.bio ||
+        "Explore this thinker's life and ideas.";
+
+      const image = author.image_url
+        ? `
+          <img
+            class="author-image"
+            src="${escapeHtml(author.image_url)}"
+            alt="${escapeHtml(author.name)}"
+          >
+        `
+        : `
+          <div class="author-image no-image">
+            ${escapeHtml((author.name || "?").charAt(0))}
+          </div>
+        `;
+
+      return `
+        <a
+          class="author-card"
+          href="author.html?id=${encodeURIComponent(author.id)}"
+        >
+
+          ${image}
+
+          <div class="author-content">
+
+            <div class="author-label">
+              Thinker
+            </div>
+
+            <h3>
+              ${escapeHtml(author.name)}
+            </h3>
+
+            <div class="dates">
+              ${escapeHtml(dates)}
+            </div>
+
+            <div class="author-bio">
+              ${escapeHtml(bio)}
+            </div>
+
+            <span class="read-profile">
+              VIEW PROFILE →
+            </span>
+
+          </div>
+
+        </a>
+      `;
+
+    }).join("");
+}
+
+loadThinkers();
+</script>
+
+</body>
+</html>
