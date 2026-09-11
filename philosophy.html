@@ -269,7 +269,170 @@ nav {
         line-height: 1.4;
     }
 }
-    
+/* PHILOSOPHY MAP */
+
+.explore {
+    max-width: 1200px;
+    margin: auto;
+    padding: 110px 6% 120px;
+}
+
+.explore-intro {
+    max-width: 700px;
+    margin-bottom: 65px;
+}
+
+.explore-label {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #9a7b3f;
+    margin-bottom: 18px;
+}
+
+.explore h2 {
+    font-size: clamp(38px, 6vw, 68px);
+    line-height: 1.05;
+    font-weight: normal;
+    color: #202334;
+    margin-bottom: 22px;
+}
+
+.explore-intro p {
+    font-size: 18px;
+    color: #625d54;
+    max-width: 650px;
+}
+
+/* THE MAP */
+
+.philosophy-map {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 14px;
+}
+
+.map-item {
+    position: relative;
+    min-height: 220px;
+    padding: 30px;
+    text-decoration: none;
+    overflow: hidden;
+    border: 1px solid rgba(30, 34, 51, 0.16);
+    background: #eee8dc;
+    color: #202334;
+    transition: transform 0.35s ease, background 0.35s ease;
+}
+
+.map-item:hover {
+    transform: translateY(-5px);
+    background: #e7dfd0;
+}
+
+.map-item::after {
+    content: "→";
+    position: absolute;
+    right: 25px;
+    bottom: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+    color: #a47f35;
+}
+
+.map-number {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #9a7b3f;
+}
+
+.map-item h3 {
+    margin-top: 45px;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+.map-item p {
+    margin-top: 10px;
+    max-width: 280px;
+    font-size: 14px;
+    color: #6a645a;
+}
+
+/* DIFFERENT SIZES */
+
+.map-thinkers {
+    grid-column: span 7;
+    background: #172039;
+    color: #f3eee4;
+}
+
+.map-thinkers p {
+    color: #c5c2b9;
+}
+
+.map-thinkers .map-number {
+    color: #d4b45f;
+}
+
+.map-ideas {
+    grid-column: span 5;
+}
+
+.map-traditions {
+    grid-column: span 5;
+}
+
+.map-questions {
+    grid-column: span 7;
+    background: #dfd5c3;
+}
+
+.map-periods {
+    grid-column: span 4;
+}
+
+.map-works {
+    grid-column: span 8;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .explore {
+        padding: 80px 7% 90px;
+    }
+
+    .explore h2 {
+        font-size: 42px;
+    }
+
+    .explore-intro p {
+        font-size: 17px;
+    }
+
+    .philosophy-map {
+        display: block;
+    }
+
+    .map-item {
+        min-height: 205px;
+        margin-bottom: 14px;
+        padding: 27px;
+    }
+
+    .map-item h3 {
+        margin-top: 38px;
+        font-size: 29px;
+    }
+
+    .map-item p {
+        font-size: 14px;
+        max-width: 270px;
+    }
+    }
 </style>
 </head>
 
