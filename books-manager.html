@@ -974,7 +974,7 @@ async function uploadBookPDF() {
   const {
     error
   } = await client.storage
-    .from("Book-Files")
+    .from("book-files")
     .upload(filePath, file, {
       cacheControl: "3600",
       upsert: false
