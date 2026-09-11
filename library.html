@@ -288,6 +288,55 @@ main{
   gap:24px;
   align-items:stretch;
 }
+   /* =========================
+   COLLECTION ATMOSPHERE
+========================= */
+
+.books{
+  position:relative;
+  padding-top:28px;
+}
+
+.books::before{
+  content:"THE OPEN SHELVES";
+  position:absolute;
+  top:0;
+  left:0;
+  color:var(--sage);
+  font-family:Arial,sans-serif;
+  font-size:9px;
+  font-weight:bold;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.book{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.65),
+      rgba(229,221,208,.35)
+    ),
+    var(--paper-light);
+}
+
+.book:nth-child(3n+1){
+  transform:translateY(8px);
+}
+
+.book:nth-child(3n+2){
+  transform:translateY(0);
+}
+
+.book:nth-child(3n){
+  transform:translateY(14px);
+}
+
+.book:nth-child(3n+1):hover,
+.book:nth-child(3n+2):hover,
+.book:nth-child(3n):hover{
+  transform:translateY(-3px);
+} 
 
 /* =========================
    BOOK CARD
