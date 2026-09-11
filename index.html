@@ -4,12 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <meta
+    name="description"
+    content="Philosophy & Literature — a growing digital archive of ideas, books, quotations, essays and visual culture."
+  >
+
   <title>Philosophy & Literature</title>
 
-  <meta name="description"
-        content="A digital archive of philosophy, literature, books, quotations, essays and ideas.">
-
   <style>
+    :root {
+      --ink: #172541;
+      --deep: #0b1425;
+      --paper: #f4efe4;
+      --light: #fbf8f1;
+      --gold: #b08a3e;
+      --gold-light: #d6bd7c;
+      --muted: #6b675f;
+      --line: #d9d1c1;
+
+      --burgundy: #682f36;
+      --forest: #334838;
+      --brown: #563d2e;
+      --charcoal: #202226;
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -20,365 +38,1206 @@
 
     body {
       margin: 0;
+      background: var(--paper);
+      color: #27272d;
       font-family: Georgia, "Times New Roman", serif;
-      background: #f5f1e8;
-      color: #29251f;
-      line-height: 1.7;
+      line-height: 1.65;
     }
 
-    header {
-      background: #29251f;
-      color: white;
-      text-align: center;
-      padding: 65px 20px 55px;
+    a {
+      color: inherit;
     }
 
-    header h1 {
-      margin: 0 0 12px;
-      font-size: 42px;
-    }
+    /* =========================
+       NAVIGATION
+    ========================= */
 
-    header p {
-      margin: 0;
-      color: #d8d2c7;
-      font-size: 17px;
-    }
-
-    nav {
+    .site-nav {
       position: sticky;
       top: 0;
-      z-index: 10;
-      background: #3d372f;
-      padding: 14px 10px;
-      text-align: center;
+      z-index: 100;
+      background: rgba(11, 20, 37, 0.98);
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
-    nav a {
-      display: inline-block;
-      color: white;
+    .nav-inner {
+      max-width: 1240px;
+      min-height: 66px;
+      margin: auto;
+      padding: 0 28px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .brand {
       text-decoration: none;
-      margin: 4px 9px;
+      color: var(--gold-light);
+
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 17px;
+    }
+
+    .nav-links a {
+      color: #f5f3ed;
+      text-decoration: none;
+
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+
+      opacity: .88;
+      transition: .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-light);
+      opacity: 1;
+    }
+
+    .admin-link {
+      color: var(--gold-light) !important;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 650px;
+
+      background:
+        radial-gradient(
+          circle at 78% 25%,
+          rgba(176,138,62,.17),
+          transparent 23%
+        ),
+        linear-gradient(
+          135deg,
+          var(--deep) 0%,
+          var(--ink) 60%,
+          #263657 100%
+        );
+
+      color: white;
+
+      display: grid;
+      align-items: center;
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 540px;
+      height: 540px;
+
+      right: -210px;
+      bottom: -280px;
+
+      border: 1px solid rgba(214,189,124,.18);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 350px;
+      height: 350px;
+
+      right: -100px;
+      bottom: -185px;
+
+      border: 1px solid rgba(214,189,124,.10);
+      border-radius: 50%;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+
+      width: min(1180px, calc(100% - 56px));
+
+      margin: auto;
+      padding: 95px 0 110px;
+
+      display: grid;
+      grid-template-columns: 1.25fr .55fr;
+      gap: 70px;
+
+      align-items: end;
+    }
+
+    .eyebrow {
+      margin-bottom: 22px;
+
+      color: var(--gold-light);
+
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      font-weight: bold;
+
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 0;
+
+      max-width: 850px;
+
+      font-size: clamp(55px, 7vw, 94px);
+      line-height: .94;
+
+      font-weight: normal;
+      letter-spacing: -3px;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+
+      margin: 30px 0 0;
+
+      color: #d9dbe1;
+      font-size: 18px;
+    }
+
+    .hero-side {
+      max-width: 360px;
+
+      padding-left: 28px;
+
+      border-left: 1px solid rgba(214,189,124,.45);
+
+      color: #d8d8d5;
       font-size: 15px;
     }
 
-    nav a:hover {
-      color: #d6b36a;
-    }
+    .hero-side strong {
+      display: block;
 
-    .hero {
-      max-width: 850px;
-      margin: auto;
-      padding: 85px 20px 65px;
-      text-align: center;
-    }
+      margin-bottom: 8px;
 
-    .label {
-      color: #80643b;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 13px;
-      font-weight: bold;
-    }
+      color: white;
 
-    .hero h2 {
-      font-size: 38px;
-      margin: 12px 0 18px;
-    }
-
-    .hero p {
-      max-width: 700px;
-      margin: auto;
       font-size: 18px;
-      color: #514b43;
+      font-weight: normal;
     }
 
-    .divider {
-      width: 70px;
-      height: 2px;
-      background: #a38a5b;
-      margin: 28px auto;
-    }
+    /* =========================
+       OPENING THOUGHT
+    ========================= */
 
-    .section-title {
+    .quote-intro {
+      padding: 95px 24px 105px;
+
+      background: var(--light);
+
       text-align: center;
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
+
+      border-bottom: 1px solid var(--line);
     }
 
-    .section-title h2 {
-      font-size: 30px;
-    }
+    .section-label {
+      color: var(--gold);
 
-    .sections {
-      max-width: 1100px;
-      margin: 0 auto 80px;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .card {
-      background: #fffdf8;
-      border: 1px solid #e1dbcf;
-      padding: 28px;
-      border-radius: 6px;
-      box-shadow: 0 4px 14px rgba(50,40,25,0.07);
-    }
-
-    .number {
-      color: #9a8050;
-      font-size: 13px;
-      letter-spacing: 1px;
-    }
-
-    .card h3 {
-      margin: 7px 0 10px;
-      font-size: 22px;
-    }
-
-    .card p {
-      color: #5c554d;
-    }
-
-    .card a {
-      color: #6b4f2a;
-      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
       font-weight: bold;
+
+      letter-spacing: 3px;
+      text-transform: uppercase;
     }
 
-    .quote-section {
-      background: #ebe4d7;
-      padding: 70px 20px;
-      text-align: center;
+    .quote-intro blockquote {
+      max-width: 900px;
+
+      margin: 22px auto 0;
+
+      color: #292832;
+
+      font-size: clamp(30px, 4.2vw, 53px);
+      line-height: 1.08;
+
+      font-style: italic;
     }
 
-    blockquote {
-      max-width: 750px;
+    .quote-intro cite {
+      display: block;
+
+      margin-top: 23px;
+
+      color: var(--muted);
+
+      font-size: 14px;
+      font-style: normal;
+    }
+
+    /* =========================
+       EXPLORE
+    ========================= */
+
+    .explore {
+      max-width: 1240px;
+
       margin: auto;
-      font-size: 24px;
+      padding: 105px 28px 110px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+
+      gap: 30px;
+
+      margin-bottom: 42px;
+    }
+
+    .section-heading h2 {
+      margin: 8px 0 0;
+
+      color: #24242b;
+
+      font-size: clamp(40px, 5vw, 62px);
+      line-height: 1;
+
+      font-weight: normal;
+      letter-spacing: -1.5px;
+    }
+
+    .section-heading p {
+      max-width: 430px;
+
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 15px;
+    }
+
+    /* MAIN TWO CARDS */
+
+    .feature-grid {
+      display: grid;
+
+      grid-template-columns: 1.3fr .7fr;
+
+      gap: 16px;
+    }
+
+    .feature-card,
+    .archive-card {
+      position: relative;
+      overflow: hidden;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      text-decoration: none;
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .feature-card:hover,
+    .archive-card:hover {
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 15px 35px rgba(20,20,20,.14);
+    }
+
+    .feature-card::after,
+    .archive-card::after {
+      content: "↗";
+
+      position: absolute;
+
+      right: 24px;
+      bottom: 18px;
+
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+
+      opacity: .8;
+    }
+
+    .feature-card {
+      min-height: 310px;
+      padding: 34px;
+    }
+
+    .philosophy {
+      background: var(--ink);
+      color: white;
+    }
+
+    .literature {
+      background: var(--burgundy);
+      color: white;
+    }
+
+    .card-small-label {
+      font-family: Arial, sans-serif;
+      font-size: 9px;
+
+      letter-spacing: 2px;
+      text-transform: uppercase;
+
+      opacity: .72;
+    }
+
+    .feature-card h3 {
+      margin: 20px 0 12px;
+
+      font-size: clamp(32px, 4vw, 50px);
+      line-height: 1;
+
+      font-weight: normal;
+    }
+
+    .feature-card p {
+      max-width: 580px;
+
+      margin: 0;
+
+      font-size: 14px;
+
+      opacity: .8;
+    }
+
+    /* SMALL ARCHIVE CARDS */
+
+    .archive-row {
+      display: grid;
+
+      grid-template-columns: repeat(4, 1fr);
+
+      gap: 16px;
+
+      margin-top: 16px;
+    }
+
+    .archive-card {
+      min-height: 235px;
+
+      padding: 28px;
+
+      color: white;
+
+      border: 1px solid transparent;
+    }
+
+    .archive-card h3 {
+      margin: 18px 0 10px;
+
+      font-size: 30px;
+      line-height: 1;
+
+      font-weight: normal;
+    }
+
+    .archive-card p {
+      margin: 0;
+
+      font-size: 13px;
+
+      opacity: .8;
+    }
+
+    .library-card {
+      background: var(--gold);
+    }
+
+    .quotes-card {
+      background: var(--charcoal);
+    }
+
+    .articles-card {
+      background: var(--forest);
+    }
+
+    .gallery-card {
+      background: var(--brown);
+    }
+
+    /* =========================
+       FOLLOW A THREAD
+    ========================= */
+
+    .latest {
+      padding: 100px 28px;
+
+      background: #e9e1d3;
+    }
+
+    .latest-inner {
+      max-width: 1180px;
+
+      margin: auto;
+    }
+
+    .latest-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 18px;
+    }
+
+    .latest-item {
+      display: block;
+
+      min-height: 225px;
+
+      padding: 28px;
+
+      background: var(--light);
+
+      border-top: 3px solid var(--gold);
+
+      text-decoration: none;
+    }
+
+    .latest-item .meta {
+      color: var(--gold);
+
+      font-family: Arial, sans-serif;
+      font-size: 9px;
+      font-weight: bold;
+
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .latest-item h3 {
+      margin: 20px 0 10px;
+
+      font-size: 25px;
+      line-height: 1.15;
+
+      font-weight: normal;
+    }
+
+    .latest-item p {
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 14px;
+    }
+
+    .latest-link {
+      display: inline-block;
+
+      margin-top: 25px;
+
+      color: var(--ink);
+
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+
+      text-decoration: none;
+    }
+
+    /* =========================
+       DYNAMIC QUOTES
+    ========================= */
+
+    .dynamic-quotes {
+      padding: 105px 24px;
+
+      background: var(--light);
+
+      text-align: center;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    #quotesContainer {
+      max-width: 850px;
+
+      margin: 22px auto 0;
+    }
+
+    #quotesContainer blockquote {
+      margin: 0;
+
+      font-size: clamp(27px, 4vw, 43px);
+      line-height: 1.12;
+
       font-style: italic;
     }
 
     .quote-note {
-      margin-top: 18px;
-      color: #6b6257;
+      margin-top: 17px;
+
+      color: var(--muted);
+
+      font-size: 13px;
     }
 
+    /* =========================
+       ABOUT
+    ========================= */
+
     .about {
-      max-width: 800px;
+      max-width: 1080px;
+
       margin: auto;
-      padding: 75px 20px;
-      text-align: center;
+
+      padding: 115px 28px;
+
+      display: grid;
+
+      grid-template-columns: .7fr 1.3fr;
+
+      gap: 80px;
+
+      align-items: start;
     }
 
     .about h2 {
-      font-size: 30px;
+      margin: 8px 0 0;
+
+      font-size: clamp(40px, 5vw, 60px);
+      line-height: 1;
+
+      font-weight: normal;
     }
 
-    .about p {
-      color: #514b43;
+    .about-copy p {
+      margin: 0 0 18px;
+
+      color: #514d46;
+
       font-size: 17px;
     }
 
-    footer {
-      background: #29251f;
-      color: #d8d2c7;
+    /* =========================
+       CLOSING
+    ========================= */
+
+    .closing {
+      padding: 105px 24px;
+
+      background: var(--deep);
+
+      color: white;
+
       text-align: center;
-      padding: 30px 20px;
     }
 
-    @media (max-width: 800px) {
-      header h1 {
-        font-size: 34px;
+    .closing h2 {
+      margin: 12px 0 18px;
+
+      font-size: clamp(43px, 6vw, 72px);
+      line-height: .98;
+
+      font-weight: normal;
+    }
+
+    .closing p {
+      max-width: 570px;
+
+      margin: auto;
+
+      color: #c9cbd0;
+    }
+
+    .closing a {
+      display: inline-block;
+
+      margin-top: 28px;
+
+      color: var(--gold-light);
+
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+
+      letter-spacing: 1px;
+      text-transform: uppercase;
+
+      text-decoration: none;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      padding: 30px 28px;
+
+      background: #080f1c;
+
+      color: #aeb2ba;
+    }
+
+    .footer-inner {
+      max-width: 1180px;
+
+      margin: auto;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       TABLET
+    ========================= */
+
+    @media (max-width: 850px) {
+
+      .nav-inner {
+        padding: 0 16px;
+
+        min-height: 58px;
       }
 
-      .hero h2 {
-        font-size: 31px;
+      .brand {
+        font-size: 10px;
+        letter-spacing: 1.5px;
       }
 
-      .sections {
+      .nav-links {
+        gap: 10px;
+      }
+
+      .nav-links a {
+        font-size: 10px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-inner {
+        width: min(100% - 36px, 700px);
+
+        padding: 75px 0 80px;
+
         grid-template-columns: 1fr;
-    padding: 0 15px;
-  }
 
-  blockquote {
-    font-size: 20px;
-  }
-}
-</style>
+        gap: 42px;
+      }
+
+      .hero-side {
+        max-width: 380px;
+      }
+
+      .explore {
+        padding: 75px 18px 80px;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading p {
+        margin-top: 18px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .archive-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .latest {
+        padding: 75px 18px;
+      }
+
+      .latest-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about {
+        padding: 80px 22px;
+
+        grid-template-columns: 1fr;
+
+        gap: 28px;
+      }
+    }
+
+    /* =========================
+       PHONE
+    ========================= */
+
+    @media (max-width: 560px) {
+
+      .nav-inner {
+        align-items: flex-start;
+
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+      .nav-links {
+        justify-content: flex-end;
+
+        gap: 7px 9px;
+      }
+
+      .nav-links a {
+        font-size: 9px;
+      }
+
+      .hero h1 {
+        font-size: 54px;
+
+        letter-spacing: -2px;
+      }
+
+      .hero-copy {
+        font-size: 16px;
+      }
+
+      .quote-intro {
+        padding: 75px 20px 82px;
+      }
+
+      .explore {
+        padding-top: 70px;
+      }
+
+      .feature-card {
+        min-height: 280px;
+
+        padding: 25px;
+      }
+
+      .archive-row {
+        grid-template-columns: 1fr;
+      }
+
+      .archive-card {
+        min-height: 190px;
+
+        padding: 25px;
+      }
+
+      .dynamic-quotes {
+        padding: 78px 20px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header id="home">
-  <h1>Philosophy & Literature</h1>
-  <p>A digital archive of ideas, books, literature and thought.</p>
-</header>
+  <!-- =========================
+       NAVIGATION
+  ========================= -->
 
-<nav>
-  <a href="#home">Home</a>
-  <a href="#philosophy">Philosophy</a>
-  <a href="literature.html">Literature</a>
-  <a href="#library">Library</a>
-  <a href="quotes.html">Quotes</a>
-  <a href="articles.html">Articles</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="#about">About</a>
-  <a href="admin.html">Admin</a>
-</nav>
+  <nav class="site-nav">
 
-<main>
+    <div class="nav-inner">
 
-<section class="hero">
-  <div class="label">A Growing Digital Archive</div>
-  <h2>Explore Ideas. Discover Books. Think Deeper.</h2>
-  <div class="divider"></div>
-  <p>
-    A public educational space dedicated to philosophy and literature,
-    bringing together thinkers, writers, books, quotations, essays and
-    visual material in one growing archive.
-  </p>
-</section>
+      <a class="brand" href="#home">
+        Philosophy & Literature
+      </a>
 
-<div class="section-title">
-  <h2>Explore the Archive</h2>
-  <p>Choose a collection to begin exploring.</p>
-</div>
+      <div class="nav-links">
 
-<section class="sections">
+        <a href="#home">Home</a>
 
-<article class="card" id="philosophy">
-  <div class="number">01 — IDEAS</div>
-  <h3>Philosophy</h3>
-  <p>Philosophers, schools of thought, concepts, arguments and questions that have shaped human thinking.</p>
-  <a href="philosophy.html">Explore Philosophy →</a>
-</article>
+        <a href="#philosophy">Philosophy</a>
 
-<article class="card" id="literature">
-  <div class="number">02 — WRITING</div>
-  <h3>Literature</h3>
-  <p>Writers, poetry, fiction, essays, literary movements and the ideas found within literature.</p>
-  <a href="literature.html">Explore Literature →</a>
-</article>
+        <a href="literature.html">Literature</a>
 
-<article class="card" id="library">
-  <div class="number">03 — BOOKS</div>
-  <h3>Library</h3>
-  <p>Browse educational and legally available books and reading resources.</p>
-  <a href="library.html">Open Library →</a>">Open Library →</a>
-</article>
+        <a href="#library">Library</a>
 
-<article class="card" id="quotes">
-  <div class="number">04 — WORDS</div>
-  <h3>Quotes</h3>
-  <p>A collection of memorable philosophical and literary quotations with their sources.</p>
-  <a href="quotes.html">Read Quotes →</a>
-</article>
+        <a href="quotes.html">Quotes</a>
 
-<article class="card" id="articles">
-  <div class="number">05 — NOTES</div>
-  <h3>Articles & Notes</h3>
-  <p>Essays, explanations, study notes and original writing about philosophy and literature.</p>
-  <a href="articles.html">Read Articles →</a>
-</article>
+        <a href="articles.html">Articles</a>
 
-<article class="card" id="gallery">
-  <div class="number">06 — VISUALS</div>
-  <h3>Gallery</h3>
-  <p>Posters, artwork and visual material connected with philosophical and literary ideas.</p>
-  <a href="gallery.html">View Gallery →</a>
-</article>
+        <a href="gallery.html">Gallery</a>
 
-</section>
+        <a href="#about">About</a>
 
-<section class="quote-section" id="quotes">
-  <div id="quotesContainer">
-    <p>Loading quotes...</p>
-  </div>
-</section>
+        <a class="admin-link" href="admin.html">Admin</a>
 
-<section class="about" id="about">
-  <h2>About the Archive</h2>
-  <div class="divider"></div>
-  <p>
-    Philosophy & Literature is being developed as a digital educational
-    archive for readers, students and anyone curious about ideas.
-  </p>
-  <p>
-    The archive will grow to include books, philosophers, authors,
-    quotations, articles and visual resources.
-  </p>
-</section>
+      </div>
 
-</main>
+    </div>
 
-<footer>
-  <p>© Philosophy & Literature</p>
-  <p>Built as an educational digital archive.</p>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </nav>
 
-<script>
-  const SUPABASE_URL = "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
-  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
 
-  const { createClient } = supabase;
+  <!-- =========================
+       HERO
+  ========================= -->
 
-  const client = createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+  <header class="hero" id="home">
 
-  async function loadPublishedQuotes() {
+    <div class="hero-inner">
 
-    const container = document.getElementById("quotesContainer");
+      <div>
 
-    const { data, error } = await client
-      .from("quotes")
-      .select(`
-        quote_text,
-        source,
-        authors(name)
-      `)
-      .eq("is_published", true)
-      .order("created_at", { ascending: false });
+        <div class="eyebrow">
+          An evolving digital archive
+        </div>
 
-    if (error) {
-      container.innerHTML = "<p>Unable to load quotes.</p>";
-      return;
-    }
+        <h1>
+          Ideas worth<br>
+          thinking about.
+        </h1>
 
-    if (!data || data.length === 0) {
-      container.innerHTML = "<p>No published quotes yet.</p>";
-      return;
-    }
+        <p class="hero-copy">
+          Philosophy, literature, books, voices and questions —
+          gathered in one place for readers who want to look
+          a little deeper.
+        </p>
 
-    container.innerHTML = data.map(quote => {
+      </div>
 
-      const author = quote.authors?.name || "Unknown author";
-      const source = quote.source
-        ? `<div class="quote-note">— ${escapeHtml(author)}, ${escapeHtml(quote.source)}</div>`
-        : `<div class="quote-note">— ${escapeHtml(author)}</div>`;
 
-      return `
-        <blockquote>
-          “${escapeHtml(quote.quote_text)}”
-        </blockquote>
-        ${source}
-      `;
+      <div class="hero-side">
 
-    }).join("");
-  }
+        <strong>
+          Read slowly.
+        </strong>
 
-  function escapeHtml(text) {
-    const div = document.createElement("div");
-    div.textContent = text || "";
-    return div.innerHTML;
-  }
+        There is no final answer here.
+        Only ideas to encounter, question,
+        remember and carry with you.
 
-  loadPublishedQuotes();
-        </script>
-</body>
-</html>
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       OPENING THOUGHT
+  ========================= -->
+
+  <section class="quote-intro">
+
+    <div class="section-label">
+      Opening thought
+    </div>
+
+    <blockquote>
+      “The end of knowledge is the beginning of wisdom.”
+    </blockquote>
+
+    <cite>
+      — J. Krishnamurti
+    </cite>
+
+  </section>
+
+
+  <main>
+
+    <!-- =========================
+         EXPLORE ARCHIVE
+    ========================= -->
+
+    <section class="explore">
+
+      <div class="section-heading">
+
+        <div>
+
+          <div class="section-label">
+            Explore
+          </div>
+
+          <h2>
+            Enter the archive.
+          </h2>
+
+        </div>
+
+        <p>
+          Two worlds at the heart of the project,
+          followed by the smaller collections that
+          keep the archive growing.
+        </p>
+
+      </div>
+
+
+      <!-- MAIN SECTIONS -->
+
+      <div class="feature-grid">
+
+
+        <!-- PHILOSOPHY -->
+
+        <a
+          class="feature-card philosophy"
+          id="philosophy"
+          href="philosophy.html"
+        >
+
+          <div class="card-small-label">
+            01 — Ideas
+          </div>
+
+          <div>
+
+            <h3>
+              Philosophy
+            </h3>
+
+            <p>
+              Thinkers, traditions, concepts, periods,
+              works and the questions that have followed
+              humanity across centuries.
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- LITERATURE -->
+
+        <a
+          class="feature-card literature"
+          href="literature.html"
+        >
+
+          <div class="card-small-label">
+            02 — Writing
+          </div>
+
+          <div>
+
+            <h3>
+              Literature
+            </h3>
+
+            <p>
+              Writers, poetry, fiction, essays,
+              movements and the ideas hidden inside
+              literature.
+            </p>
+
+          </div>
+
+        </a>
+
+      </div>
+
+
+      <!-- ARCHIVE COLLECTIONS -->
+
+      <div class="archive-row">
+
+
+        <!-- LIBRARY -->
+
+        <a
+          class="archive-card library-card"
+          id="library"
+          href="library.html"
+        >
+
+          <div class="card-small-label">
+            03 — Books
+          </div>
+
+          <div>
+
+            <h3>
+              Library
+            </h3>
+
+            <p>
+              Books and reading resources
+              for continued study.
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- QUOTES -->
+
+        <a
+          class="archive-card quotes-card"
+          href="quotes.html"
+        >
+
+          <div class="card-small-label">
+            04 — Words
+          </div>
+
+          <div>
+
+            <h3>
+              Quotes
+            </h3>
+
+            <p>
+              Memorable voices,
+              with their sources.
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- ARTICLES -->
+
+        <a
+          class="archive-card articles-card"
+          href="articles.html"
+        >
+
+          <div class="card-small-label">
+            05 — Notes
+          </div>
+
+          <div>
+
+            <h3>
+              Articles
+            </h3>
+
+            <p>
+              Essays, explanations
+              and original notes.
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- GALLERY -->
+
+        <a
+          class="archive-card gallery-card"
+          href="gallery.html"
+        >
+
+          <div class="card-small-label">
+            06 — Visuals
+          </div>
+
+          <div>
+
+            <h3>
+              Gallery
+            </h3>
+
+            <p>
+              Images and visual material
+              connected to ideas.
+            </p>
+
+          </div>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOLLOW A THREAD
+    ========================= -->
+
+    <section class="latest">
+
+      <div class="latest-inner">
+
+        <div class="section-heading">
+
+          <div>
+
+            <div class="section-label">
+              Continue reading
+            </div>
+
+            <h2>
+              Follow a thread.
+            </h2>
+
+          </div>
+
+          <p>
+            The archive is meant to be explored
+            rather than consumed all at once.
+          </p>
+
+        </div>
+
+
+        <div class="latest-grid">
+
+
+          <a
+            class="latest-item"
+            href="philosophy.html"
+          >
+
+            <div class="meta">
+              Philosophy
+            </div>
+
+            <h3>
+              Meet the thinkers.
+            </h3>
+
+            <p>
+              Follow the people and traditions behind
+              some of humanity's most persistent questions.
+            </p>
+
+            <span class="latest-link">
+              Explore Philosophy →
+  </span>
+  
