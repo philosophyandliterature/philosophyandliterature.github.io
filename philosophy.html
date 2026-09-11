@@ -6,994 +6,1069 @@
 
 <title>Philosophy — Philosophy & Literature</title>
 
-<meta name="description" content="Explore philosophy through thinkers, ideas, traditions, questions, works and the great search for wisdom.">
+<meta name="description"
+content="Explore philosophy through thinkers, ideas, traditions, questions, periods and works.">
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html {
-    scroll-behavior: smooth;
+html{
+    scroll-behavior:smooth;
 }
 
-body {
-    background: #f2ede3;
-    color: #202332;
-    font-family: Georgia, "Times New Roman", serif;
-    line-height: 1.7;
+body{
+    background:#f3eee4;
+    color:#211f22;
+    font-family:Georgia,"Times New Roman",serif;
+    line-height:1.7;
 }
 
-a {
-    color: inherit;
+a{
+    color:inherit;
 }
 
-.container {
-    width: min(1180px, 88%);
-    margin: auto;
+.container{
+    width:min(1180px,90%);
+    margin:auto;
 }
-
 
 /* =========================
    NAVIGATION
 ========================= */
 
-.site-nav {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: rgba(12, 19, 36, 0.98);
-    border-bottom: 1px solid rgba(218, 181, 91, 0.35);
+.site-nav{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:#0b1224;
+    border-bottom:1px solid rgba(218,181,91,.3);
 }
 
-.nav-inner {
-    width: min(1280px, 92%);
-    margin: auto;
-    min-height: 68px;
+.nav-inner{
+    width:min(1280px,92%);
+    min-height:66px;
+    margin:auto;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
 }
 
-.brand {
-    color: #f2d993;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    white-space: nowrap;
+.brand{
+    color:#e1c36f;
+    text-decoration:none;
+    font-size:15px;
+    font-weight:bold;
+    letter-spacing:1px;
+    white-space:nowrap;
 }
 
-.nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 18px;
+.nav-links{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    gap:17px;
 }
 
-.nav-links a {
-    color: #eee9dd;
-    text-decoration: none;
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    letter-spacing: .3px;
+.nav-links a{
+    color:#e9e5dc;
+    text-decoration:none;
+    font-family:Arial,sans-serif;
+    font-size:12px;
 }
 
-.nav-links a:hover {
-    color: #dfbb62;
+.nav-links a:hover{
+    color:#e0bd61;
 }
-
 
 /* =========================
    HERO
 ========================= */
 
-.hero {
-    min-height: 82vh;
+.hero{
+    min-height:88vh;
+
     background:
-        radial-gradient(circle at 80% 20%, rgba(210,170,75,.16), transparent 30%),
-        radial-gradient(circle at 15% 80%, rgba(73,90,130,.20), transparent 34%),
-        #0c1428;
+        radial-gradient(
+            circle at 75% 20%,
+            rgba(205,163,67,.18),
+            transparent 27%
+        ),
+        radial-gradient(
+            circle at 15% 75%,
+            rgba(61,85,130,.28),
+            transparent 34%
+        ),
+        #0b1328;
 
-    color: #f4efe5;
-    position: relative;
-    overflow: hidden;
+    color:#f5f0e7;
+    position:relative;
+    overflow:hidden;
 }
 
-.hero::before {
-    content: "";
-    position: absolute;
+.hero::before{
+    content:"";
+    position:absolute;
 
-    width: 700px;
-    height: 700px;
+    width:720px;
+    height:720px;
 
-    border: 1px solid rgba(218,181,91,.13);
-    border-radius: 50%;
+    border:1px solid rgba(220,184,92,.12);
+    border-radius:50%;
 
-    right: -280px;
-    top: -250px;
+    right:-330px;
+    top:-290px;
 }
 
-.hero::after {
-    content: "";
-    position: absolute;
+.hero::after{
+    content:"";
+    position:absolute;
 
-    width: 460px;
-    height: 460px;
+    width:500px;
+    height:500px;
 
-    border: 1px solid rgba(218,181,91,.08);
-    border-radius: 50%;
+    border:1px solid rgba(220,184,92,.08);
+    border-radius:50%;
 
-    left: -270px;
-    bottom: -260px;
+    left:-320px;
+    bottom:-330px;
 }
 
-.hero-content {
-    min-height: 82vh;
+.hero-content{
+    min-height:88vh;
+    width:min(1180px,90%);
+    margin:auto;
 
-    width: min(1180px, 88%);
-    margin: auto;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    position: relative;
-    z-index: 2;
+    position:relative;
+    z-index:2;
 }
 
-.eyebrow {
-    color: #d8b45a;
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    margin-bottom: 25px;
+.eyebrow{
+    color:#d8b45c;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    margin-bottom:25px;
 }
 
-.hero h1 {
-    font-size: clamp(64px, 11vw, 145px);
-    font-weight: normal;
-    line-height: .9;
-    letter-spacing: -6px;
-    max-width: 100%;
+.hero h1{
+    font-size:clamp(65px,12vw,150px);
+    font-weight:normal;
+    line-height:.88;
+    letter-spacing:-7px;
 }
 
-.hero-description {
-    margin-top: 38px;
+.hero-text{
+    max-width:680px;
+    margin-top:40px;
 
-    max-width: 650px;
-
-    color: #c9c8c2;
-    font-size: 19px;
+    color:#c8c7c1;
+    font-size:18px;
 }
 
-.gold-line {
-    width: 100px;
-    height: 1px;
-    background: #d6b35b;
-    margin-top: 45px;
+.hero-line{
+    width:110px;
+    height:1px;
+    background:#d4ae54;
+    margin-top:45px;
 }
-
 
 /* =========================
-   OPENING QUOTE
+   OPENING THOUGHT
 ========================= */
 
-.opening {
-    padding: 120px 0 130px;
-    text-align: center;
+.opening{
+    padding:125px 0 135px;
+    text-align:center;
 }
 
-.opening-label,
-.section-label {
-    color: #957741;
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
+.label{
+    color:#97793f;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:4px;
+    text-transform:uppercase;
 }
 
-.quote-symbol {
-    color: #c59d43;
-    font-size: 78px;
-    line-height: .8;
-    margin: 35px 0 25px;
+.quote-mark{
+    color:#bd9540;
+    font-size:82px;
+    line-height:.7;
+    margin:35px 0 25px;
 }
 
-.opening blockquote {
-    max-width: 850px;
-    margin: auto;
+.opening blockquote{
+    max-width:900px;
+    margin:auto;
 
-    color: #25283a;
-
-    font-size: clamp(30px, 5vw, 53px);
-    font-style: italic;
-    line-height: 1.3;
+    color:#242535;
+    font-size:clamp(30px,5vw,55px);
+    line-height:1.25;
+    font-style:italic;
 }
 
-.quote-author {
-    margin-top: 30px;
+.quote-author{
+    margin-top:28px;
 
-    color: #686257;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    letter-spacing: 1px;
+    color:#70695e;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    letter-spacing:1px;
 }
-
 
 /* =========================
-   SECTION INTRO
+   EXPLORE INTRO
 ========================= */
 
-.section {
-    padding: 110px 0;
+.section{
+    padding:110px 0;
 }
 
-.section-heading {
-    max-width: 760px;
-    margin-bottom: 60px;
+.section-heading{
+    max-width:760px;
+    margin-bottom:55px;
 }
 
-.section-heading h2 {
-    margin-top: 15px;
+.section-heading h2{
+    margin-top:13px;
 
-    color: #202332;
-
-    font-size: clamp(42px, 7vw, 75px);
-    font-weight: normal;
-    line-height: 1.02;
+    color:#202333;
+    font-size:clamp(42px,7vw,76px);
+    font-weight:normal;
+    line-height:1;
 }
 
-.section-heading p {
-    margin-top: 22px;
+.section-heading p{
+    margin-top:22px;
+    max-width:650px;
 
-    color: #686157;
-    font-size: 17px;
-    max-width: 650px;
+    color:#696257;
+    font-size:17px;
 }
-
 
 /* =========================
    PHILOSOPHY MAP
 ========================= */
 
-.map {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 14px;
+.map{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:14px;
 }
 
-.map-card {
-    min-height: 240px;
+.map-card{
+    min-height:270px;
+    padding:30px;
 
-    padding: 30px;
+    text-decoration:none;
 
-    display: flex;
-    flex-direction: column;
+    display:flex;
+    flex-direction:column;
 
-    text-decoration: none;
+    position:relative;
+    overflow:hidden;
 
-    border: 1px solid rgba(32,35,50,.14);
-    background: #e9e2d4;
-
-    transition: transform .3s ease, background .3s ease;
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
 }
 
-.map-card:hover {
-    transform: translateY(-5px);
-    background: #e2d9c9;
+.map-card::after{
+    content:"";
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:50%;
+
+    right:-75px;
+    bottom:-75px;
 }
 
-.map-card.dark {
-    background: #172039;
-    color: #f4efe5;
+.map-card:hover{
+    transform:translateY(-7px);
+    box-shadow:0 18px 40px rgba(20,20,30,.14);
 }
 
-.map-card.dark p {
-    color: #c6c5bf;
+.map-card.large{
+    grid-column:span 7;
 }
 
-.map-card.large {
-    grid-column: span 7;
+.map-card.small{
+    grid-column:span 5;
 }
 
-.map-card.small {
-    grid-column: span 5;
+.map-number{
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:3px;
+    opacity:.8;
 }
 
-.map-number {
-    color: #a38447;
+.map-card h3{
+    margin-top:auto;
 
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
+    font-size:38px;
+    font-weight:normal;
+    line-height:1;
 }
 
-.map-card.dark .map-number {
-    color: #d8b55e;
+.map-card p{
+    max-width:360px;
+    margin-top:13px;
+
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.6;
+    opacity:.82;
 }
 
-.map-card h3 {
-    margin-top: auto;
+.map-arrow{
+    align-self:flex-end;
+    margin-top:18px;
 
-    font-size: 32px;
-    font-weight: normal;
+    font-family:Arial,sans-serif;
+    font-size:22px;
 }
 
-.map-card p {
-    margin-top: 10px;
+/* SIX IDENTITIES */
 
-    max-width: 330px;
-
-    color: #6c665c;
-    font-size: 14px;
+.thinkers-card{
+    background:#172541;
+    color:#f5f0e7;
 }
 
-.map-arrow {
-    align-self: flex-end;
-
-    margin-top: 15px;
-
-    color: #a47d32;
-    font-family: Arial, sans-serif;
-    font-size: 21px;
+.ideas-card{
+    background:#b08a3e;
+    color:#211d16;
 }
 
+.traditions-card{
+    background:#682f36;
+    color:#f8eee7;
+}
+
+.questions-card{
+    background:#202226;
+    color:#f3eee4;
+}
+
+.periods-card{
+    background:#334838;
+    color:#f0eee5;
+}
+
+.works-card{
+    background:#563d2e;
+    color:#f5eee4;
+}
 
 /* =========================
-   THINKERS
+   FEATURED THINKER
 ========================= */
 
-.thinkers-intro {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 70px;
-    align-items: end;
+.feature{
+    background:#121c32;
+    color:#f4efe5;
 }
 
-.thinker-feature {
-    padding: 45px;
-
-    background: #172039;
-    color: #f4efe5;
+.feature-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:50px;
+    align-items:center;
 }
 
-.thinker-era {
-    color: #d7b45c;
-
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 3px;
+.feature .label{
+    color:#d6b35b;
 }
 
-.thinker-feature h3 {
-    margin-top: 25px;
-
-    font-size: 46px;
-    font-weight: normal;
+.feature h2{
+    margin-top:15px;
+    font-size:clamp(45px,7vw,78px);
+    font-weight:normal;
+    line-height:1;
 }
 
-.thinker-feature p {
-    margin-top: 18px;
-
-    color: #c4c3bd;
-    font-size: 15px;
+.feature-copy{
+    margin-top:25px;
+    color:#c4c4c0;
+    max-width:650px;
 }
 
-.thinker-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
+.feature-person{
+    padding:45px;
+    border:1px solid rgba(220,184,92,.3);
 
-    background: rgba(32,35,50,.15);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.04),
+            rgba(255,255,255,0)
+        );
 }
 
-.thinker {
-    padding: 22px;
-    background: #f2ede3;
+.feature-person small{
+    color:#d6b35b;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:3px;
 }
 
-.thinker span {
-    color: #92733b;
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
+.feature-person h3{
+    margin-top:20px;
+    font-size:42px;
+    font-weight:normal;
 }
 
-.thinker h4 {
-    margin-top: 8px;
-
-    font-size: 23px;
-    font-weight: normal;
+.feature-person p{
+    margin-top:16px;
+    color:#c7c5be;
+    font-size:14px;
 }
-
 
 /* =========================
    IDEAS
 ========================= */
 
-.idea-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+.idea-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
 }
 
-.idea {
-    min-height: 190px;
+.idea{
+    min-height:210px;
+    padding:30px;
 
-    padding: 28px;
+    background:#eee5d5;
+    border-top:4px solid #b08a3e;
 
-    background: #e9e2d4;
-    border-top: 2px solid #b18b43;
+    transition:transform .25s ease;
 }
 
-.idea h3 {
-    font-size: 28px;
-    font-weight: normal;
+.idea:nth-child(2){
+    border-top-color:#682f36;
 }
 
-.idea p {
-    margin-top: 10px;
-
-    color: #696359;
-    font-size: 14px;
+.idea:nth-child(3){
+    border-top-color:#334838;
 }
 
+.idea:nth-child(4){
+    border-top-color:#172541;
+}
+
+.idea:nth-child(5){
+    border-top-color:#563d2e;
+}
+
+.idea:nth-child(6){
+    border-top-color:#202226;
+}
+
+.idea:hover{
+    transform:translateY(-5px);
+}
+
+.idea h3{
+    font-size:28px;
+    font-weight:normal;
+}
+
+.idea p{
+    margin-top:12px;
+    color:#696257;
+    font-size:14px;
+}
 
 /* =========================
    TRADITIONS
 ========================= */
 
-.traditions {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+.traditions{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
 }
 
-.tradition {
-    min-height: 190px;
+.tradition{
+    min-height:210px;
+    padding:26px;
 
-    padding: 25px;
+    color:#f5f0e8;
 
-    border: 1px solid rgba(32,35,50,.13);
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
-.tradition-number {
-    color: #9b793c;
-
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
+.tradition:nth-child(1){
+    background:#172541;
 }
 
-.tradition h3 {
-    font-size: 25px;
-    font-weight: normal;
+.tradition:nth-child(2){
+    background:#682f36;
 }
 
+.tradition:nth-child(3){
+    background:#334838;
+}
+
+.tradition:nth-child(4){
+    background:#563d2e;
+}
+
+.tradition:nth-child(5){
+    background:#202226;
+}
+
+.tradition:nth-child(6){
+    background:#8b6c32;
+    color:#201c15;
+}
+
+.tradition small{
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:2px;
+    opacity:.7;
+}
+
+.tradition h3{
+    font-size:25px;
+    font-weight:normal;
+    line-height:1.15;
+}
 
 /* =========================
    TIMELINE
 ========================= */
 
-.timeline {
-    position: relative;
+.timeline{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
 
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-
-    margin-top: 60px;
-
-    border-top: 1px solid rgba(32,35,50,.25);
+    border-top:1px solid rgba(32,35,50,.3);
 }
 
-.period {
-    position: relative;
+.period{
+    min-height:220px;
+    padding:30px 18px;
 
-    padding: 30px 18px 0;
-
-    min-height: 170px;
-
-    border-left: 1px solid rgba(32,35,50,.15);
+    border-left:1px solid rgba(32,35,50,.15);
+    position:relative;
 }
 
-.period::before {
-    content: "";
+.period::before{
+    content:"";
 
-    position: absolute;
+    position:absolute;
 
-    width: 9px;
-    height: 9px;
+    width:9px;
+    height:9px;
 
-    border-radius: 50%;
+    border-radius:50%;
+    background:#b08a3e;
 
-    background: #b58c3e;
-
-    top: -5px;
-    left: -5px;
+    top:-5px;
+    left:-5px;
 }
 
-.period span {
-    color: #9a783d;
-
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
+.period span{
+    color:#94753c;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:2px;
 }
 
-.period h3 {
-    margin-top: 20px;
-
-    font-size: 23px;
-    font-weight: normal;
+.period h3{
+    margin-top:18px;
+    font-size:22px;
+    font-weight:normal;
 }
 
-.period p {
-    margin-top: 8px;
-
-    color: #716b61;
-    font-size: 13px;
+.period p{
+    margin-top:10px;
+    color:#70695e;
+    font-size:13px;
 }
-
 
 /* =========================
-   BIG QUESTIONS
+   QUESTIONS
 ========================= */
 
-.questions {
-    background: #121b32;
-    color: #f3eee4;
-
-    position: relative;
-    overflow: hidden;
+.questions{
+    background:#15171b;
+    color:#f3eee4;
 }
 
-.questions .section-heading h2 {
-    color: #f3eee4;
+.questions .section-heading h2{
+    color:#f3eee4;
 }
 
-.questions .section-heading p {
-    color: #c4c5c3;
+.questions .section-heading p{
+    color:#bdbdb8;
 }
 
-.question-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0 50px;
+.question-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    column-gap:55px;
 }
 
-.question {
-    padding: 25px 0;
+.question{
+    padding:27px 0;
 
-    border-top: 1px solid rgba(240,235,220,.17);
+    border-top:1px solid rgba(245,240,228,.15);
 
-    font-size: clamp(21px, 3vw, 31px);
+    font-size:clamp(21px,3vw,31px);
+    line-height:1.35;
 }
 
-.question::before {
-    content: "↳";
-
-    margin-right: 15px;
-
-    color: #d3ad55;
+.question::before{
+    content:"?";
+    color:#d5b25b;
+    margin-right:16px;
 }
-
 
 /* =========================
    WORKS
 ========================= */
 
-.works {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+.works{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
 }
 
-.work {
-    min-height: 250px;
+.work{
+    min-height:260px;
+    padding:30px;
 
-    padding: 30px;
+    display:flex;
+    flex-direction:column;
 
-    border: 1px solid rgba(32,35,50,.14);
+    background:#eee5d5;
 
-    display: flex;
-    flex-direction: column;
+    border:1px solid rgba(32,35,50,.12);
 }
 
-.work small {
-    color: #9a783d;
-
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
+.work:nth-child(2){
+    background:#172541;
+    color:#f5f0e7;
 }
 
-.work h3 {
-    margin-top: auto;
-
-    font-size: 28px;
-    font-weight: normal;
+.work:nth-child(3){
+    background:#682f36;
+    color:#f5f0e7;
 }
 
-.work p {
-    margin-top: 8px;
-
-    color: #6b665c;
-    font-size: 13px;
+.work:nth-child(4){
+    background:#334838;
+    color:#f5f0e7;
 }
 
+.work:nth-child(5){
+    background:#563d2e;
+    color:#f5f0e7;
+}
+
+.work:nth-child(6){
+    background:#202226;
+    color:#f5f0e7;
+}
+
+.work small{
+    color:#b08a3e;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.work h3{
+    margin-top:auto;
+    font-size:29px;
+    font-weight:normal;
+    line-height:1.15;
+}
+
+.work p{
+    margin-top:10px;
+    font-size:13px;
+    opacity:.75;
+}
 
 /* =========================
-   VOICES
+   VOICE
 ========================= */
 
-.voice {
-    padding: 75px 8%;
+.voice{
+    padding:110px 8%;
 
-    background: #ded3c0;
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(176,138,62,.14),
+            transparent 45%
+        ),
+        #0c1428;
 
-    text-align: center;
+    color:#f5f0e7;
+    text-align:center;
 }
 
-.voice blockquote {
-    max-width: 850px;
-    margin: auto;
+.voice blockquote{
+    max-width:900px;
+    margin:auto;
 
-    font-size: clamp(27px, 4vw, 43px);
-    font-style: italic;
-    line-height: 1.4;
+    font-size:clamp(28px,5vw,52px);
+    font-style:italic;
+    line-height:1.3;
 }
 
-.voice-author {
-    margin-top: 25px;
+.voice-author{
+    margin-top:28px;
 
-    color: #71685a;
-
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    letter-spacing: 1px;
+    color:#c6bfae;
+    font-family:Arial,sans-serif;
+    font-size:12px;
+    letter-spacing:2px;
 }
-
 
 /* =========================
    ARTICLES
 ========================= */
 
-.article-panel {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 30px;
+.article-panel{
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    gap:18px;
 }
 
-.article-main {
-    min-height: 330px;
+.article-main{
+    min-height:340px;
+    padding:45px;
 
-    padding: 40px;
-
-    background: #172039;
-    color: #f3eee4;
+    background:#682f36;
+    color:#f6eee6;
 }
 
-.article-main span {
-    color: #d5b25c;
-
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 3px;
+.article-main small{
+    color:#e1c06a;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    letter-spacing:3px;
 }
 
-.article-main h3 {
-    margin-top: 30px;
+.article-main h3{
+    margin-top:28px;
 
-    font-size: 42px;
-    font-weight: normal;
-    line-height: 1.1;
+    font-size:clamp(34px,5vw,54px);
+    font-weight:normal;
+    line-height:1.08;
 }
 
-.article-main p {
-    margin-top: 20px;
-
-    color: #c5c4be;
+.article-main p{
+    margin-top:20px;
+    color:#d7cbc3;
 }
 
-.article-side {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.article-button{
+    display:inline-block;
+    margin-top:28px;
+    padding:12px 18px;
 
-    padding: 35px;
+    border:1px solid rgba(255,255,255,.35);
 
-    border: 1px solid rgba(32,35,50,.15);
+    color:#fff;
+    text-decoration:none;
+
+    font-family:Arial,sans-serif;
+    font-size:12px;
 }
 
-.article-side h3 {
-    font-size: 27px;
-    font-weight: normal;
+.article-side{
+    padding:40px;
+
+    background:#172541;
+    color:#f4efe5;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
-.article-side p {
-    margin-top: 10px;
-
-    color: #6c665d;
-    font-size: 14px;
+.article-side h3{
+    font-size:30px;
+    font-weight:normal;
 }
 
+.article-side p{
+    margin-top:15px;
+    color:#c4c4bf;
+    font-size:14px;
+}
 
 /* =========================
    CLOSING
 ========================= */
 
-.closing {
-    padding: 130px 0;
+.closing{
+    padding:130px 0;
 
-    background: #0c1428;
-    color: #f3eee4;
-
-    text-align: center;
+    background:#e1d6c3;
+    text-align:center;
 }
 
-.closing h2 {
-    font-size: clamp(45px, 8vw, 85px);
-    font-weight: normal;
-    line-height: 1;
+.closing h2{
+    font-size:clamp(48px,8vw,95px);
+    font-weight:normal;
+    line-height:.95;
 }
 
-.closing p {
-    max-width: 580px;
-    margin: 25px auto 0;
+.closing p{
+    max-width:600px;
+    margin:25px auto 0;
 
-    color: #c4c5c0;
+    color:#6d665b;
+    font-size:16px;
 }
 
-.closing-line {
-    width: 70px;
-    height: 1px;
+.home-button{
+    display:inline-block;
+    margin-top:32px;
 
-    background: #d5b15a;
+    padding:13px 24px;
 
-    margin: 45px auto 0;
+    background:#172541;
+    color:#fff;
+
+    text-decoration:none;
+
+    font-family:Arial,sans-serif;
+    font-size:12px;
 }
-
 
 /* =========================
    FOOTER
 ========================= */
 
-footer {
-    padding: 35px 6%;
+footer{
+    padding:45px 0;
 
-    background: #080e1b;
-    color: #888b91;
+    background:#0b1224;
+    color:#aeb0b0;
 
-    text-align: center;
+    text-align:center;
 
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: .5px;
+    font-family:Arial,sans-serif;
+    font-size:11px;
 }
-
 
 /* =========================
-   MOBILE
+   RESPONSIVE
 ========================= */
 
-@media (max-width: 800px) {
+@media(max-width:850px){
 
-    .nav-inner {
-        display: block;
-        padding: 15px 0;
+    .nav-inner{
+        align-items:flex-start;
+        padding:15px 0;
     }
 
-    .brand {
-        display: block;
-        margin-bottom: 12px;
+    .nav-links{
+        gap:9px 13px;
     }
 
-    .nav-links {
-        justify-content: flex-start;
-        gap: 8px 16px;
+    .hero{
+        min-height:78vh;
     }
 
-    .nav-links a {
-        font-size: 11px;
+    .hero-content{
+        min-height:78vh;
     }
 
-    .hero {
-        min-height: 72vh;
+    .hero h1{
+        font-size:72px;
+        letter-spacing:-4px;
     }
 
-    .hero-content {
-        min-height: 72vh;
+    .map{
+        grid-template-columns:1fr;
     }
 
-    .hero h1 {
-        font-size: 57px;
-        letter-spacing: -3px;
-        line-height: .95;
-    }
-
-    .hero-description {
-        font-size: 17px;
-        line-height: 1.65;
-    }
-
-    .opening {
-        padding: 85px 0 90px;
-    }
-
-    .opening blockquote {
-        font-size: 29px;
-    }
-
-    .section {
-        padding: 80px 0;
-    }
-
-    .section-heading {
-        margin-bottom: 40px;
-    }
-
-    .section-heading h2 {
-        font-size: 43px;
-    }
-
-    .section-heading p {
-        font-size: 16px;
-    }
-
-    .map {
-        display: block;
-    }
-
-    .map-card,
     .map-card.large,
-    .map-card.small {
-        display: flex;
-        width: 100%;
-        min-height: 210px;
-        margin-bottom: 12px;
-        grid-column: auto;
+    .map-card.small{
+        grid-column:span 1;
     }
 
-    .map-card h3 {
-        font-size: 30px;
+    .feature-grid{
+        grid-template-columns:1fr;
     }
 
-    .thinkers-intro {
-        display: block;
+    .idea-grid{
+        grid-template-columns:1fr 1fr;
     }
 
-    .thinker-feature {
-        padding: 30px;
-        margin-bottom: 20px;
+    .traditions{
+        grid-template-columns:1fr 1fr;
     }
 
-    .thinker-feature h3 {
-        font-size: 38px;
+    .timeline{
+        grid-template-columns:1fr 1fr 1fr;
     }
 
-    .idea-grid {
-        grid-template-columns: 1fr;
+    .question-list{
+        grid-template-columns:1fr;
     }
 
-    .idea {
-        min-height: 160px;
+    .works{
+        grid-template-columns:1fr 1fr;
     }
 
-    .traditions {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .tradition {
-        min-height: 160px;
-    }
-
-    .timeline {
-        display: block;
-        margin-left: 10px;
-        border-top: none;
-        border-left: 1px solid rgba(32,35,50,.25);
-    }
-
-    .period {
-        min-height: auto;
-        padding: 25px 20px 30px;
-        border-left: none;
-        border-bottom: 1px solid rgba(32,35,50,.12);
-    }
-
-    .period::before {
-        top: 28px;
-        left: -5px;
-    }
-
-    .period h3 {
-        margin-top: 10px;
-    }
-
-    .question-list {
-        grid-template-columns: 1fr;
-    }
-
-    .question {
-        font-size: 23px;
-    }
-
-    .works {
-        grid-template-columns: 1fr;
-    }
-
-    .work {
-        min-height: 210px;
-    }
-
-    .voice {
-        padding: 60px 8%;
-    }
-
-    .voice blockquote {
-        font-size: 28px;
-    }
-
-    .article-panel {
-        grid-template-columns: 1fr;
-    }
-
-    .article-main {
-        min-height: 280px;
-        padding: 30px;
-    }
-
-    .article-main h3 {
-        font-size: 35px;
-    }
-
-    .closing {
-        padding: 95px 6%;
-    }
-
-    .closing h2 {
-        font-size: 51px;
+    .article-panel{
+        grid-template-columns:1fr;
     }
 }
+
+@media(max-width:600px){
+
+    .container{
+        width:90%;
+    }
+
+    .nav-inner{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .nav-links{
+        justify-content:flex-start;
+        width:100%;
+        overflow-x:auto;
+        flex-wrap:nowrap;
+        padding-bottom:3px;
+    }
+
+    .nav-links a{
+        white-space:nowrap;
+    }
+
+    .hero h1{
+        font-size:64px;
+    }
+
+    .hero-text{
+        font-size:16px;
+    }
+
+    .opening{
+        padding:90px 0;
+    }
+
+    .section{
+        padding:80px 0;
+    }
+
+    .section-heading{
+        margin-bottom:38px;
+    }
+
+    .map-card{
+        min-height:220px;
+        padding:25px;
+    }
+
+    .map-card h3{
+        font-size:32px;
+    }
+
+    .idea-grid,
+    .traditions,
+    .works{
+        grid-template-columns:1fr;
+    }
+
+    .timeline{
+        grid-template-columns:1fr;
+        border-top:none;
+    }
+
+    .period{
+        min-height:auto;
+        padding:25px 20px 30px 30px;
+
+        border-left:1px solid rgba(32,35,50,.2);
+        border-top:1px solid rgba(32,35,50,.15);
+    }
+
+    .period::before{
+        left:-5px;
+        top:27px;
+    }
+
+    .question{
+        font-size:22px;
+    }
+
+    .feature-person{
+        padding:30px;
+    }
+
+    .article-main,
+    .article-side{
+        padding:30px;
+    }
+
+    .closing{
+        padding:100px 0;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
-
 
 <!-- =========================
      NAVIGATION
 ========================= -->
 
 <nav class="site-nav">
-    <div class="nav-inner">
 
-        <a href="index.html" class="brand">
-            PHILOSOPHY &amp; LITERATURE
-        </a>
+<div class="nav-inner">
 
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="philosophy.html">Philosophy</a>
-            <a href="literature.html">Literature</a>
-            <a href="library.html">Library</a>
-            <a href="quotes.html">Quotes</a>
-            <a href="articles.html">Articles</a>
-            <a href="gallery.html">Gallery</a>
-            <a href="admin.html">Admin</a>
-        </div>
+<a href="index.html" class="brand">
+PHILOSOPHY & LITERATURE
+</a>
 
-    </div>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="philosophy.html">Philosophy</a>
+<a href="literature.html">Literature</a>
+<a href="library.html">Library</a>
+<a href="quotes.html">Quotes</a>
+<a href="articles.html">Articles</a>
+<a href="gallery.html">Gallery</a>
+</div>
+
+</div>
+
 </nav>
 
 
@@ -1003,30 +1078,27 @@ footer {
 
 <header class="hero">
 
-    <div class="hero-content">
+<div class="hero-content">
 
-        <div class="eyebrow">
-            The life of the mind
-        </div>
+<div class="eyebrow">
+The search for wisdom
+</div>
 
-        <h1>
-            Philosophy
-        </h1>
+<h1>
+Philosophy
+</h1>
 
-        <p class="hero-description">
-            A journey through existence, consciousness, truth,
-            freedom, meaning and the questions that remain when
-            easy answers fall away.
-        </p>
+<p class="hero-text">
+Not a collection of answers, but a way of learning how to ask
+better questions — about existence, knowledge, morality,
+freedom, consciousness and the strange fact that we are here at all.
+</p>
 
-        <div class="gold-line"></div>
+<div class="hero-line"></div>
 
-    </div>
+</div>
 
 </header>
-
-
-<main>
 
 
 <!-- =========================
@@ -1035,25 +1107,25 @@ footer {
 
 <section class="opening">
 
-    <div class="container">
+<div class="container">
 
-        <div class="opening-label">
-            An opening thought
-        </div>
+<div class="label">
+Opening thought
+</div>
 
-        <div class="quote-symbol">
-            “
-        </div>
+<div class="quote-mark">
+“
+</div>
 
-        <blockquote>
-            The end of knowledge is the beginning of wisdom.
-        </blockquote>
+<blockquote>
+The end of knowledge is the beginning of wisdom.
+</blockquote>
 
-        <div class="quote-author">
-            — J. Krishnamurti
-        </div>
+<div class="quote-author">
+— J. Krishnamurti
+</div>
 
-    </div>
+</div>
 
 </section>
 
@@ -1062,188 +1134,257 @@ footer {
      PHILOSOPHY MAP
 ========================= -->
 
-<section class="section">
+<section class="section" id="explore">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-heading">
+<div class="section-heading">
 
-            <div class="section-label">
-                Enter the world of philosophy
-            </div>
+<div class="label">
+Explore philosophy
+</div>
 
-            <h2>
-                Six paths.<br>
-                One endless question.
-            </h2>
+<h2>
+Six paths into one endless question.
+</h2>
 
-            <p>
-                Philosophy is not a single road. It is a landscape
-                of thinkers, ideas, traditions, questions, time and
-                texts — each offering another way of looking at
-                what it means to be human.
-            </p>
+<p>
+Move through philosophy by the people who shaped it,
+the ideas they argued over, the traditions they created,
+the periods they inhabited, the questions that remain,
+and the works that still speak.
+</p>
 
-        </div>
-
-
-        <div class="map">
-
-            <a href="#thinkers" class="map-card large dark">
-
-                <div class="map-number">
-                    01 — PEOPLE
-                </div>
-
-                <h3>
-                    Thinkers
-                </h3>
-
-                <p>
-                    Meet the minds that questioned what everyone
-                    else simply accepted.
-                </p>
-
-                <div class="map-arrow">
-                    →
-                </div>
-
-            </a>
+</div>
 
 
-            <a href="#ideas" class="map-card small">
-
-                <div class="map-number">
-                    02 — THOUGHT
-                </div>
-
-                <h3>
-                    Ideas
-                </h3>
-
-                <p>
-                    Existence, consciousness, freedom, truth,
-                    ethics, death and meaning.
-                </p>
-
-                <div class="map-arrow">
-                    →
-                </div>
-
-            </a>
+<div class="map">
 
 
-            <a href="#traditions" class="map-card small">
+<a href="#thinkers" class="map-card large thinkers-card">
 
-                <div class="map-number">
-                    03 — TRADITIONS
-                </div>
+<div class="map-number">
+01 · PEOPLE
+</div>
 
-                <h3>
-                    Traditions
-                </h3>
+<h3>
+Thinkers
+</h3>
 
-                <p>
-                    Different civilizations, schools and ways
-                    of thinking about reality.
-                </p>
+<p>
+Socrates, Plato, Aristotle, Buddha, Confucius, Kant,
+Nietzsche, Simone Weil, Krishnamurti and many more.
+</p>
 
-                <div class="map-arrow">
-                    →
-                </div>
+<div class="map-arrow">
+→
+</div>
 
-            </a>
-
-
-            <a href="#questions" class="map-card large">
-
-                <div class="map-number">
-                    04 — INQUIRY
-                </div>
-
-                <h3>
-                    Questions
-                </h3>
-
-                <p>
-                    The questions that survive generations
-                    because they refuse easy answers.
-                </p>
-
-                <div class="map-arrow">
-                    →
-                </div>
-
-            </a>
+</a>
 
 
-            <a href="#timeline" class="map-card small">
+<a href="#ideas" class="map-card small ideas-card">
 
-                <div class="map-number">
-                    05 — TIME
-                </div>
+<div class="map-number">
+02 · CONCEPTS
+</div>
 
-                <h3>
-                    Periods
-                </h3>
+<h3>
+Ideas
+</h3>
 
-                <p>
-                    Follow philosophical thought across
-                    centuries of human history.
-                </p>
+<p>
+Truth, consciousness, freedom, morality, knowledge,
+meaning and reality.
+</p>
 
-                <div class="map-arrow">
-                    →
-                </div>
+<div class="map-arrow">
+→
+</div>
 
-            </a>
+</a>
 
 
-            <a href="#works" class="map-card large">
+<a href="#traditions" class="map-card small traditions-card">
 
-                <div class="map-number">
-                    06 — TEXTS
-                </div>
+<div class="map-number">
+03 · TRADITIONS
+</div>
 
-                <h3>
-                    Works
-                </h3>
+<h3>
+Traditions
+</h3>
 
-                <p>
-                    Enter the books and writings that shaped
-                    the history of philosophical thought.
-                </p>
+<p>
+Stoicism, Vedanta, Buddhism, Existentialism,
+Rationalism and other ways of thinking.
+</p>
 
-                <div class="map-arrow">
-                    →
-                </div>
+<div class="map-arrow">
+→
+</div>
 
-            </a>
+</a>
 
-        </div>
 
-    </div>
+<a href="#questions" class="map-card large questions-card">
+
+<div class="map-number">
+04 · QUESTIONS
+</div>
+
+<h3>
+Big Questions
+</h3>
+
+<p>
+What is real? What makes a life good?
+Can we be free? What does it mean to know?
+</p>
+
+<div class="map-arrow">
+→
+</div>
+
+</a>
+
+
+<a href="#periods" class="map-card small periods-card">
+
+<div class="map-number">
+05 · TIME
+</div>
+
+<h3>
+Periods
+</h3>
+
+<p>
+From the ancient world to contemporary philosophy.
+</p>
+
+<div class="map-arrow">
+→
+</div>
+
+</a>
+
+
+<a href="#works" class="map-card large works-card">
+
+<div class="map-number">
+06 · TEXTS
+</div>
+
+<h3>
+Works
+</h3>
+
+<p>
+Books and philosophical works that changed how
+human beings understand themselves and the world.
+</p>
+
+<div class="map-arrow">
+→
+</div>
+
+</a>
+
+</div>
+
+</div>
 
 </section>
 
 
 <!-- =========================
-     THINKERS
+     FEATURED THINKER
 ========================= -->
 
-<section class="section" id="thinkers">
+<section class="section feature" id="thinkers">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-heading">
+<div class="feature-grid">
 
-            <div class="section-label">
-                The minds behind the questions
-            </div>
+<div>
 
-            <h2>
-                Thinkers
-            </h2>
+<div class="label">
+Thinkers
+</div>
 
-            <p>
-                Philosophy changes when someone dares to a
+<h2>
+The people behind the questions.
+</h2>
+
+<p class="feature-copy">
+Philosophy is not only a history of doctrines.
+It is also a history of human beings who refused
+to accept the obvious — and asked what lies beneath it.
+</p>
+
+</div>
+
+
+<div class="feature-person">
+
+<small>
+Featured thinker
+</small>
+
+<h3>
+Socrates
+</h3>
+
+<p>
+He left no writings, yet became one of the most
+influential figures in Western philosophy.
+His method was deceptively simple:
+keep asking why.
+</p>
+
+<p>
+His legacy is not a finished system but an attitude
+towards thought — intellectual humility,
+questioning and examination of one's own life.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     IDEAS
+========================= -->
+
+<section class="section" id="ideas">
+
+<div class="container">
+
+<div class="section-heading">
+
+<div class="label">
+Ideas
+</div>
+
+<h2>
+The concepts that keep returning.
+</h2>
+
+<p>
+Different philosophers often disagree completely,
+yet certain questions keep appearing across centuries.
+</p>
+
+</div>
+
+
+<div class="idea-grid">
+
+<div cl
