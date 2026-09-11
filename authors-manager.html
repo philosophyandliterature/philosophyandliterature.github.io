@@ -344,6 +344,12 @@
           <label for="bio">Biography</label>
           <textarea id="bio"></textarea>
         </div>
+        
+
+<div class="field full">
+  <label for="philosophicalThought">Philosophical Thought</label>
+  <textarea id="philosophicalThought"></textarea>
+</div>
 
       </div>
 
@@ -621,9 +627,13 @@ document.getElementById("deathEra").value =
       death_era:
         document.getElementById("deathEra").value || null,
 
-      image_url:
-        document.getElementById("imageUrl").value.trim() || null
-    };
+      
+    image_url:
+  document.getElementById("imageUrl").value.trim() || null,
+
+philosophical_thought:
+  document.getElementById("philosophicalThought").value.trim() || null
+};
 
     let result;
 
