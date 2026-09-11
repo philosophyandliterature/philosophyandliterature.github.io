@@ -924,7 +924,45 @@
     });
 
   checkAdmin();
+async function uploadBookPDF() {
+  const fileInput = document.getElementById("pdfFile");
+  const status = document.getElementById("pdfUploadStatus");
+  const pdfUrlInput = document.getElementById("pdfUrl");
 
+  const file = fileInput.files[0];
+
+  if (!file) {
+    status.textContent = "Please select a PDF first.";
+    return;
+  }
+
+  if (file.type !== "application/pdf") {
+    status.textContent = "Please select a PDF file only.";
+    return;
+  }
+
+  status.textContent = "Uploading PDF...";
+
+  const fileName =
+    `${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+
+  const { error } = await client
+    .storage
+    .from("Book-Files")
+    .upload(fileName, file, {
+      contentType: "application/pdf",
+      upsert: false
+    });
+
+  if (error) {
+    console.error(error);
+    status.textContent = "Upload failed: " + error.message;
+    return;
+  }
+
+  pdfUrlInput.value = fileName;
+  status.textContent = "PDF uploaded successfully.";
+  }
 </script>
 
 </body>
