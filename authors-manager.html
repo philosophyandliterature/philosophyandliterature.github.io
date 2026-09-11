@@ -479,13 +479,21 @@
 
       let years = "";
 
-      if (author.birth_year) {
-        years += author.birth_year;
-      }
+if (author.birth_year) {
+  years += author.birth_year;
 
-      if (author.death_year) {
-        years += " – " + author.death_year;
-      }
+  if (author.birth_era) {
+    years += " " + author.birth_era;
+  }
+}
+
+if (author.death_year) {
+  years += " – " + author.death_year;
+
+  if (author.death_era) {
+    years += " " + author.death_era;
+  }
+}
 
       item.innerHTML = `
         <h3>${escapeHtml(author.name)}</h3>
