@@ -589,6 +589,8 @@ document.getElementById("deathEra").value =
       author.image_url || "";
     document.getElementById("bio").value =
       author.bio || "";
+    document.getElementById("philosophicalThought").value =
+  author.philosophical_thought || "";
 
     document.getElementById("formTitle").textContent =
       "Edit Author";
@@ -610,6 +612,7 @@ document.getElementById("deathEra").value =
 
       bio:
         document.getElementById("bio").value.trim() || null,
+      
 
       birth_year:
         document.getElementById("birthYear").value
