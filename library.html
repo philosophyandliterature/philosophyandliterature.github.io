@@ -9,6 +9,26 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+:root{
+  --plum:#241b2b;
+  --plum-deep:#17121d;
+  --plum-soft:#3a2b40;
+
+  --paper:#f3eee5;
+  --paper-light:#fbf8f2;
+  --paper-dark:#e5ddd0;
+
+  --copper:#b56f58;
+  --copper-light:#d49a82;
+
+  --sage:#667565;
+  --rose:#8b5960;
+
+  --ink:#29242a;
+  --muted:#716a6d;
+  --line:#d7cec1;
+}
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -20,204 +40,242 @@ html{
 }
 
 body{
-  background:#eee8dc;
-  color:#29251f;
+  background:var(--paper);
+  color:var(--ink);
   font-family:Georgia,"Times New Roman",serif;
   line-height:1.7;
 }
 
 /* =========================
-   LIBRARY MASTHEAD
+   LIBRARY HERO
 ========================= */
 
 header{
-  background:#30271f;
-  color:#f5efe4;
-  padding:64px 20px 58px;
-  text-align:center;
-  border-bottom:6px double #b29a70;
   position:relative;
   overflow:hidden;
-}
-
-header::before,
-header::after{
-  content:"";
-  position:absolute;
-  border:1px solid rgba(190,163,112,.18);
-  border-radius:50%;
+  min-height:430px;
+  padding:78px 24px 82px;
+  background:
+    radial-gradient(
+      circle at 78% 25%,
+      rgba(181,111,88,.22),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 18% 80%,
+      rgba(102,117,101,.16),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      var(--plum-deep) 0%,
+      var(--plum) 58%,
+      var(--plum-soft) 100%
+    );
+  color:#fff;
+  text-align:left;
+  border-bottom:1px solid rgba(212,154,130,.45);
 }
 
 header::before{
-  width:420px;
-  height:420px;
-  left:-250px;
-  top:-300px;
+  content:"";
+  position:absolute;
+  width:520px;
+  height:520px;
+  right:-220px;
+  top:-250px;
+  border:1px solid rgba(212,154,130,.18);
+  border-radius:50%;
 }
 
 header::after{
-  width:300px;
-  height:300px;
-  right:-180px;
-  bottom:-220px;
+  content:"";
+  position:absolute;
+  width:340px;
+  height:340px;
+  left:-190px;
+  bottom:-230px;
+  border:1px solid rgba(102,117,101,.20);
+  border-radius:50%;
 }
 
 header h1{
   position:relative;
-  z-index:1;
-  font-size:clamp(44px,8vw,78px);
+  z-index:2;
+  max-width:1100px;
+  margin:auto;
+  font-size:clamp(58px,9vw,105px);
+  line-height:.9;
   font-weight:normal;
-  letter-spacing:-1px;
+  letter-spacing:-4px;
 }
 
 header h1::before{
-  content:"THE";
+  content:"THE DIGITAL";
   display:block;
-  margin-bottom:4px;
-  color:#b29a70;
+  margin-bottom:16px;
+  color:var(--copper-light);
   font-family:Arial,sans-serif;
-  font-size:11px;
+  font-size:10px;
+  font-weight:bold;
   letter-spacing:5px;
 }
 
 header p{
   position:relative;
-  z-index:1;
-  margin:13px auto 0;
-  color:#d5cabb;
-  font-size:15px;
+  z-index:2;
+  max-width:600px;
+  margin:28px auto 0;
+  margin-left:max(calc((100% - 1100px)/2),0px);
+  color:#d9d0d7;
+  font-size:17px;
   font-style:italic;
 }
 
 /* =========================
-   CATALOGUE NAVIGATION
+   NAVIGATION
 ========================= */
 
 nav{
-  background:#5a4736;
-  padding:12px 10px;
-  text-align:center;
-  border-bottom:1px solid #806a50;
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(23,18,29,.97);
+  padding:0 12px;
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  border-bottom:1px solid rgba(212,154,130,.22);
   white-space:nowrap;
   overflow-x:auto;
 }
 
 nav a{
-  color:#f5efe4;
+  color:#eee7e2;
   text-decoration:none;
-  margin:0 10px;
+  padding:20px 10px;
   font-family:Arial,sans-serif;
-  font-size:11px;
-  letter-spacing:.4px;
+  font-size:10px;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  opacity:.82;
 }
 
 nav a:hover{
-  color:#e0c48e;
+  color:var(--copper-light);
+  opacity:1;
 }
 
 /* =========================
-   MAIN LIBRARY
+   MAIN
 ========================= */
 
 main{
-  width:min(1180px,92%);
+  width:min(1180px,calc(100% - 48px));
   margin:auto;
-  padding:78px 0 100px;
+  padding:92px 0 110px;
 }
 
 /* =========================
-   INTRODUCTION
+   INTRO
 ========================= */
 
 .intro{
-  max-width:820px;
-  margin:0 auto 58px;
-  text-align:center;
+  position:relative;
+  max-width:900px;
+  margin:0 auto 70px;
+  text-align:left;
+}
+
+.intro::before{
+  content:"COLLECTION • ARCHIVE • READING";
+  display:block;
+  margin-bottom:18px;
+  color:var(--copper);
+  font-family:Arial,sans-serif;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:3px;
 }
 
 .intro h2{
-  color:#30271f;
-  font-size:clamp(34px,6vw,58px);
+  color:var(--plum);
+  font-size:clamp(42px,6vw,70px);
+  line-height:1;
   font-weight:normal;
-  line-height:1.1;
+  letter-spacing:-2px;
 }
 
 .divider{
-  width:70px;
+  width:100%;
   height:1px;
-  background:#9b815b;
-  margin:22px auto 24px;
+  margin:28px 0 25px;
+  background:var(--line);
   position:relative;
 }
 
-.divider::before,
 .divider::after{
   content:"";
   position:absolute;
+  left:0;
   top:-3px;
   width:7px;
   height:7px;
-  border:1px solid #9b815b;
+  background:var(--copper);
   transform:rotate(45deg);
-  background:#eee8dc;
-}
-
-.divider::before{
-  left:0;
-}
-
-.divider::after{
-  right:0;
 }
 
 .intro p{
-  color:#71685d;
+  max-width:720px;
+  color:var(--muted);
   font-size:16px;
-  margin:6px 0;
+  margin:7px 0;
 }
 
 /* =========================
-   CATALOGUE SEARCH
+   SEARCH
 ========================= */
 
 .library-tools{
-  margin:0 auto 48px;
-  max-width:900px;
-  text-align:center;
+  position:relative;
+  margin:0 0 58px;
+  padding:30px;
+  background:var(--plum);
+  box-shadow:0 16px 40px rgba(36,27,43,.14);
 }
 
 .library-tools::before{
-  content:"SEARCH THE COLLECTION";
+  content:"LIBRARY CATALOGUE";
   display:block;
-  margin-bottom:10px;
-  color:#8b7250;
+  margin-bottom:13px;
+  color:var(--copper-light);
   font-family:Arial,sans-serif;
-  font-size:10px;
+  font-size:9px;
+  font-weight:bold;
   letter-spacing:3px;
 }
 
 .search{
   width:100%;
-  padding:17px 20px;
-  border:1px solid #cfc2ae;
-  border-radius:2px;
-  background:#f9f5ed;
-  color:#30271f;
+  padding:18px 20px;
+  border:1px solid rgba(212,154,130,.45);
+  border-radius:0;
+  background:var(--paper-light);
+  color:var(--ink);
   font-family:Georgia,"Times New Roman",serif;
   font-size:16px;
   outline:none;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.8),
-    0 4px 15px rgba(60,45,30,.05);
 }
 
 .search:focus{
-  border-color:#947751;
-  box-shadow:0 0 0 3px rgba(148,119,81,.10);
+  border-color:var(--copper);
+  box-shadow:0 0 0 3px rgba(181,111,88,.13);
 }
 
 .search::placeholder{
-  color:#9b9285;
+  color:#91898b;
 }
 
 /* =========================
@@ -236,14 +294,14 @@ main{
 ========================= */
 
 .book{
-  background:#faf7f0;
-  border:1px solid #d8cdbc;
-  padding:18px;
+  position:relative;
+  min-width:0;
   display:flex;
   flex-direction:column;
-  min-width:0;
-  position:relative;
-  box-shadow:0 5px 18px rgba(55,40,25,.06);
+  padding:18px;
+  background:var(--paper-light);
+  border:1px solid var(--line);
+  box-shadow:0 8px 24px rgba(45,35,40,.07);
   transition:
     transform .25s ease,
     box-shadow .25s ease;
@@ -254,39 +312,46 @@ main{
   position:absolute;
   left:0;
   top:0;
-  bottom:0;
-  width:4px;
-  background:#806343;
-  opacity:.7;
+  width:5px;
+  height:100%;
+  background:var(--copper);
+}
+
+.book:nth-child(3n+2)::before{
+  background:var(--sage);
+}
+
+.book:nth-child(3n)::before{
+  background:var(--rose);
 }
 
 .book:hover{
-  transform:translateY(-5px);
-  box-shadow:0 14px 30px rgba(55,40,25,.12);
+  transform:translateY(-6px);
+  box-shadow:0 18px 38px rgba(45,35,40,.13);
 }
 
 /* =========================
-   BOOK COVER
+   COVER
 ========================= */
 
 .cover{
   width:100%;
   height:320px;
-  background:#e5dccd;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
-  border:1px solid #d3c5b1;
-  box-shadow:0 3px 9px rgba(45,35,25,.08);
-  margin-bottom:20px;
+  margin-bottom:21px;
+  background:var(--paper-dark);
+  border:1px solid #d2c7b8;
 }
 
 .cover img{
+  display:block;
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:transform .3s ease;
+  transition:transform .35s ease;
 }
 
 .book:hover .cover img{
@@ -294,14 +359,14 @@ main{
 }
 
 .no-cover{
-  color:#8b7d6b;
+  padding:20px;
+  color:#847b7d;
   font-size:13px;
   text-align:center;
-  padding:15px;
 }
 
 /* =========================
-   BOOK INFORMATION
+   BOOK INFO
 ========================= */
 
 .book-info{
@@ -312,69 +377,74 @@ main{
 }
 
 .book h3{
-  color:#30271f;
   margin:0 0 5px;
-  font-size:24px;
+  color:var(--plum);
+  font-size:25px;
+  line-height:1.18;
   font-weight:normal;
-  line-height:1.25;
 }
 
 .subtitle{
-  color:#766b5e;
+  margin-bottom:9px;
+  color:#756c70;
   font-size:14px;
   font-style:italic;
-  margin-bottom:8px;
 }
 
 .author{
-  color:#806b50;
+  margin-bottom:16px;
+  color:var(--copper);
   font-family:Arial,sans-serif;
-  font-size:11px;
-  letter-spacing:.5px;
-  margin-bottom:15px;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1px;
+  text-transform:uppercase;
 }
 
 .description{
-  color:#665e54;
+  margin:0 0 22px;
+  color:#655f63;
   font-size:14px;
   line-height:1.65;
-  margin:0 0 20px;
 }
 
 /* =========================
-   PDF ACTION
+   PDF BUTTON
 ========================= */
 
 .pdf-button{
   width:100%;
   margin-top:auto;
-  padding:12px 14px;
-  border:1px solid #927754;
-  border-radius:2px;
-  background:#f4ede1;
-  color:#59462f;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:13px;
+  padding:13px 15px;
+  border:1px solid var(--plum);
+  border-radius:0;
+  background:var(--plum);
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
   cursor:pointer;
   transition:all .2s ease;
 }
 
 .pdf-button:hover{
-  background:#59462f;
-  color:#fffaf0;
+  background:var(--copper);
+  border-color:var(--copper);
 }
 
 /* =========================
-   EMPTY / LOADING
+   EMPTY STATE
 ========================= */
 
 .empty{
   grid-column:1/-1;
-  padding:45px 20px;
+  padding:55px 25px;
   text-align:center;
-  color:#766d61;
-  background:#f7f2e9;
-  border:1px dashed #cbbda8;
+  color:#756c70;
+  background:var(--paper-light);
+  border:1px dashed #cfc4b7;
   font-style:italic;
 }
 
@@ -383,12 +453,12 @@ main{
 ========================= */
 
 footer{
-  background:#30271f;
-  color:#cfc3b3;
+  padding:55px 24px;
+  background:var(--plum-deep);
+  color:#cfc5ce;
   text-align:center;
-  padding:35px 20px;
   font-size:13px;
-  border-top:5px double #8c7556;
+  border-top:1px solid rgba(212,154,130,.35);
 }
 
 footer p{
@@ -400,6 +470,10 @@ footer p{
 ========================= */
 
 @media(max-width:900px){
+
+  header{
+    min-height:390px;
+  }
 
   .books{
     grid-template-columns:repeat(2,1fr);
@@ -417,61 +491,84 @@ footer p{
 @media(max-width:650px){
 
   header{
-    padding:52px 18px 46px;
+    min-height:390px;
+    padding:62px 22px 70px;
+  }
+
+  header h1{
+    font-size:clamp(55px,17vw,78px);
+    letter-spacing:-3px;
+  }
+
+  header p{
+    margin-left:0;
+    font-size:15px;
   }
 
   nav{
-    text-align:left;
-    padding:11px 12px;
+    justify-content:flex-start;
   }
 
   nav a{
-    display:inline-block;
-    margin:0 8px;
+    padding:18px 9px;
   }
 
   main{
-    width:92%;
-    padding:55px 0 70px;
+    width:calc(100% - 32px);
+    padding:65px 0 75px;
   }
 
   .intro{
-    margin-bottom:42px;
+    margin-bottom:50px;
+  }
+
+  .intro h2{
+    font-size:44px;
   }
 
   .intro p{
     font-size:14px;
   }
 
+  .library-tools{
+    padding:22px;
+    margin-bottom:42px;
+  }
+
   .books{
     grid-template-columns:1fr;
-    gap:24px;
+    gap:22px;
   }
 
   .book{
-    padding:16px;
+    padding:15px;
   }
 
   .cover{
-    height:330px;
+    height:340px;
   }
 
   .book h3{
-    font-size:23px;
+    font-size:24px;
   }
 }
 
 @media(max-width:400px){
 
-  .cover{
-    height:300px;
+  header{
+    min-height:360px;
   }
 
   header h1{
-    font-size:43px;
+    font-size:53px;
+  }
+
+  .cover{
+    height:300px;
   }
 }
   </style>
+
 </head>
 
 <body>
