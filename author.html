@@ -209,6 +209,13 @@
         Loading biography...
       </div>
     </section>
+    <section class="section">
+  <div class="section-label">PHILOSOPHY</div>
+  <h2>Philosophical Thought</h2>
+  <div id="philosophicalThought" class="bio">
+    Loading philosophical thought...
+  </div>
+    </section>
 
     <a class="back" href="philosophy.html">
       ← Back to Philosophy
@@ -307,7 +314,11 @@
         dates;
 
       document.getElementById("biography").textContent =
-        author.biography || "No biography has been added yet.";
+  author.bio || "No biography has been added yet.";
+
+document.getElementById("philosophicalThought").textContent =
+  author.philosophical_thought ||
+  "No philosophical thought has been added yet.";
 
       if (author.image_url) {
         const image =
