@@ -3,1241 +3,1059 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta
-    name="description"
-    content="Philosophy & Literature — a growing digital archive of ideas, books, quotations, essays and visual culture."
-  >
-
+  <meta name="description" content="Philosophy & Literature — a growing digital archive of ideas, books, quotations, essays and visual culture.">
   <title>Philosophy & Literature</title>
 
   <style>
     :root {
-      --ink: #172541;
-      --deep: #0b1425;
-      --paper: #f4efe4;
-      --light: #fbf8f1;
-      --gold: #b08a3e;
-      --gold-light: #d6bd7c;
-      --muted: #6b675f;
-      --line: #d9d1c1;
-
-      --burgundy: #682f36;
-      --forest: #334838;
-      --brown: #563d2e;
-      --charcoal: #202226;
+      --ink:#172541;
+      --deep:#0a1120;
+      --paper:#f4efe4;
+      --light:#fbf8f1;
+      --gold:#b08a3e;
+      --gold-light:#d6bd7c;
+      --muted:#6b675f;
+      --line:#d9d1c1;
+      --burgundy:#682f36;
+      --forest:#334838;
+      --brown:#563d2e;
+      --charcoal:#202226;
     }
 
     * {
-      box-sizing: border-box;
+      box-sizing:border-box;
     }
 
     html {
-      scroll-behavior: smooth;
+      scroll-behavior:smooth;
     }
 
     body {
-      margin: 0;
-      background: var(--paper);
-      color: #27272d;
-      font-family: Georgia, "Times New Roman", serif;
-      line-height: 1.65;
+      margin:0;
+      background:var(--paper);
+      color:#27272d;
+      font-family:Georgia,"Times New Roman",serif;
+      line-height:1.65;
     }
 
     a {
-      color: inherit;
+      color:inherit;
     }
 
-    /* =========================
-       NAVIGATION
-    ========================= */
+    /* NAVIGATION */
 
     .site-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(11, 20, 37, 0.98);
-      color: white;
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(10,17,32,.97);
+      color:#fff;
+      border-bottom:1px solid rgba(255,255,255,.08);
     }
 
     .nav-inner {
-      max-width: 1240px;
-      min-height: 66px;
-      margin: auto;
-      padding: 0 28px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 25px;
+      max-width:1240px;
+      min-height:64px;
+      margin:auto;
+      padding:0 28px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
     }
 
     .brand {
-      text-decoration: none;
-      color: var(--gold-light);
-
-      font-family: Georgia, serif;
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-
-      white-space: nowrap;
+      color:var(--gold-light);
+      text-decoration:none;
+      font-size:13px;
+      font-weight:bold;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      white-space:nowrap;
     }
 
     .nav-links {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 17px;
+      display:flex;
+      align-items:center;
+      gap:16px;
     }
 
     .nav-links a {
-      color: #f5f3ed;
-      text-decoration: none;
-
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-
-      opacity: .88;
-      transition: .2s;
+      color:#f5f3ed;
+      text-decoration:none;
+      font-family:Arial,sans-serif;
+      font-size:12px;
+      opacity:.88;
     }
 
     .nav-links a:hover {
-      color: var(--gold-light);
-      opacity: 1;
+      color:var(--gold-light);
+      opacity:1;
     }
 
     .admin-link {
-      color: var(--gold-light) !important;
+      color:var(--gold-light)!important;
     }
 
-    /* =========================
-       HERO
-    ========================= */
+    .menu-toggle {
+      display:none;
+      width:42px;
+      height:38px;
+      border:1px solid rgba(214,189,124,.45);
+      background:transparent;
+      color:#fff;
+      font-size:21px;
+      cursor:pointer;
+    }
+
+    /* HERO */
 
     .hero {
-      position: relative;
-      overflow: hidden;
-
-      min-height: 650px;
-
+      position:relative;
+      overflow:hidden;
+      min-height:680px;
       background:
         radial-gradient(
-          circle at 78% 25%,
-          rgba(176,138,62,.17),
-          transparent 23%
+          circle at 75% 35%,
+          rgba(176,138,62,.16),
+          transparent 25%
         ),
         linear-gradient(
           135deg,
-          var(--deep) 0%,
-          var(--ink) 60%,
+          #080f1d 0%,
+          var(--ink) 58%,
           #263657 100%
         );
-
-      color: white;
-
-      display: grid;
-      align-items: center;
+      color:#fff;
     }
 
-    .hero::before {
-      content: "";
-
-      position: absolute;
-
-      width: 540px;
-      height: 540px;
-
-      right: -210px;
-      bottom: -280px;
-
-      border: 1px solid rgba(214,189,124,.18);
-      border-radius: 50%;
-    }
-
-    .hero::after {
-      content: "";
-
-      position: absolute;
-
-      width: 350px;
-      height: 350px;
-
-      right: -100px;
-      bottom: -185px;
-
-      border: 1px solid rgba(214,189,124,.10);
-      border-radius: 50%;
+    .hero:before {
+      content:"";
+      position:absolute;
+      width:620px;
+      height:620px;
+      right:-300px;
+      bottom:-340px;
+      border:1px solid rgba(214,189,124,.18);
+      border-radius:50%;
     }
 
     .hero-inner {
-      position: relative;
-      z-index: 2;
-
-      width: min(1180px, calc(100% - 56px));
-
-      margin: auto;
-      padding: 95px 0 110px;
-
-      display: grid;
-      grid-template-columns: 1.25fr .55fr;
-      gap: 70px;
-
-      align-items: end;
+      position:relative;
+      z-index:2;
+      width:min(1180px,calc(100% - 56px));
+      margin:auto;
+      padding:88px 0 92px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:50px;
+      align-items:center;
     }
 
     .eyebrow {
-      margin-bottom: 22px;
-
-      color: var(--gold-light);
-
-      font-family: Arial, sans-serif;
-      font-size: 10px;
-      font-weight: bold;
-
-      letter-spacing: 4px;
-      text-transform: uppercase;
+      margin-bottom:18px;
+      color:var(--gold-light);
+      font-family:Arial,sans-serif;
+      font-size:10px;
+      font-weight:bold;
+      letter-spacing:4px;
+      text-transform:uppercase;
     }
 
     .hero h1 {
-      margin: 0;
+      margin:0;
+      max-width:700px;
+      font-size:clamp(54px,7vw,94px);
+      line-height:.9;
+      font-weight:normal;
+      letter-spacing:-4px;
+    }
 
-      max-width: 850px;
+    .hero h1 span {
+      display:block;
+    }
 
-      font-size: clamp(55px, 7vw, 94px);
-      line-height: .94;
-
-      font-weight: normal;
-      letter-spacing: -3px;
+    .hero h1 span:last-child {
+      color:var(--gold-light);
     }
 
     .hero-copy {
-      max-width: 650px;
-
-      margin: 30px 0 0;
-
-      color: #d9dbe1;
-      font-size: 18px;
+      max-width:610px;
+      margin:28px 0 0;
+      color:#d9dbe1;
+      font-size:18px;
     }
 
-    .hero-side {
-      max-width: 360px;
-
-      padding-left: 28px;
-
-      border-left: 1px solid rgba(214,189,124,.45);
-
-      color: #d8d8d5;
-      font-size: 15px;
+    .hero-mantra {
+      margin-top:32px;
+      padding-left:20px;
+      border-left:1px solid rgba(214,189,124,.55);
+      color:#fff;
+      font-size:17px;
+      font-style:italic;
     }
 
-    .hero-side strong {
-      display: block;
-
-      margin-bottom: 8px;
-
-      color: white;
-
-      font-size: 18px;
-      font-weight: normal;
+    .hero-mantra small {
+      display:block;
+      margin-top:7px;
+      color:#aaaeb7;
+      font-family:Arial,sans-serif;
+      font-size:9px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-style:normal;
     }
 
-    /* =========================
-       OPENING THOUGHT
-    ========================= */
+    /* PORTRAITS */
+
+    .portrait-stage {
+      position:relative;
+      min-height:490px;
+    }
+
+    .portrait-intro {
+      position:absolute;
+      top:0;
+      right:0;
+      z-index:5;
+      color:#bfc3ca;
+      font-family:Arial,sans-serif;
+      font-size:9px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .portrait {
+      position:absolute;
+      overflow:hidden;
+      margin:0;
+      background:#151b2a;
+      border:1px solid rgba(214,189,124,.42);
+      box-shadow:0 18px 50px rgba(0,0,0,.35);
+    }
+
+    .portrait img {
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter:grayscale(100%) contrast(1.03) sepia(12%);
+      opacity:.9;
+      transition:.35s;
+    }
+
+    .portrait:hover img {
+      transform:scale(1.04);
+      opacity:1;
+    }
+
+    .portrait figcaption {
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      padding:28px 12px 9px;
+      color:#fff;
+      background:linear-gradient(transparent,rgba(0,0,0,.82));
+      font-family:Arial,sans-serif;
+      font-size:9px;
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+    }
+
+    .p-osho {
+      width:150px;
+      height:205px;
+      left:2%;
+      top:62px;
+      transform:rotate(-4deg);
+    }
+
+    .p-krishnamurti {
+      width:132px;
+      height:178px;
+      left:31%;
+      top:22px;
+      transform:rotate(2deg);
+    }
+
+    .p-tagore {
+      width:142px;
+      height:196px;
+      right:3%;
+      top:65px;
+      transform:rotate(4deg);
+    }
+
+    .p-socrates {
+      width:132px;
+      height:205px;
+      left:15%;
+      bottom:15px;
+      transform:rotate(3deg);
+    }
+
+    .p-nietzsche {
+      width:132px;
+      height:184px;
+      left:47%;
+      bottom:8px;
+      transform:rotate(-3deg);
+    }
+
+    .p-plato {
+      width:135px;
+      height:198px;
+      right:8%;
+      bottom:5px;
+      transform:rotate(4deg);
+    }
+
+    .portrait-stage:after {
+      content:"";
+      position:absolute;
+      left:18%;
+      top:47%;
+      width:64%;
+      height:1px;
+      background:rgba(214,189,124,.2);
+    }
+
+    /* OPENING QUOTE */
 
     .quote-intro {
-      padding: 95px 24px 105px;
-
-      background: var(--light);
-
-      text-align: center;
-
-      border-bottom: 1px solid var(--line);
+      padding:92px 24px 102px;
+      background:var(--light);
+      text-align:center;
+      border-bottom:1px solid var(--line);
     }
 
     .section-label {
-      color: var(--gold);
-
-      font-family: Arial, sans-serif;
-      font-size: 10px;
-      font-weight: bold;
-
-      letter-spacing: 3px;
-      text-transform: uppercase;
+      color:var(--gold);
+      font-family:Arial,sans-serif;
+      font-size:10px;
+      font-weight:bold;
+      letter-spacing:3px;
+      text-transform:uppercase;
     }
 
     .quote-intro blockquote {
-      max-width: 900px;
-
-      margin: 22px auto 0;
-
-      color: #292832;
-
-      font-size: clamp(30px, 4.2vw, 53px);
-      line-height: 1.08;
-
-      font-style: italic;
+      max-width:900px;
+      margin:22px auto 0;
+      color:#292832;
+      font-size:clamp(30px,4.2vw,53px);
+      line-height:1.08;
+      font-style:italic;
     }
 
     .quote-intro cite {
-      display: block;
-
-      margin-top: 23px;
-
-      color: var(--muted);
-
-      font-size: 14px;
-      font-style: normal;
+      display:block;
+      margin-top:23px;
+      color:var(--muted);
+      font-size:14px;
+      font-style:normal;
     }
 
-    /* =========================
-       EXPLORE
-    ========================= */
+    /* VOICES */
+
+    .voices {
+      padding:78px 28px 88px;
+      background:#e9e1d3;
+      border-bottom:1px solid var(--line);
+    }
+
+    .voices-inner {
+      max-width:1180px;
+      margin:auto;
+    }
+
+    .voices-heading {
+      display:flex;
+      justify-content:space-between;
+      gap:30px;
+      align-items:end;
+      margin-bottom:32px;
+    }
+
+    .voices h2 {
+      margin:7px 0 0;
+      font-size:clamp(38px,5vw,58px);
+      line-height:1;
+      font-weight:normal;
+      letter-spacing:-1px;
+    }
+
+    .voices-heading p {
+      max-width:410px;
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .voice-strip {
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      gap:10px;
+    }
+
+    .voice {
+      position:relative;
+      min-height:210px;
+      overflow:hidden;
+      background:#1b2231;
+      text-decoration:none;
+    }
+
+    .voice img {
+      width:100%;
+      height:210px;
+      object-fit:cover;
+      filter:grayscale(100%) sepia(10%);
+      opacity:.82;
+      transition:.3s;
+    }
+
+    .voice:hover img {
+      transform:scale(1.04);
+      opacity:1;
+    }
+
+    .voice span {
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      padding:34px 12px 11px;
+      background:linear-gradient(transparent,rgba(0,0,0,.88));
+      color:#fff;
+      font-family:Arial,sans-serif;
+      font-size:9px;
+      font-weight:bold;
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+    }
+
+    /* EXPLORE */
 
     .explore {
-      max-width: 1240px;
-
-      margin: auto;
-      padding: 105px 28px 110px;
+      max-width:1240px;
+      margin:auto;
+      padding:105px 28px 110px;
     }
 
     .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-
-      gap: 30px;
-
-      margin-bottom: 42px;
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:30px;
+      margin-bottom:42px;
     }
 
     .section-heading h2 {
-      margin: 8px 0 0;
-
-      color: #24242b;
-
-      font-size: clamp(40px, 5vw, 62px);
-      line-height: 1;
-
-      font-weight: normal;
-      letter-spacing: -1.5px;
+      margin:8px 0 0;
+      color:#24242b;
+      font-size:clamp(40px,5vw,62px);
+      line-height:1;
+      font-weight:normal;
     }
 
     .section-heading p {
-      max-width: 430px;
-
-      margin: 0;
-
-      color: var(--muted);
-
-      font-size: 15px;
+      max-width:430px;
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
     }
 
-    /* MAIN TWO CARDS */
-
     .feature-grid {
-      display: grid;
-
-      grid-template-columns: 1.3fr .7fr;
-
-      gap: 16px;
+      display:grid;
+      grid-template-columns:1.3fr .7fr;
+      gap:16px;
     }
 
     .feature-card,
     .archive-card {
-      position: relative;
-      overflow: hidden;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      text-decoration: none;
-
-      transition:
-        transform .2s ease,
-        box-shadow .2s ease;
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      text-decoration:none;
+      transition:transform .2s ease,box-shadow .2s ease;
     }
 
     .feature-card:hover,
     .archive-card:hover {
-      transform: translateY(-3px);
-
-      box-shadow:
-        0 15px 35px rgba(20,20,20,.14);
+      transform:translateY(-3px);
+      box-shadow:0 15px 35px rgba(20,20,20,.14);
     }
 
-    .feature-card::after,
-    .archive-card::after {
-      content: "↗";
-
-      position: absolute;
-
-      right: 24px;
-      bottom: 18px;
-
-      font-family: Arial, sans-serif;
-      font-size: 20px;
-
-      opacity: .8;
+    .feature-card:after,
+    .archive-card:after {
+      content:"↗";
+      position:absolute;
+      right:24px;
+      bottom:18px;
+      font-family:Arial,sans-serif;
+      font-size:20px;
+      opacity:.8;
     }
 
     .feature-card {
-      min-height: 310px;
-      padding: 34px;
+      min-height:310px;
+      padding:34px;
     }
 
     .philosophy {
-      background: var(--ink);
-      color: white;
+      background:var(--ink);
+      color:#fff;
     }
 
     .literature {
-      background: var(--burgundy);
-      color: white;
+      background:var(--burgundy);
+      color:#fff;
     }
 
     .card-small-label {
-      font-family: Arial, sans-serif;
-      font-size: 9px;
-
-      letter-spacing: 2px;
-      text-transform: uppercase;
-
-      opacity: .72;
+      font-family:Arial,sans-serif;
+      font-size:9px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      opacity:.72;
     }
 
     .feature-card h3 {
-      margin: 20px 0 12px;
-
-      font-size: clamp(32px, 4vw, 50px);
-      line-height: 1;
-
-      font-weight: normal;
+      margin:20px 0 12px;
+      font-size:clamp(32px,4vw,50px);
+      line-height:1;
+      font-weight:normal;
     }
 
     .feature-card p {
-      max-width: 580px;
-
-      margin: 0;
-
-      font-size: 14px;
-
-      opacity: .8;
+      max-width:580px;
+      margin:0;
+      font-size:14px;
+      opacity:.8;
     }
 
-    /* SMALL ARCHIVE CARDS */
-
     .archive-row {
-      display: grid;
-
-      grid-template-columns: repeat(4, 1fr);
-
-      gap: 16px;
-
-      margin-top: 16px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+      margin-top:16px;
     }
 
     .archive-card {
-      min-height: 235px;
-
-      padding: 28px;
-
-      color: white;
-
-      border: 1px solid transparent;
+      min-height:235px;
+      padding:28px;
+      color:#fff;
     }
 
     .archive-card h3 {
-      margin: 18px 0 10px;
-
-      font-size: 30px;
-      line-height: 1;
-
-      font-weight: normal;
+      margin:18px 0 10px;
+      font-size:30px;
+      line-height:1;
+      font-weight:normal;
     }
 
     .archive-card p {
-      margin: 0;
-
-      font-size: 13px;
-
-      opacity: .8;
+      margin:0;
+      font-size:13px;
+      opacity:.8;
     }
 
     .library-card {
-      background: var(--gold);
+      background:var(--gold);
     }
 
     .quotes-card {
-      background: var(--charcoal);
+      background:var(--charcoal);
     }
 
     .articles-card {
-      background: var(--forest);
+      background:var(--forest);
     }
 
     .gallery-card {
-      background: var(--brown);
+      background:var(--brown);
     }
 
-    /* =========================
-       FOLLOW A THREAD
-    ========================= */
+    /* THREAD */
 
     .latest {
-      padding: 100px 28px;
-
-      background: #e9e1d3;
+      padding:100px 28px;
+      background:#e9e1d3;
     }
 
     .latest-inner {
-      max-width: 1180px;
-
-      margin: auto;
+      max-width:1180px;
+      margin:auto;
     }
 
     .latest-grid {
-      display: grid;
-
-      grid-template-columns: repeat(3, 1fr);
-
-      gap: 18px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
     }
 
     .latest-item {
-      display: block;
-
-      min-height: 225px;
-
-      padding: 28px;
-
-      background: var(--light);
-
-      border-top: 3px solid var(--gold);
-
-      text-decoration: none;
+      display:block;
+      min-height:225px;
+      padding:28px;
+      background:var(--light);
+      border-top:3px solid var(--gold);
+      text-decoration:none;
     }
 
     .latest-item .meta {
-      color: var(--gold);
-
-      font-family: Arial, sans-serif;
-      font-size: 9px;
-      font-weight: bold;
-
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      color:var(--gold);
+      font-family:Arial,sans-serif;
+      font-size:9px;
+      font-weight:bold;
+      letter-spacing:2px;
+      text-transform:uppercase;
     }
 
     .latest-item h3 {
-      margin: 20px 0 10px;
-
-      font-size: 25px;
-      line-height: 1.15;
-
-      font-weight: normal;
+      margin:20px 0 10px;
+      font-size:25px;
+      line-height:1.15;
+      font-weight:normal;
     }
 
     .latest-item p {
-      margin: 0;
-
-      color: var(--muted);
-
-      font-size: 14px;
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
     }
 
     .latest-link {
-      display: inline-block;
-
-      margin-top: 25px;
-
-      color: var(--ink);
-
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      font-weight: bold;
-
-      text-decoration: none;
+      display:inline-block;
+      margin-top:25px;
+      color:var(--ink);
+      font-family:Arial,sans-serif;
+      font-size:11px;
+      font-weight:bold;
+      text-decoration:none;
     }
 
-    /* =========================
-       DYNAMIC QUOTES
-    ========================= */
+    /* DYNAMIC QUOTES */
 
     .dynamic-quotes {
-      padding: 105px 24px;
-
-      background: var(--light);
-
-      text-align: center;
-
-      border-bottom: 1px solid var(--line);
+      padding:105px 24px;
+      background:var(--light);
+      text-align:center;
+      border-bottom:1px solid var(--line);
     }
 
     #quotesContainer {
-      max-width: 850px;
-
-      margin: 22px auto 0;
+      max-width:850px;
+      margin:22px auto 0;
     }
 
     #quotesContainer blockquote {
-      margin: 0;
-
-      font-size: clamp(27px, 4vw, 43px);
-      line-height: 1.12;
-
-      font-style: italic;
+      margin:0;
+      font-size:clamp(27px,4vw,43px);
+      line-height:1.12;
+      font-style:italic;
     }
 
     .quote-note {
-      margin-top: 17px;
-
-      color: var(--muted);
-
-      font-size: 13px;
+      margin-top:17px;
+      color:var(--muted);
+      font-size:13px;
     }
 
-    /* =========================
-       ABOUT
-    ========================= */
+    /* ABOUT */
 
     .about {
-      max-width: 1080px;
-
-      margin: auto;
-
-      padding: 115px 28px;
-
-      display: grid;
-
-      grid-template-columns: .7fr 1.3fr;
-
-      gap: 80px;
-
-      align-items: start;
+      max-width:1080px;
+      margin:auto;
+      padding:115px 28px;
+      display:grid;
+      grid-template-columns:.7fr 1.3fr;
+      gap:80px;
+      align-items:start;
     }
 
     .about h2 {
-      margin: 8px 0 0;
-
-      font-size: clamp(40px, 5vw, 60px);
-      line-height: 1;
-
-      font-weight: normal;
+      margin:8px 0 0;
+      font-size:clamp(40px,5vw,60px);
+      line-height:1;
+      font-weight:normal;
     }
 
     .about-copy p {
-      margin: 0 0 18px;
-
-      color: #514d46;
-
-      font-size: 17px;
+      margin:0 0 18px;
+      color:#514d46;
+      font-size:17px;
     }
 
-    /* =========================
-       CLOSING
-    ========================= */
+    /* CLOSING */
 
     .closing {
-      padding: 105px 24px;
-
-      background: var(--deep);
-
-      color: white;
-
-      text-align: center;
+      padding:105px 24px;
+      background:var(--deep);
+      color:#fff;
+      text-align:center;
     }
 
     .closing h2 {
-      margin: 12px 0 18px;
-
-      font-size: clamp(43px, 6vw, 72px);
-      line-height: .98;
-
-      font-weight: normal;
+      margin:12px 0 18px;
+      font-size:clamp(43px,6vw,72px);
+      line-height:.98;
+      font-weight:normal;
     }
 
     .closing p {
-      max-width: 570px;
-
-      margin: auto;
-
-      color: #c9cbd0;
+      max-width:570px;
+      margin:auto;
+      color:#c9cbd0;
     }
 
     .closing a {
-      display: inline-block;
-
-      margin-top: 28px;
-
-      color: var(--gold-light);
-
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-
-      letter-spacing: 1px;
-      text-transform: uppercase;
-
-      text-decoration: none;
+      display:inline-block;
+      margin-top:28px;
+      color:var(--gold-light);
+      font-family:Arial,sans-serif;
+      font-size:12px;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      text-decoration:none;
     }
 
-    /* =========================
-       FOOTER
-    ========================= */
+    /* FOOTER */
 
     footer {
-      padding: 30px 28px;
-
-      background: #080f1c;
-
-      color: #aeb2ba;
+      padding:30px 28px;
+      background:#080f1c;
+      color:#aeb2ba;
     }
 
     .footer-inner {
-      max-width: 1180px;
-
-      margin: auto;
-
-      display: flex;
-
-      justify-content: space-between;
-
-      gap: 20px;
-
-      font-family: Arial, sans-serif;
-      font-size: 10px;
-
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      max-width:1180px;
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      font-family:Arial,sans-serif;
+      font-size:10px;
+      letter-spacing:1px;
+      text-transform:uppercase;
     }
 
-    /* =========================
-       TABLET
-    ========================= */
+    /* TABLET */
 
-    @media (max-width: 850px) {
-
-      .nav-inner {
-        padding: 0 16px;
-
-        min-height: 58px;
-      }
-
-      .brand {
-        font-size: 10px;
-        letter-spacing: 1.5px;
-      }
-
+    @media(max-width:900px) {
       .nav-links {
-        gap: 10px;
-      }
-
-      .nav-links a {
-        font-size: 10px;
-      }
-
-      .hero {
-        min-height: auto;
+        gap:11px;
       }
 
       .hero-inner {
-        width: min(100% - 36px, 700px);
-
-        padding: 75px 0 80px;
-
-        grid-template-columns: 1fr;
-
-        gap: 42px;
+        grid-template-columns:1fr;
+        padding-top:65px;
       }
 
-      .hero-side {
-        max-width: 380px;
+      .portrait-stage {
+        min-height:430px;
+        max-width:600px;
+        width:100%;
+        margin:auto;
       }
 
-      .explore {
-        padding: 75px 18px 80px;
+      .voice-strip {
+        grid-template-columns:repeat(3,1fr);
       }
 
-      .section-heading {
-        display: block;
-      }
-
-      .section-heading p {
-        margin-top: 18px;
-      }
-
-      .feature-grid {
-        grid-template-columns: 1fr;
+      .feature-grid,
+      .about {
+        grid-template-columns:1fr;
       }
 
       .archive-row {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .latest {
-        padding: 75px 18px;
-      }
-
-      .latest-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .about {
-        padding: 80px 22px;
-
-        grid-template-columns: 1fr;
-
-        gap: 28px;
+        grid-template-columns:repeat(2,1fr);
       }
     }
 
-    /* =========================
-       PHONE
-    ========================= */
+    /* PHONE */
 
-    @media (max-width: 560px) {
+    @media(max-width:700px) {
 
       .nav-inner {
-        align-items: flex-start;
+        min-height:58px;
+        padding:0 16px;
+      }
 
-        padding-top: 12px;
-        padding-bottom: 12px;
+      .brand {
+        font-size:11px;
+        letter-spacing:1.5px;
+      }
+
+      .menu-toggle {
+        display:block;
       }
 
       .nav-links {
-        justify-content: flex-end;
+        display:none;
+        position:absolute;
+        top:58px;
+        left:0;
+        right:0;
+        padding:10px 16px 16px;
+        background:rgba(10,17,32,.99);
+        border-top:1px solid rgba(255,255,255,.08);
+        flex-direction:column;
+        align-items:stretch;
+        gap:0;
+      }
 
-        gap: 7px 9px;
+      .nav-links.open {
+        display:flex;
       }
 
       .nav-links a {
-        font-size: 9px;
+        padding:11px 4px;
+        border-bottom:1px solid rgba(255,255,255,.07);
+        font-size:12px;
+      }
+
+      .hero {
+        min-height:auto;
+      }
+
+      .hero-inner {
+        width:calc(100% - 32px);
+        padding:60px 0 55px;
+        gap:30px;
       }
 
       .hero h1 {
-        font-size: 54px;
-
-        letter-spacing: -2px;
+        font-size:clamp(50px,15vw,76px);
+        letter-spacing:-3px;
       }
 
       .hero-copy {
-        font-size: 16px;
+        font-size:16px;
+      }
+
+      .portrait-stage {
+        min-height:360px;
+        transform:scale(.9);
+        transform-origin:top center;
+        margin-bottom:-35px;
+      }
+
+      .p-osho {
+        width:112px;
+        height:154px;
+        left:0;
+        top:56px;
+      }
+
+      .p-krishnamurti {
+        width:102px;
+        height:138px;
+        left:28%;
+        top:20px;
+      }
+
+      .p-tagore {
+        width:108px;
+        height:150px;
+        right:0;
+        top:56px;
+      }
+
+      .p-socrates {
+        width:104px;
+        height:160px;
+        left:10%;
+        bottom:5px;
+      }
+
+      .p-nietzsche {
+        width:103px;
+        height:144px;
+        left:43%;
+        bottom:0;
+      }
+
+      .p-plato {
+        width:104px;
+        height:153px;
+        right:7%;
+        bottom:0;
+      }
+
+      .portrait-intro {
+        right:3px;
+        font-size:7px;
+        letter-spacing:2px;
       }
 
       .quote-intro {
-        padding: 75px 20px 82px;
+        padding:70px 18px 78px;
       }
 
-      .explore {
-        padding-top: 70px;
+      .quote-intro blockquote {
+        font-size:31px;
       }
 
-      .feature-card {
-        min-height: 280px;
+      .voices,
+      .explore,
+      .latest,
+      .about {
+        padding:72px 16px;
+      }
 
-        padding: 25px;
+      .voices-heading,
+      .section-heading {
+        display:block;
+      }
+
+      .voices-heading p,
+      .section-heading p {
+        margin-top:18px;
+      }
+
+      .voice-strip {
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .voice,
+      .voice img {
+        min-height:190px;
+        height:190px;
       }
 
       .archive-row {
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
       }
 
-      .archive-card {
-        min-height: 190px;
-
-        padding: 25px;
+      .feature-card {
+        min-height:260px;
       }
 
-      .dynamic-quotes {
-        padding: 78px 20px;
+      .latest-grid {
+        grid-template-columns:1fr;
+      }
+
+      .latest-item {
+        min-height:190px;
+      }
+
+      .about {
+        gap:35px;
+      }
+
+      .about-copy p {
+        font-size:16px;
+      }
+
+      .closing {
+        padding:80px 18px;
       }
 
       .footer-inner {
-        flex-direction: column;
-
-        text-align: center;
+        flex-direction:column;
+        text-align:center;
       }
     }
   </style>
 </head>
 
-<body>
-
-  <!-- =========================
-       NAVIGATION
-  ========================= -->
+<body id="home">
 
   <nav class="site-nav">
-
     <div class="nav-inner">
 
       <a class="brand" href="#home">
         Philosophy & Literature
       </a>
 
-      <div class="nav-links">
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >☰</button>
 
+      <div class="nav-links" id="navLinks">
         <a href="#home">Home</a>
-
         <a href="#philosophy">Philosophy</a>
-
         <a href="literature.html">Literature</a>
-
         <a href="#library">Library</a>
-
         <a href="quotes.html">Quotes</a>
-
         <a href="articles.html">Articles</a>
-
         <a href="gallery.html">Gallery</a>
-
         <a href="#about">About</a>
-
         <a class="admin-link" href="admin.html">Admin</a>
-
       </div>
 
     </div>
-
   </nav>
-
-
-  <!-- =========================
-       HERO
-  ========================= -->
-
-  <header class="hero" id="home">
-
-    <div class="hero-inner">
-
-      <div>
-
-        <div class="eyebrow">
-          An evolving digital archive
-        </div>
-
-        <h1>
-          Ideas worth<br>
-          thinking about.
-        </h1>
-
-        <p class="hero-copy">
-          Philosophy, literature, books, voices and questions —
-          gathered in one place for readers who want to look
-          a little deeper.
-        </p>
-
-      </div>
-
-
-      <div class="hero-side">
-
-        <strong>
-          Read slowly.
-        </strong>
-
-        There is no final answer here.
-        Only ideas to encounter, question,
-        remember and carry with you.
-
-      </div>
-
-    </div>
-
-  </header>
-
-
-  <!-- =========================
-       OPENING THOUGHT
-  ========================= -->
-
-  <section class="quote-intro">
-
-    <div class="section-label">
-      Opening thought
-    </div>
-
-    <blockquote>
-      “The end of knowledge is the beginning of wisdom.”
-    </blockquote>
-
-    <cite>
-      — J. Krishnamurti
-    </cite>
-
-  </section>
-
 
   <main>
 
-    <!-- =========================
-         EXPLORE ARCHIVE
-    ========================= -->
+    <!-- HERO -->
 
-    <section class="explore">
+    <section class="hero">
 
-      <div class="section-heading">
+      <div class="hero-inner">
 
         <div>
 
-          <div class="section-label">
-            Explore
+          <div class="eyebrow">
+            An archive of thought · India & the world
           </div>
 
-          <h2>
-            Enter the archive.
-          </h2>
-
-        </div>
-
-        <p>
-          Two worlds at the heart of the project,
-          followed by the smaller collections that
-          keep the archive growing.
-        </p>
-
-      </div>
-
-
-      <!-- MAIN SECTIONS -->
-
-      <div class="feature-grid">
-
-
-        <!-- PHILOSOPHY -->
-
-        <a
-          class="feature-card philosophy"
-          id="philosophy"
-          href="philosophy.html"
-        >
-
-          <div class="card-small-label">
-            01 — Ideas
-          </div>
-
-          <div>
-
-            <h3>
-              Philosophy
-            </h3>
-
-            <p>
-              Thinkers, traditions, concepts, periods,
-              works and the questions that have followed
-              humanity across centuries.
-            </p>
-
-          </div>
-
-        </a>
-
-
-        <!-- LITERATURE -->
-
-        <a
-          class="feature-card literature"
-          href="literature.html"
-        >
-
-          <div class="card-small-label">
-            02 — Writing
-          </div>
-
-          <div>
-
-            <h3>
-              Literature
-            </h3>
-
-            <p>
-              Writers, poetry, fiction, essays,
-              movements and the ideas hidden inside
-              literature.
-            </p>
-
-          </div>
-
-        </a>
-
-      </div>
-
-
-      <!-- ARCHIVE COLLECTIONS -->
-
-      <div class="archive-row">
-
-
-        <!-- LIBRARY -->
-
-        <a
-          class="archive-card library-card"
-          id="library"
-          href="library.html"
-        >
-
-          <div class="card-small-label">
-            03 — Books
-          </div>
-
-          <div>
-
-            <h3>
-              Library
-            </h3>
-
-            <p>
-              Books and reading resources
-              for continued study.
-            </p>
-
-          </div>
-
-        </a>
-
-
-        <!-- QUOTES -->
-
-        <a
-          class="archive-card quotes-card"
-          href="quotes.html"
-        >
-
-          <div class="card-small-label">
-            04 — Words
-          </div>
-
-          <div>
-
-            <h3>
-              Quotes
-            </h3>
-
-            <p>
-              Memorable voices,
-              with their sources.
-            </p>
-
-          </div>
-
-        </a>
-
-
-        <!-- ARTICLES -->
-
-        <a
-          class="archive-card articles-card"
-          href="articles.html"
-        >
-
-          <div class="card-small-label">
-            05 — Notes
-          </div>
-
-          <div>
-
-            <h3>
-              Articles
-            </h3>
-
-            <p>
-              Essays, explanations
-              and original notes.
-            </p>
-
-          </div>
-
-        </a>
-
-
-        <!-- GALLERY -->
-
-        <a
-          class="archive-card gallery-card"
-          href="gallery.html"
-        >
-
-          <div class="card-small-label">
-            06 — Visuals
-          </div>
-
-          <div>
-
-            <h3>
-              Gallery
-            </h3>
-
-            <p>
-              Images and visual material
-              connected to ideas.
-            </p>
-
-          </div>
-
-        </a>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         FOLLOW A THREAD
-    ========================= -->
-
-    <section class="latest">
-
-      <div class="latest-inner">
-
-        <div class="section-heading">
-
-          <div>
-
-            <div class="section-label">
-              Continue reading
-            </div>
-
-            <h2>
-              Follow a thread.
-            </h2>
-
-          </div>
-
-          <p>
-            The archive is meant to be explored
-            rather than consumed all at once.
+          <h1>
+            <span>Philosophy</span>
+            <span>& Literature</span>
+          </h1>
+
+          <p class="hero-copy">
+            A place for ideas that refuse to disappear —
+            philosophy, literature, books, questions, quotations
+            and the voices that changed how we see the world.
           </p>
 
+          <div class="hero-mantra">
+            Read slowly. Think deeply. Question everything.
+
+            <small>
+              Ideas worth thinking about.
+            </small>
+          </div>
+
         </div>
 
+        <!-- THINKER COLLAGE -->
 
-        <div class="latest-grid">
+        <div class="portrait-stage">
 
+          <div class="portrait-intro">
+            Voices across traditions
+          </div>
 
-          <a
-            class="latest-item"
-            href="philosophy.html"
-          >
+          <figure class="portrait p-osho">
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Osho%20Rajneesh.jpg"
+              alt="Osho"
+            >
+            <figcaption>Osho</figcaption>
+          </figure>
 
-            <div class="meta">
-              Philosophy
-            </div>
+          <figure class="portrait p-krishnamurti">
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Jiddu%20Krishnamurti%20by%20Witzel.jpg"
+              alt="Jiddu Krishnamurti"
+            >
+            <figcaption>Krishnamurti</figcaption>
+          </figure>
 
-            <h3>
-              Meet the thinkers.
-            </h3>
-
-            <p>
-              Follow the people and traditions behind
-              some of humanity's most persistent questions.
-            </p>
-
-            <span class="latest-link">
-              Explore Philosophy →
-  </span>
-  
+          <figure class="portrait p-tagore">
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Rabindranath%20Tagore.jpg"
+              alt="Rabindranath Tagore"
+            >
+ 
