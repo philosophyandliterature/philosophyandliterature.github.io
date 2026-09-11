@@ -315,9 +315,9 @@
         description,
         publication_year,
         language,
-        cover_url,
-        authors(name),
-        categories(name)
+cover_url,
+pdf_url,
+authors(name),
       `)
       .eq("is_published", true)
       .order("title");
