@@ -9,135 +9,453 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+  :root {
+    --ink: #172541;
+    --deep: #0b1220;
+    --paper: #f4efe4;
+    --paper-light: #fbf8f1;
+    --gold: #b08a3e;
+    --gold-light: #d6bd7c;
+    --burgundy: #682f36;
+    --forest: #334838;
+    --muted: #6b675f;
+    --line: #d9d1c1;
+  }
 
-    body {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      background: #f6f1e7;
-      color: #302d28;
-    }
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  /* =========================
+     HEADER
+     ========================= */
+
+  header {
+    position: relative;
+    overflow: hidden;
+
+    background:
+      radial-gradient(
+        circle at 85% 20%,
+        rgba(176, 138, 62, 0.22),
+        transparent 32%
+      ),
+      radial-gradient(
+        circle at 10% 90%,
+        rgba(104, 47, 54, 0.22),
+        transparent 35%
+      ),
+      var(--deep);
+
+    color: var(--paper-light);
+    padding: 76px 22px 70px;
+    text-align: left;
+
+    border-bottom: 4px solid var(--gold);
+  }
+
+  header::after {
+    content: "";
+    position: absolute;
+
+    right: -110px;
+    bottom: -170px;
+
+    width: 390px;
+    height: 390px;
+
+    border: 1px solid rgba(214, 189, 124, 0.18);
+    border-radius: 50%;
+  }
+
+  header h1 {
+    position: relative;
+    z-index: 1;
+
+    max-width: 1050px;
+    margin: 0 auto 15px;
+
+    font-size: clamp(45px, 8vw, 82px);
+    font-weight: normal;
+    line-height: 0.98;
+    letter-spacing: -2px;
+  }
+
+  header h1::before {
+    content: "THE QUOTATIONS ARCHIVE";
+
+    display: block;
+    margin-bottom: 18px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 3px;
+
+    color: var(--gold-light);
+  }
+
+  header p {
+    position: relative;
+    z-index: 1;
+
+    max-width: 1050px;
+    margin: 0 auto;
+
+    color: #c9c3b7;
+    font-size: 18px;
+  }
+
+  /* =========================
+     NAVIGATION
+     ========================= */
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+
+    background: rgba(11, 18, 32, 0.96);
+
+    padding: 13px 15px;
+
+    text-align: center;
+
+    border-bottom: 1px solid rgba(214, 189, 124, 0.25);
+  }
+
+  nav a {
+    color: #e9e3d7;
+
+    text-decoration: none;
+
+    margin: 0 9px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+
+    transition: color 0.2s ease;
+  }
+
+  nav a:hover {
+    color: var(--gold-light);
+  }
+
+  /* =========================
+     MAIN CONTENT
+     ========================= */
+
+  .container {
+    max-width: 980px;
+    margin: auto;
+
+    padding: 70px 22px 90px;
+  }
+
+  /* =========================
+     INTRO
+     ========================= */
+
+  .intro {
+    max-width: 760px;
+
+    margin: 0 auto 55px;
+
+    text-align: center;
+  }
+
+  .intro::before {
+    content: "WORDS THAT REMAIN";
+
+    display: block;
+
+    margin-bottom: 14px;
+
+    color: var(--burgundy);
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 3px;
+  }
+
+  .intro h2 {
+    margin: 0 0 15px;
+
+    font-size: clamp(34px, 6vw, 52px);
+    font-weight: normal;
+
+    line-height: 1.05;
+  }
+
+  .intro p {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  /* =========================
+     QUOTE CARD
+     ========================= */
+
+  .quote-card {
+    position: relative;
+
+    background: var(--paper-light);
+
+    margin-bottom: 30px;
+
+    padding: 42px 48px 38px;
+
+    border: 1px solid var(--line);
+
+    box-shadow:
+      0 12px 30px rgba(23, 37, 65, 0.07);
+
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .quote-card::before {
+    content: "“";
+
+    position: absolute;
+
+    top: 14px;
+    left: 23px;
+
+    color: var(--gold);
+
+    font-family: Georgia, serif;
+    font-size: 64px;
+    line-height: 1;
+  }
+
+  .quote-card::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 4px;
+    height: 100%;
+
+    background: var(--gold);
+  }
+
+  .quote-card:nth-child(2n)::after {
+    background: var(--burgundy);
+  }
+
+  .quote-card:nth-child(3n)::after {
+    background: var(--forest);
+  }
+
+  .quote-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+      0 18px 38px rgba(23, 37, 65, 0.11);
+  }
+
+  /* =========================
+     QUOTATION
+     ========================= */
+
+  blockquote {
+    margin: 0 0 25px;
+
+    font-size: clamp(22px, 3vw, 30px);
+    line-height: 1.6;
+
+    font-style: italic;
+
+    color: #252a32;
+  }
+
+  /* =========================
+     AUTHOR
+     ========================= */
+
+  .author {
+    padding-top: 17px;
+
+    border-top: 1px solid var(--line);
+
+    color: var(--ink);
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* =========================
+     SOURCE
+     ========================= */
+
+  .source {
+    margin-top: 9px;
+
+    color: var(--muted);
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+
+    line-height: 1.5;
+  }
+
+  .source::before {
+    content: "SOURCE · ";
+
+    color: var(--gold);
+
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  /* =========================
+     EMPTY STATE
+     ========================= */
+
+  .empty {
+    background: var(--paper-light);
+
+    padding: 45px 25px;
+
+    border: 1px solid var(--line);
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 18px;
+  }
+
+  /* =========================
+     FOOTER
+     ========================= */
+
+  footer {
+    background: var(--deep);
+
+    color: #c9c3b7;
+
+    text-align: center;
+
+    padding: 38px 20px;
+
+    border-top: 4px solid var(--gold);
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+  }
+
+  footer p {
+    margin: 6px 0;
+  }
+
+  footer a {
+    color: var(--gold-light);
+  }
+
+  /* =========================
+     MOBILE
+     ========================= */
+
+  @media (max-width: 600px) {
 
     header {
-      background: #292721;
-      color: #f6f1e7;
-      padding: 22px 20px;
-      text-align: center;
+      padding: 58px 18px 52px;
     }
 
     header h1 {
-      margin: 0 0 8px;
-      font-size: 30px;
+      font-size: 49px;
+      letter-spacing: -1.5px;
+    }
+
+    header h1::before {
+      font-size: 9px;
+      letter-spacing: 2.5px;
     }
 
     header p {
-      margin: 0;
-      color: #d8d0c2;
+      font-size: 16px;
     }
 
     nav {
-      background: #403a33;
-      padding: 12px;
-      text-align: center;
+      overflow-x: auto;
+      white-space: nowrap;
+      text-align: left;
+
+      padding: 12px 10px;
     }
 
     nav a {
-      color: #f6f1e7;
-      text-decoration: none;
-      margin: 0 10px;
-      font-size: 14px;
+      display: inline-block;
+      margin: 0 7px;
     }
 
     .container {
-      max-width: 850px;
-      margin: auto;
-      padding: 45px 20px;
+      padding: 48px 14px 65px;
     }
 
     .intro {
-      text-align: center;
-      margin-bottom: 35px;
+      margin-bottom: 38px;
     }
 
     .intro h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
+      font-size: 36px;
     }
 
     .intro p {
-      color: #6d675f;
+      font-size: 15px;
     }
 
     .quote-card {
-      background: #fffdf8;
-      padding: 30px;
-      margin-bottom: 22px;
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      border-left: 3px solid #9b8b70;
+      padding: 38px 22px 27px;
+      margin-bottom: 20px;
+    }
+
+    .quote-card::before {
+      left: 12px;
+      font-size: 52px;
     }
 
     blockquote {
-      margin: 0 0 18px;
-      font-size: 23px;
-      line-height: 1.65;
-      font-style: italic;
+      font-size: 21px;
+      line-height: 1.55;
     }
 
     .author {
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 11px;
     }
 
     .source {
-      margin-top: 5px;
-      color: #756e65;
-      font-size: 14px;
+      font-size: 11px;
     }
-
-    .empty {
-      text-align: center;
-      padding: 40px;
-      color: #756e65;
-    }
-
-    footer {
-      background: #292721;
-      color: #d8d0c2;
-      text-align: center;
-      padding: 28px 20px;
-      margin-top: 30px;
-      font-size: 14px;
-    }
-
-    footer a {
-      color: #d8d0c2;
-    }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 25px;
-      }
-
-      .container {
-        padding: 32px 15px;
-      }
-
-      .quote-card {
-        padding: 22px;
-      }
-
-      blockquote {
-        font-size: 20px;
-      }
-
-      nav a {
-        margin: 0 5px;
-      }
-    }
-  </style>
+  }
+    </style>
 </head>
 
 <body>
