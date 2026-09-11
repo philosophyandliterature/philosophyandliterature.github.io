@@ -380,8 +380,30 @@
         </div>
 
         <div class="field full">
-          <label for="pdfUrl">PDF URL</label>
-          <input id="pdfUrl" type="url">
+  <label for="pdfUrl">PDF URL</label>
+  <input id="pdfUrl" type="url" placeholder="Paste PDF link">
+
+  <div style="margin-top:12px; padding:14px; border:1px dashed #aaa; border-radius:8px;">
+    <label for="pdfFile" style="display:block; margin-bottom:8px;">
+      Or select a PDF from your phone
+    </label>
+
+    <input
+      id="pdfFile"
+      type="file"
+      accept="application/pdf,.pdf"
+    >
+
+    <button
+      type="button"
+      onclick="uploadBookPDF()"
+      style="margin-top:10px;"
+    >
+      Upload PDF
+    </button>
+
+    <div id="pdfUploadStatus" style="margin-top:8px; font-size:13px;"></div>
+  </div>
         </div>
 
         <div class="field full">
