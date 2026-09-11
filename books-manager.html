@@ -925,6 +925,7 @@
 
   checkAdmin();
 async function uploadBookPDF() {
+
   const fileInput = document.getElementById("pdfFile");
   const status = document.getElementById("pdfUploadStatus");
   const pdfUrlInput = document.getElementById("pdfUrl");
@@ -941,28 +942,63 @@ async function uploadBookPDF() {
     return;
   }
 
+  status.textContent = "Checking login...";
+
+  const {
+    data: sessionData,
+    error: sessionError
+  } = await client.auth.getSession();
+
+  if (sessionError) {
+    status.textContent = "Login check failed: " + sessionError.message;
+    return;
+  }
+
+  if (!sessionData.session) {
+    status.textContent = "You are not logged in.";
+    return;
+  }
+
   status.textContent = "Uploading PDF...";
 
-  const fileName =
-    `${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+  const userId = sessionData.session.user.id;
 
-  const { error } = await client
-    .storage
+  const safeName = file.name.replace(
+    /[^a-zA-Z0-9._-]/g,
+    "_"
+  );
+
+  const filePath =
+    `${userId}/${Date.now()}-${safeName}`;
+
+  const {
+    error
+  } = await client.storage
     .from("Book-Files")
-    .upload(fileName, file, {
-      contentType: "application/pdf",
+    .upload(filePath, file, {
+      cacheControl: "3600",
       upsert: false
     });
 
   if (error) {
     console.error(error);
-    status.textContent = "Upload failed: " + error.message;
+    status.textContent =
+      "Upload failed: " + error.message;
     return;
   }
 
-  pdfUrlInput.value = fileName;
-  status.textContent = "PDF uploaded successfully.";
+  pdfUrlInput.value = filePath;
+
+  status.textContent =
+    "PDF uploaded successfully.";
+}
   }
+
+  if (file.type !== "application/pdf") {
+    status.textContent = "Please select a PDF file only.";
+    return;
+  }
+
 </script>
 
 </body>
