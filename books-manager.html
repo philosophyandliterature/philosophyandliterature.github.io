@@ -981,10 +981,14 @@ async function uploadBookPDF() {
     });
 
   if (error) {
-    console.error(error);
-    status.textContent =
-      "Upload failed: " + error.message;
-    return;
+  console.error("UPLOAD ERROR:", error);
+  status.textContent =
+    "Upload failed: " +
+    (error.message || "Unknown error") +
+    " | Code: " +
+    (error.statusCode || error.status || "unknown");
+  return;
+  }
   }
 
   pdfUrlInput.value = filePath;
