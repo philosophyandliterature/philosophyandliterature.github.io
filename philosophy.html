@@ -1,1078 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Philosophy | Philosophy & Literature</title>
+<title>Philosophy — Philosophy & Literature</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="description" content="An exploration of philosophy, ideas, thinkers, existence, consciousness, truth and wisdom.">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    :root {
-      --night: #0b1020;
-      --night-2: #11182b;
-      --ivory: #f5f0e6;
-      --paper: #fbf8f1;
-      --ink: #202534;
-      --muted: #747887;
-      --gold: #b89a62;
-      --line: rgba(32,37,52,0.14);
-    }
+html {
+    scroll-behavior: smooth;
+}
 
-    html {
-      scroll-behavior: smooth;
-    }
+body {
+    background: #f3eee4;
+    color: #171a24;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.7;
+}
 
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Georgia, "Times New Roman", serif;
-      line-height: 1.7;
-    }
+/* NAVIGATION */
 
-    a {
-      color: inherit;
-    }
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13, 20, 38, 0.97);
+    border-bottom: 1px solid rgba(218, 181, 91, 0.35);
+    padding: 16px 6%;
+}
 
-    /* NAV */
+.nav-inner {
+    max-width: 1250px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.logo {
+    color: #f4dfaa;
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #eee9dc;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.nav-links a:hover {
+    color: #e0bb69;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 75% 25%, rgba(194, 157, 70, 0.16), transparent 30%),
+        radial-gradient(circle at 20% 80%, rgba(76, 93, 130, 0.22), transparent 35%),
+        #0d1426;
+    color: #f5f0e6;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border: 1px solid rgba(218, 181, 91, 0.16);
+    border-radius: 50%;
+    right: -180px;
+    top: -170px;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    border: 1px solid rgba(218, 181, 91, 0.10);
+    border-radius: 50%;
+    right: -90px;
+    top: -90px;
+}
+
+.hero-content {
+    width: 100%;
+    max-width: 1250px;
+    margin: auto;
+    padding: 90px 6%;
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
+    font-family: Arial, sans-serif;
+    color: #d9b65d;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(58px, 10vw, 125px);
+    line-height: 0.9;
+    font-weight: normal;
+    letter-spacing: -5px;
+    max-width: 900px;
+}
+
+.hero-subtitle {
+    margin-top: 35px;
+    max-width: 620px;
+    color: #c9c8c2;
+    font-size: 19px;
+}
+
+.hero-line {
+    margin-top: 45px;
+    width: 90px;
+    height: 1px;
+    background: #d9b65d;
+}
+
+/* OPENING QUOTE */
+
+.opening {
+    max-width: 1000px;
+    margin: auto;
+    padding: 110px 6% 120px;
+    text-align: center;
+}
+
+.opening-label {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8a7350;
+    margin-bottom: 35px;
+}
+
+.quote-mark {
+    font-size: 80px;
+    line-height: 0.5;
+    color: #c49b45;
+    margin-bottom: 30px;
+}
+
+.opening blockquote {
+    font-size: clamp(27px, 4vw, 45px);
+    line-height: 1.35;
+    font-style: italic;
+    font-weight: normal;
+    color: #242637;
+}
+
+.attribution {
+    margin-top: 30px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #6e665a;
+}
+
+.attribution strong {
+    color: #25283a;
+}
+
+/* DIVIDER */
+
+.divider {
+    width: 80%;
+    max-width: 850px;
+    height: 1px;
+    margin: auto;
+    background: rgba(38, 39, 53, 0.15);
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
 
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(11,16,32,0.94);
-      backdrop-filter: blur(10px);
-      padding: 13px 12px;
-      text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+        padding: 14px 5%;
     }
 
-    nav a {
-      color: #eee9de;
-      text-decoration: none;
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      margin: 0 7px;
-      letter-spacing: 0.03em;
+    .nav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
     }
 
-    nav a:hover {
-      color: #d5b878;
+    .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 12px 17px;
     }
 
-    /* HERO */
+    .nav-links a {
+        font-size: 12px;
+    }
 
     .hero {
-      position: relative;
-      min-height: 78vh;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      background:
-        radial-gradient(circle at 75% 25%, rgba(184,154,98,0.15), transparent 28%),
-        radial-gradient(circle at 15% 80%, rgba(94,115,170,0.12), transparent 30%),
-        linear-gradient(135deg, var(--night), var(--night-2));
-      color: var(--ivory);
+        min-height: 70vh;
     }
 
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-      width: min(1050px, 100%);
-      margin: auto;
-      padding: 85px 24px;
-    }
-
-    .eyebrow {
-      font-family: Arial, sans-serif;
-      color: var(--gold);
-      font-size: 11px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      margin-bottom: 25px;
+    .hero-content {
+        padding: 75px 7%;
     }
 
     .hero h1 {
-      max-width: 850px;
-      margin: 0;
-      font-size: clamp(54px, 12vw, 112px);
-      line-height: 0.92;
-      font-weight: normal;
-      letter-spacing: -0.045em;
+        font-size: 64px;
+        letter-spacing: -3px;
     }
 
-    .hero h1 span {
-      display: block;
-      color: #cbbf9f;
+    .hero-subtitle {
+        font-size: 17px;
     }
 
-    .hero-text {
-      max-width: 610px;
-      margin: 32px 0 0;
-      font-size: 18px;
-      color: #c9c6c0;
+    .opening {
+        padding: 85px 7% 95px;
     }
 
-    .hero-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin-top: 35px;
+    .opening blockquote {
+        font-size: 28px;
     }
-
-    .hero-links a {
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 30px;
-      padding: 8px 15px;
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      color: #e9e3d8;
-      transition: 0.25s ease;
-    }
-
-    .hero-links a:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      transform: translateY(-2px);
-    }
-
-    /* DECORATIVE CONSTELLATION */
-
-    .orbit {
-      position: absolute;
-      width: 430px;
-      height: 430px;
-      right: -110px;
-      top: 50%;
-      transform: translateY(-50%);
-      border: 1px solid rgba(184,154,98,0.18);
-      border-radius: 50%;
-      animation: drift 12s ease-in-out infinite;
-    }
-
-    .orbit::before,
-    .orbit::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(184,154,98,0.12);
-    }
-
-    .orbit::before {
-      inset: 55px;
-    }
-
-    .orbit::after {
-      inset: 120px;
-    }
-
-    .star {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: var(--gold);
-      border-radius: 50%;
-      box-shadow: 0 0 14px rgba(184,154,98,0.6);
-    }
-
-    .star.one {
-      top: 17%;
-      left: 28%;
-    }
-
-    .star.two {
-      top: 67%;
-      left: 19%;
-    }
-
-    .star.three {
-      top: 35%;
-      right: 14%;
-    }
-
-    @keyframes drift {
-      0%,100% {
-        transform: translateY(-50%) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-50%) rotate(5deg);
-      }
-    }
-
-    /* MAIN */
-
-    main {
-      width: min(1050px, 100%);
-      margin: auto;
-      padding: 85px 22px;
-    }
-
-    section {
-      margin-bottom: 100px;
-    }
-
-    .section-heading {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 20px;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 14px;
-      margin-bottom: 32px;
-    }
-
-    .section-heading h2 {
-      margin: 0;
-      font-size: 34px;
-      font-weight: normal;
-      letter-spacing: -0.02em;
-    }
-
-    .section-heading span {
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-    }
-
-    /* THINKERS */
-
-    .thinkers {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .thinker {
-      padding: 25px 12px 25px 0;
-      border-bottom: 1px solid var(--line);
-      transition: 0.25s ease;
-    }
-
-    .thinker:nth-child(even) {
-      padding-left: 25px;
-      border-left: 1px solid var(--line);
-    }
-
-    .thinker:hover {
-      transform: translateX(5px);
-    }
-
-    .thinker h3 {
-      margin: 0 0 3px;
-      font-size: 23px;
-      font-weight: normal;
-    }
-
-    .dates {
-      color: var(--gold);
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      margin-bottom: 9px;
-    }
-
-    .thinker p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      max-width: 440px;
-    }
-
-    /* IDEAS */
-
-    .ideas {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
-    }
-
-    .idea {
-      background: var(--paper);
-      min-height: 125px;
-      padding: 23px;
-      text-decoration: none;
-      transition: 0.25s ease;
-    }
-
-    .idea:hover {
-      background: #f0eadc;
-    }
-
-    .idea-number {
-      color: var(--gold);
-      font-family: Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-    }
-
-    .idea h3 {
-      margin: 18px 0 0;
-      font-size: 19px;
-      font-weight: normal;
-    }
-
-    /* WORKS */
-
-    .works {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .work {
-      text-decoration: none;
-      padding: 30px 25px;
-      min-height: 190px;
-      background: var(--night);
-      color: var(--ivory);
-      position: relative;
-      overflow: hidden;
-      transition: 0.25s ease;
-    }
-
-    .work:hover {
-      transform: translateY(-5px);
-    }
-
-    .work small {
-      color: var(--gold);
-      font-family: Arial, sans-serif;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-    }
-
-    .work h3 {
-      margin: 22px 0 7px;
-      font-size: 25px;
-      font-weight: normal;
-    }
-
-    .work p {
-      margin: 0;
-      color: #aeb1bb;
-      font-size: 13px;
-    }
-
-    .arrow {
-      position: absolute;
-      right: 22px;
-      bottom: 18px;
-      color: var(--gold);
-      font-size: 20px;
-    }
-
-    /* BOOKS */
-
-    .books {
-      display: grid;
-      gap: 0;
-    }
-
-    .book {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 20px;
-      padding: 23px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .book h3 {
-      margin: 0 0 4px;
-      font-size: 20px;
-      font-weight: normal;
-    }
-
-    .book .author {
-      color: var(--gold);
-      font-size: 13px;
-    }
-
-    .book p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .book-meta {
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      text-align: right;
-    }
-
-    /* QUOTES */
-
-    .quotes {
-      display: grid;
-      gap: 20px;
-    }
-
-    .quote {
-      padding: 30px;
-      background: #eee8dc;
-      border-left: 2px solid var(--gold);
-    }
-
-    .quote blockquote {
-      margin: 0 0 14px;
-      font-size: clamp(20px, 4vw, 28px);
-      line-height: 1.4;
-      font-style: italic;
-    }
-
-    .quote-author {
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      color: var(--gold);
-    }
-
-    .quote-source {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 3px;
-    }
-
-    /* EMPTY / ERROR */
-
-    .empty {
-      grid-column: 1 / -1;
-      padding: 22px;
-      color: var(--muted);
-      background: #eee8dc;
-      font-size: 14px;
-    }
-
-    /* FOOTER */
-
-    footer {
-      background: var(--night);
-      color: #aeb1bb;
-      text-align: center;
-      padding: 45px 20px;
-      font-size: 13px;
-    }
-
-    footer strong {
-      display: block;
-      color: var(--ivory);
-      font-size: 18px;
-      font-weight: normal;
-      margin-bottom: 6px;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 700px) {
-
-      nav {
-        white-space: nowrap;
-        overflow-x: auto;
-        text-align: left;
-        padding-left: 10px;
-      }
-
-      nav a {
-        display: inline-block;
-        margin-right: 10px;
-      }
-
-      .hero {
-        min-height: 76vh;
-      }
-
-      .hero-inner {
-        padding: 75px 20px;
-      }
-
-      .hero h1 {
-        font-size: 60px;
-      }
-
-      .hero-text {
-        font-size: 16px;
-      }
-
-      .orbit {
-        width: 280px;
-        height: 280px;
-        right: -150px;
-        top: 70%;
-      }
-
-      main {
-        padding: 65px 18px;
-      }
-
-      section {
-        margin-bottom: 75px;
-      }
-
-      .section-heading {
-        display: block;
-      }
-
-      .section-heading span {
-        display: block;
-        margin-top: 5px;
-      }
-
-      .section-heading h2 {
-        font-size: 29px;
-      }
-
-      .thinkers {
-        grid-template-columns: 1fr;
-      }
-
-      .thinker,
-      .thinker:nth-child(even) {
-        padding: 22px 0;
-        border-left: 0;
-      }
-
-      .ideas {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .idea {
-        min-height: 115px;
-        padding: 18px;
-      }
-
-      .works {
-        grid-template-columns: 1fr;
-      }
-
-      .work {
-        min-height: 165px;
-      }
-
-      .book {
-        grid-template-columns: 1fr;
-      }
-
-      .book-meta {
-        text-align: left;
-      }
-
-      .quote {
-        padding: 24px;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
 <nav>
-  <a href="index.html">Home</a>
-  <a href="philosophy.html">Philosophy</a>
-  <a href="literature.html">Literature</a>
-  <a href="library.html">Library</a>
-  <a href="quotes.html">Quotes</a>
-  <a href="articles.html">Articles</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="index.html#about">About</a>
-</nav>
+    <div class="nav-inner">
 
+        <a class="logo" href="index.html">
+            PHILOSOPHY & LITERATURE
+        </a>
 
-<header class="hero">
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="philosophy.html">Philosophy</a>
+            <a href="literature.html">Literature</a>
+            <a href="library.html">Library</a>
+            <a href="quotes.html">Quotes</a>
+            <a href="articles.html">Articles</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="admin.html">Admin</a>
+        </div>
 
-  <div class="orbit">
-    <span class="star one"></span>
-    <span class="star two"></span>
-    <span class="star three"></span>
-  </div>
-
-  <div class="hero-inner">
-
-    <div class="eyebrow">Philosophy & Literature · Archive</div>
-
-    <h1>
-      Questions
-      <span>that refuse</span>
-      to disappear.
-    </h1>
-
-    <p class="hero-text">
-      Philosophy begins where easy answers end.
-      Explore the thinkers, ideas, books and voices
-      gathered in this living archive.
-    </p>
-
-    <div class="hero-links">
-      <a href="#thinkers">Thinkers</a>
-      <a href="#ideas">Ideas</a>
-      <a href="#works">Works & Voices</a>
-      <a href="#quotes">Quotes</a>
     </div>
-
-  </div>
-
-</header>
-
+</nav>
 
 <main>
 
-  <!-- THINKERS -->
+<section class="hero">
 
-  <section id="thinkers">
+    <div class="hero-content">
 
-    <div class="section-heading">
-      <h2>Thinkers</h2>
-      <span>Voices in the archive</span>
-    </div>
+        <div class="eyebrow">
+            The life of the mind
+        </div>
 
-    <div id="thinkersContainer" class="thinkers">
-      <div class="empty">Loading thinkers...</div>
-    </div>
+        <h1>
+            Philosophy
+        </h1>
 
-  </section>
-
-
-  <!-- IDEAS -->
-
-  <section id="ideas">
-
-    <div class="section-heading">
-      <h2>Ideas</h2>
-      <span>Ways of asking</span>
-    </div>
-
-    <div class="ideas">
-
-      <a class="idea" href="articles.html">
-        <div class="idea-number">01</div>
-        <h3>Ethics</h3>
-      </a>
-
-      <a class="idea" href="articles.html">
-        <div class="idea-number">02</div>
-        <h3>Existentialism</h3>
-      </a>
-
-      <a class="idea" href="articles.html">
-        <div class="idea-number">03</div>
-        <h3>Knowledge</h3>
-      </a>
-
-      <a class="idea" href="articles.html">
-        <div class="idea-number">04</div>
-        <h3>Metaphysics</h3>
-      </a>
-
-      <a class="idea" href="articles.html">
-        <div class="idea-number">05</div>
-        <h3>Political Philosophy</h3>
-      </a>
-
-      <a class="idea" href="articles.html">
-        <div class="idea-number">06</div>
-        <h3>Philosophy of Mind</h3>
-      </a>
-
-      <a class="idea" href="articles.html">
-        <div class="idea-number">07</div>
-        <h3>Aesthetics</h3>
-      </a>
-
-      <a class="idea" href="articles.html">
-        <div class="idea-number">08</div>
-        <h3>Logic</h3>
-      </a>
-
-    </div>
-
-  </section>
-
-
-  <!-- WORKS & VOICES -->
-
-  <section id="works">
-
-    <div class="section-heading">
-      <h2>Works & Voices</h2>
-      <span>Continue exploring</span>
-    </div>
-
-    <div class="works">
-
-      <a class="work" href="library.html">
-        <small>The Library</small>
-        <h3>Books</h3>
-        <p>
-          Enter the collection of works preserved
-          in the archive.
+        <p class="hero-subtitle">
+            An inquiry into existence, consciousness, truth,
+            meaning, and the questions that remain when easy
+            answers fall away.
         </p>
-        <div class="arrow">→</div>
-      </a>
 
-      <a class="work" href="quotes.html">
-        <small>Fragments</small>
-        <h3>Quotes</h3>
-        <p>
-          Words that remain long after the argument
-          has ended.
-        </p>
-        <div class="arrow">→</div>
-      </a>
-
-      <a class="work" href="articles.html">
-        <small>The Journal</small>
-        <h3>Articles</h3>
-        <p>
-          Essays and reflections on ideas worth
-          slowing down for.
-        </p>
-        <div class="arrow">→</div>
-      </a>
+        <div class="hero-line"></div>
 
     </div>
 
-  </section>
+</section>
 
 
-  <!-- BOOKS -->
+<section class="opening">
 
-  <section id="books">
-
-    <div class="section-heading">
-      <h2>Philosophy Books</h2>
-      <span>From the library</span>
+    <div class="opening-label">
+        An opening thought
     </div>
 
-    <div id="booksContainer" class="books">
-      <div class="empty">Loading books...</div>
+    <div class="quote-mark">
+        “
     </div>
 
-  </section>
+    <blockquote>
+        The end of knowledge is the beginning of wisdom.
+    </blockquote>
 
-
-  <!-- QUOTES -->
-
-  <section id="quotes">
-
-    <div class="section-heading">
-      <h2>Voices</h2>
-      <span>Selected quotations</span>
+    <div class="attribution">
+        — <strong>J. Krishnamurti</strong>
     </div>
 
-    <div id="quotesContainer" class="quotes">
-      <div class="empty">Loading quotes...</div>
-    </div>
+</section>
 
-  </section>
+
+<div class="divider"></div>
 
 </main>
 
-
-<footer>
-  <strong>Philosophy & Literature</strong>
-  An evolving archive of ideas, books and voices.
-</footer>
-
-
-<script>
-
-  const SUPABASE_URL =
-    "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
-
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
-
-  let client;
-
-try {
-  if (!window.supabase) {
-    throw new Error("Supabase library did not load.");
-  }
-
-  client = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
-
-} catch (error) {
-
-  console.error("Supabase startup error:", error);
-
-  document.querySelectorAll(".empty").forEach(el => {
-    el.textContent =
-      "Supabase error: " + error.message;
-  });
-
-}
-
-
-  /* ==============================
-     THINKERS
-     ============================== */
-
-  async function loadThinkers() {
-
-    const container =
-      document.getElementById("thinkersContainer");
-
-    const { data, error } = await client
-      .from("authors")
-      .select("name, bio, birth_year, death_year")
-      .order("name");
-
-    if (error) {
-      container.innerHTML =
-        '<div class="empty">Unable to load thinkers.</div>';
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      container.innerHTML =
-        '<div class="empty">No thinkers have been added yet.</div>';
-      return;
-    }
-
-    container.innerHTML = data.map(person => {
-
-      let dates = "";
-
-      if (person.birth_year || person.death_year) {
-        dates =
-          `${person.birth_year || "?"}–${person.death_year || ""}`;
-      }
-
-      return `
-        <article class="thinker">
-
-          <h3>${escapeHtml(person.name)}</h3>
-
-          ${
-            dates
-              ? `<div class="dates">${escapeHtml(dates)}</div>`
-              : ""
-          }
-
-          <p>
-            ${escapeHtml(
-              person.bio ||
-              "Philosopher represented in the archive."
-            )}
-          </p>
-
-        </article>
-      `;
-
-    }).join("");
-  }
-
-
-  /* ==============================
-     PHILOSOPHY BOOKS
-     ============================== */
-
-  async function loadBooks() {
-
-    const container =
-      document.getElementById("booksContainer");
-
-    const { data: category, error: categoryError } =
-      await client
-        .from("categories")
-        .select("id")
-        .eq("name", "Philosophy")
-        .maybeSingle();
-
-    if (categoryError || !category) {
-      container.innerHTML =
-        '<div class="empty">No Philosophy category found.</div>';
-      return;
-    }
-
-    const { data, error } = await client
-      .from("books")
-      .select(`
-        title,
-        subtitle,
-        description,
-        publication_year,
-        language,
-        authors(name)
-      `)
-      .eq("category_id", category.id)
-      .eq("is_published", true)
-      .order("title");
-
-    if (error) {
-      container.innerHTML =
-        '<div class="empty">Unable to load books.</div>';
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      container.innerHTML =
-        '<div class="empty">No published philosophy books yet.</div>';
-      return;
-    }
-
-    container.innerHTML = data.map(book => {
-
-      const author =
-        book.authors?.name || "Unknown author";
-
-      return `
-        <article class="book">
-
-          <div>
-
-            <h3>${escapeHtml(book.title)}</h3>
-
-            ${
-              book.subtitle
-                ? `<div>${escapeHtml(book.subtitle)}</div>`
-                : ""
-            }
-
-            <div class="author">
-              ${escapeHtml(author)}
-            </div>
-
-            ${
-              book.description
-                ? `<p>${escapeHtml(book.description)}</p>`
-                : ""
-            }
-
-          </div>
-
-          <div class="book-meta">
-
-            ${
-              book.publication_year
-                ? escapeHtml(String(book.publication_year))
-                : ""
-            }
-
-            ${
-              book.language
-                ? `<br>${escapeHtml(book.language)}`
-                : ""
-            }
-
-          </div>
-
-        </article>
-      `;
-
-    }).join("");
-  }
-
-
-  /* ==============================
-     PHILOSOPHY QUOTES
-     ============================== */
-
-  async function loadQuotes() {
-
-    const container =
-      document.getElementById("quotesContainer");
-
-    const { data: category, error: categoryError } =
-      await client
-        .from("categories")
-        .select("id")
-        .eq("name", "Philosophy")
-        .maybeSingle();
-
-    if (categoryError || !category) {
-      container.innerHTML =
-        '<div class="empty">No Philosophy category found.</div>';
-      return;
-    }
-
-    const { data, error } = await client
-      .from("quotes")
-      .select(`
-        quote_text,
-        source,
-        authors(name)
-      `)
-      .eq("category_id", category.id)
-      .eq("is_published", true)
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      container.innerHTML =
-        '<div class="empty">Unable to load quotes.</div>';
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      container.innerHTML =
-        '<div class="empty">No published philosophy quotes yet.</div>';
-      return;
-    }
-
-    container.innerHTML = data.map(quote => {
-
-      const author =
-        quote.authors?.name || "Unknown author";
-
-      return `
-        <article class="quote">
-
-          <blockquote>
-            “${escapeHtml(quote.quote_text)}”
-          </blockquote>
-
-          <div class="quote-author">
-            — ${escapeHtml(author)}
-          </div>
-
-          ${
-            quote.source
-              ? `<div class="quote-source">${escapeHtml(quote.source)}</div>`
-              : ""
-          }
-
-        </article>
-      `;
-
-    }).join("");
-  }
-
-
-  /* =========================
-   HTML SAFETY
-========================= */
-
-function escapeHtml(text) {
-  return String(text ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-
-/* =========================
-   LOAD PHILOSOPHY CONTENT
-========================= */
-
-document.getElementById("thinkersContainer").innerHTML =
-  '<div class="empty">JAVASCRIPT IS RUNNING</div>';
-
-loadThinkers();
-loadBooks();
-loadQuotes();
+</body>
+</html>
