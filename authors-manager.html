@@ -308,14 +308,32 @@
         </div>
 
         <div class="field">
-          <label for="birthYear">Birth Year</label>
-          <input id="birthYear" type="number">
-        </div>
+  <label for="birthYear">Birth Year</label>
+  <input id="birthYear" type="number">
+</div>
+
+<div class="field">
+  <label for="birthEra">Birth Era</label>
+  <select id="birthEra">
+    <option value="BCE">BCE</option>
+    <option value="CE" selected>CE</option>
+    <option value="">Unknown</option>
+  </select>
+</div>
 
         <div class="field">
-          <label for="deathYear">Death Year</label>
-          <input id="deathYear" type="number">
-        </div>
+  <label for="deathYear">Death Year</label>
+  <input id="deathYear" type="number">
+</div>
+
+<div class="field">
+  <label for="deathEra">Death Era</label>
+  <select id="deathEra">
+    <option value="BCE">BCE</option>
+    <option value="CE" selected>CE</option>
+    <option value="">Unknown</option>
+  </select>
+</div>
 
         <div class="field full">
           <label for="imageUrl">Image URL</label>
@@ -548,6 +566,11 @@
       author.birth_year || "";
     document.getElementById("deathYear").value =
       author.death_year || "";
+    document.getElementById("birthEra").value =
+  author.birth_era || "CE";
+
+document.getElementById("deathEra").value =
+  author.death_era || "CE";
     document.getElementById("imageUrl").value =
       author.image_url || "";
     document.getElementById("bio").value =
@@ -579,10 +602,16 @@
           ? Number(document.getElementById("birthYear").value)
           : null,
 
-      death_year:
+            death_year:
         document.getElementById("deathYear").value
           ? Number(document.getElementById("deathYear").value)
           : null,
+
+      birth_era:
+        document.getElementById("birthEra").value || null,
+
+      death_era:
+        document.getElementById("deathEra").value || null,
 
       image_url:
         document.getElementById("imageUrl").value.trim() || null
