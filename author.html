@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Author | Philosophy & Literature</title>
+
+  <style>
+    :root {
+      --ink: #172541;
+      --deep: #0b1220;
+      --paper: #f4efe4;
+      --light: #fbf8f1;
+      --gold: #b08a3e;
+      --gold-light: #d6bd7c;
+      --burgundy: #682f36;
+      --forest: #334838;
+      --brown: #563d2e;
+      --muted: #6b675f;
+      --line: #d9d1c1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .site-nav {
+      background: var(--deep);
+      color: white;
+      padding: 16px 22px;
+      border-bottom: 1px solid rgba(214,189,124,.35);
+    }
+
+    .site-nav a {
+      color: #f4efe4;
+      text-decoration: none;
+      margin-right: 18px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at 80% 20%, rgba(176,138,62,.18), transparent 35%),
+        radial-gradient(circle at 15% 80%, rgba(104,47,54,.25), transparent 40%),
+        var(--deep);
+      color: #f8f3e9;
+      padding: 90px 22px 75px;
+    }
+
+    .hero-inner {
+      max-width: 1050px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: .95;
+      font-weight: normal;
+    }
+
+    .dates {
+      margin-top: 22px;
+      color: #d8d0c3;
+      font-size: 19px;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: auto;
+      padding: 60px 22px;
+    }
+
+    .portrait {
+      width: 220px;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 35px;
+      border: 1px solid var(--line);
+      background: var(--light);
+    }
+
+    .section {
+      margin-bottom: 55px;
+    }
+
+    .section-label {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-size: 32px;
+      font-weight: normal;
+      margin: 0 0 18px;
+    }
+
+    .bio {
+      max-width: 760px;
+      font-size: 19px;
+      line-height: 1.8;
+      color: #403c3b;
+      white-space: pre-line;
+    }
+
+    .empty {
+      padding: 30px;
+      background: var(--light);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 11px 17px;
+      background: var(--ink);
+      color: white;
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    footer {
+      background: var(--deep);
+      color: #cfc7ba;
+      text-align: center;
+      padding: 30px 20px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 65px 18px 55px;
+      }
+
+      .container {
+        padding: 45px 18px;
+      }
+
+      .portrait {
+        width: 180px;
+        height: 230px;
+      }
+
+      .section h2 {
+        font-size: 27px;
+      }
+
+      .bio {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="philosophy.html">Philosophy</a>
+    <a href="library.html">Library</a>
+    <a href="quotes.html">Quotes</a>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">AUTHOR PROFILE</div>
+      <h1 id="authorName">Loading...</h1>
+      <div class="dates" id="authorDates"></div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <img
+      id="authorImage"
+      class="portrait"
+      style="display:none;"
+      alt=""
+    >
+
+    <section class="section">
+      <div class="section-label">ABOUT</div>
+      <h2>Biography</h2>
+      <div id="biography" class="bio">
+        Loading biography...
+      </div>
+    </section>
+
+    <a class="back" href="philosophy.html">
+      ← Back to Philosophy
+    </a>
+
+  </main>
+
+  <footer>
+    Philosophy & Literature
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL =
+      "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
+    const client = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function formatDate(year, era) {
+      if (!year) return "";
+      return year + (era ? " " + era : "");
+    }
+
+    async function loadAuthor() {
+
+      const params = new URLSearchParams(
+        window.location.search
+      );
+
+      const id = params.get("id");
+
+      if (!id) {
+        document.getElementById("authorName").textContent =
+          "Author not found";
+
+        document.getElementById("biography").textContent =
+          "No author was selected.";
+
+        return;
+      }
+
+      const { data: author, error } = await client
+        .from("authors")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error || !author) {
+        console.error(error);
+
+        document.getElementById("authorName").textContent =
+          "Author not found";
+
+        document.getElementById("biography").textContent =
+          "We could not find this author.";
+
+        return;
+      }
+
+      document.getElementById("authorName").textContent =
+        author.name || "Unnamed Author";
+
+      let dates = "";
+
+      if (author.birth_year) {
+        dates += formatDate(
+          author.birth_year,
+          author.birth_era
+        );
+      }
+
+      if (author.death_year) {
+        dates += " – " + formatDate(
+          author.death_year,
+          author.death_era
+        );
+      }
+
+      document.getElementById("authorDates").textContent =
+        dates;
+
+      document.getElementById("biography").textContent =
+        author.biography || "No biography has been added yet.";
+
+      if (author.image_url) {
+        const image =
+          document.getElementById("authorImage");
+
+        image.src = author.image_url;
+        image.alt = author.name || "Author";
+        image.style.display = "block";
+      }
+    }
+
+    loadAuthor();
+  </script>
+
+</body>
+</html>
