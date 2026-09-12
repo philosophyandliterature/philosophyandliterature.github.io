@@ -905,24 +905,105 @@ function textToHtml(text) {
 
   if (!text) return "";
 
-  return text
-    .split(/\n\s*\n/)
-    .map(
-      paragraph => {
+  const lines = String(text).split("\n");
+  let html = "";
+  let inUl = false;
+  let inOl = false;
 
-        const clean =
-          escapeHtml(
-            paragraph.trim()
-          );
+  function closeLists() {
+    if (inUl) {
+      html += "</ul>";
+      inUl = false;
+    }
 
-        if (!clean) return "";
+    if (inOl) {
+      html += "</ol>";
+      inOl = false;
+    }
+  }
 
-        return `<p>${clean}</p>`;
+  function formatInline(value) {
+    let safe = escapeHtml(value);
 
+    safe = safe.replace(
+      /\*\*(.*?)\*\*/g,
+      "<strong>$1</strong>"
+    );
+
+    safe = safe.replace(
+      /\*(.*?)\*/g,
+      "<em>$1</em>"
+    );
+
+    return safe;
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+
+    const line = lines[i].trim();
+
+    if (!line) {
+      closeLists();
+      continue;
+    }
+
+    if (/^---+$/.test(line)) {
+      closeLists();
+      html += "<hr>";
+      continue;
+    }
+
+    if (/^#{1,6}\s+/.test(line)) {
+      closeLists();
+
+      const match = line.match(/^(#{1,6})\s+(.*)$/);
+      const level = match[1].length;
+      const content = formatInline(match[2]);
+
+      html += `<h${level}>${content}</h${level}>`;
+      continue;
+    }
+
+    if (/^>\s+/.test(line)) {
+      closeLists();
+
+      const quote = line.replace(/^>\s+/, "");
+      html += `<blockquote>“${formatInline(quote)}”</blockquote>`;
+      continue;
+    }
+
+    if (/^[-*]\s+/.test(line)) {
+      if (!inUl) {
+        closeLists();
+        html += "<ul>";
+        inUl = true;
       }
-    )
-    .join("");
 
+      const item = line.replace(/^[-*]\s+/, "");
+      html += `<li>${formatInline(item)}</li>`;
+      continue;
+    }
+
+    if (/^\d+\.\s+/.test(line)) {
+      if (!inOl) {
+        closeLists();
+        html += "<ol>";
+        inOl = true;
+      }
+
+      const item = line.replace(/^\d+\.\s+/, "");
+      html += `<li>${formatInline(item)}</li>`;
+      continue;
+    }
+
+    closeLists();
+
+    html += `<p>${formatInline(line)}</p>`;
+  }
+
+  closeLists();
+
+  return html;
 }
 
 
