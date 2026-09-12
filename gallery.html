@@ -4,18 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gallery | Philosophy & Literature</title>
+<title>The Visual Archive | Philosophy & Literature</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<style>
 
-  <style>
   :root {
     --ink: #202326;
     --ink-deep: #151719;
     --wall: #eeeae2;
     --paper: #f8f5ef;
-    --paper-soft: #e4dfd5;
     --terracotta: #a85f4f;
     --terracotta-light: #c78b78;
     --sage: #657267;
@@ -40,12 +39,13 @@
   }
 
   /* =========================
-     EXHIBITION HEADER
+     HEADER
      ========================= */
 
   header {
     position: relative;
     overflow: hidden;
+
     background:
       radial-gradient(
         circle at 85% 20%,
@@ -60,50 +60,751 @@
       var(--ink-deep);
 
     color: #f8f5ef;
+
     padding: 78px 22px 72px;
+
     text-align: left;
+
     border-bottom: 5px solid var(--terracotta);
   }
 
   header::after {
     content: "";
+
     position: absolute;
+
     right: -100px;
     bottom: -150px;
+
     width: 360px;
     height: 360px;
+
     border: 1px solid rgba(248, 245, 239, 0.12);
+
     border-radius: 50%;
   }
-    
+
+  header h1 {
+    position: relative;
+    z-index: 1;
+
+    max-width: 1100px;
+
+    margin: 0 auto 14px;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: clamp(48px, 8vw, 88px);
+
+    font-weight: normal;
+
+    line-height: 0.95;
+
+    letter-spacing: -2px;
+  }
+
+  header h1::before {
+    content: "THE VISUAL ARCHIVE";
+
+    display: block;
+
+    margin-bottom: 18px;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    color: var(--terracotta-light);
+  }
+
+  header p {
+    position: relative;
+    z-index: 1;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    color: #c9c5bd;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 19px;
+
+    letter-spacing: 0.3px;
+  }
+
+  /* =========================
+     MAIN AREA
+     ========================= */
+
+  .container {
+    max-width: 1180px;
+
+    margin: auto;
+
+    padding: 32px 22px 80px;
+  }
+
+  /* =========================
+     BACK BUTTON
+     ========================= */
+
+  .back {
+    display: inline-flex;
+
+    align-items: center;
+
+    margin-bottom: 26px;
+
+    padding: 11px 17px;
+
+    background: var(--paper);
+
+    color: var(--ink);
+
+    border: 1px solid var(--line);
+
+    border-radius: 0;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 0.5px;
+
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .back:hover {
+    background: var(--ink);
+
+    color: var(--paper);
+
+    transform: translateY(-2px);
+  }
+
+  /* =========================
+     CATEGORY FILTERS
+     ========================= */
+
+  .category-filters {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-bottom: 34px;
+  }
+
+  .category-filter {
+    border: 1px solid var(--line);
+
+    background: var(--paper);
+
+    color: var(--ink);
+
+    padding: 10px 15px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+  }
+
+  .category-filter:hover,
+  .category-filter.active {
+    background: var(--ink);
+
+    color: var(--paper);
+
+    border-color: var(--ink);
+  }
+
+  /* =========================
+     GALLERY GRID
+     ========================= */
+
+  .gallery {
+    display: grid;
+
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 24px;
+
+    align-items: start;
+  }
+
+  /* =========================
+     CARDS
+     ========================= */
+
+  .card {
+    position: relative;
+
+    overflow: hidden;
+
+    background: var(--paper);
+
+    border: 1px solid var(--line);
+
+    border-radius: 0;
+
+    box-shadow:
+      0 10px 30px rgba(32, 35, 38, 0.08);
+
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .card::before {
+    content: "";
+
+    display: block;
+
+    height: 5px;
+
+    background: var(--terracotta);
+  }
+
+  .card:nth-child(3n + 2)::before {
+    background: var(--sage);
+  }
+
+  .card:nth-child(3n + 3)::before {
+    background: var(--gold);
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+      0 18px 38px rgba(32, 35, 38, 0.14);
+  }
+
+  /* =========================
+     IMAGE
+     ========================= */
+
+  .card img {
+    width: 100%;
+
+    height: auto;
+
+    display: block;
+
+    object-fit: contain;
+
+    background: #ddd8cf;
+
+    cursor: zoom-in;
+
+    transition:
+      transform 0.35s ease;
+  }
+
+  .card:hover img {
+    transform: scale(1.025);
+  }
+
+  .card:first-child {
+    grid-column: span 2;
+  }
+
+  /* =========================
+     CARD CONTENT
+     ========================= */
+
+  .card-content {
+    padding: 22px 22px 24px;
+  }
+
+  .card h2 {
+    margin: 0 0 10px;
+
+    font-family:
+      Georgia,
+      "Times New Roman",
+      serif;
+
+    font-size: 25px;
+
+    font-weight: normal;
+
+    line-height: 1.2;
+
+    color: var(--ink);
+  }
+
+  .card:first-child h2 {
+    font-size: 30px;
+  }
+
+  .description {
+    margin: 0 0 16px;
+
+    color: var(--muted);
+
+    font-size: 15px;
+
+    line-height: 1.7;
+  }
+
+  /* =========================
+     CATEGORY LABEL
+     ========================= */
+
+  .category {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    background: transparent;
+
+    color: var(--terracotta);
+
+    border: 1px solid var(--terracotta);
+
+    border-radius: 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+  }
+
+  .category:hover {
+    background: var(--terracotta);
+
+    color: var(--paper);
+  }
+
+  /* =========================
+     LOADING / EMPTY / ERROR
+     ========================= */
+
+  .loading,
+  .empty,
+  .error {
+    grid-column: 1 / -1;
+
+    background: var(--paper);
+
+    padding: 35px 20px;
+
+    border: 1px solid var(--line);
+
+    border-radius: 0;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-family:
+      Georgia,
+      "Times New Roman",
+      serif;
+
+    font-size: 18px;
+  }
+
+  .error {
+    color: #8b3737;
+
+    background: #f3dfda;
+
+    border-color: #d7aaa0;
+  }
+
+  /* =========================
+     FULL-SCREEN VIEWER
+     ========================= */
+
+  .viewer {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 70px 70px 55px;
+
+    background: rgba(10, 12, 14, 0.96);
+  }
+
+  .viewer.open {
+    display: flex;
+  }
+
+  .viewer-image {
+    max-width: 100%;
+
+    max-height: 100%;
+
+    width: auto;
+
+    height: auto;
+
+    object-fit: contain;
+
+    box-shadow:
+      0 20px 70px rgba(0, 0, 0, 0.45);
+  }
+
+  .viewer-close,
+  .viewer-prev,
+  .viewer-next {
+    position: absolute;
+
+    z-index: 2;
+
+    width: 46px;
+
+    height: 46px;
+
+    border:
+      1px solid
+      rgba(248, 245, 239, 0.35);
+
+    background:
+      rgba(20, 22, 24, 0.75);
+
+    color: #f8f5ef;
+
+    cursor: pointer;
+
+    font-size: 25px;
+
+    line-height: 1;
+  }
+
+  .viewer-close {
+    top: 18px;
+
+    right: 18px;
+  }
+
+  .viewer-prev {
+    left: 18px;
+
+    top: 50%;
+
+    transform:
+      translateY(-50%);
+  }
+
+  .viewer-next {
+    right: 18px;
+
+    top: 50%;
+
+    transform:
+      translateY(-50%);
+  }
+
+  .viewer-close:hover,
+  .viewer-prev:hover,
+  .viewer-next:hover {
+    background: #f8f5ef;
+
+    color: #151719;
+  }
+
+  .viewer-caption {
+    position: absolute;
+
+    left: 20px;
+
+    right: 20px;
+
+    bottom: 15px;
+
+    color: #d8d4cc;
+
+    text-align: center;
+
+    font-family:
+      Georgia,
+      "Times New Roman",
+      serif;
+
+    font-size: 14px;
+  }
+
+  /* =========================
+     TABLET
+     ========================= */
+
+  @media (max-width: 850px) {
+
+    header {
+      padding:
+        65px
+        20px
+        60px;
+    }
+
+    .gallery {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+
+    .card:first-child {
+      grid-column: span 2;
+    }
+
+  }
+
+  /* =========================
+     MOBILE
+     ========================= */
+
+  @media (max-width: 600px) {
+
+    header {
+      padding:
+        58px
+        18px
+        52px;
+    }
+
+    header h1 {
+      font-size: 52px;
+
+      letter-spacing: -1.5px;
+    }
+
+    header h1::before {
+      font-size: 9px;
+
+      letter-spacing: 2.5px;
+    }
+
+    header p {
+      font-size: 17px;
+    }
+
+    .container {
+      padding:
+        24px
+        14px
+        60px;
+    }
+
+    .back {
+      margin-bottom: 22px;
+    }
+
+    .category-filters {
+      overflow-x: auto;
+
+      flex-wrap: nowrap;
+
+      padding-bottom: 6px;
+
+      margin-bottom: 26px;
+
+      scrollbar-width: thin;
+    }
+
+    .category-filter {
+      white-space: nowrap;
+    }
+
+    .gallery {
+      grid-template-columns: 1fr;
+
+      gap: 20px;
+    }
+
+    .card:first-child {
+      grid-column: span 1;
+    }
+
+    .card-content {
+      padding:
+        19px
+        18px
+        21px;
+    }
+
+    .card h2,
+    .card:first-child h2 {
+      font-size: 24px;
+    }
+
+    .description {
+      font-size: 14px;
+    }
+
+    .viewer {
+      padding:
+        65px
+        12px
+        55px;
+    }
+
+    .viewer-close,
+    .viewer-prev,
+    .viewer-next {
+      width: 42px;
+
+      height: 42px;
+    }
+
+    .viewer-prev {
+      left: 10px;
+    }
+
+    .viewer-next {
+      right: 10px;
+    }
+
+  }
+
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>Gallery</h1>
-  <p>Philosophy & Literature</p>
+
+  <h1>The Visual Archive</h1>
+
+  <p>
+    Philosophy & Literature
+  </p>
+
 </header>
+
 
 <div class="container">
 
-  <a class="back" href="index.html">← Back to Home</a>
-<div id="categoryFilters" class="category-filters"></div>
-  <div id="gallery" class="gallery">
+  <a
+    class="back"
+    href="index.html"
+  >
+    ← Back to Home
+  </a>
+
+
+  <div
+    id="categoryFilters"
+    class="category-filters"
+  ></div>
+
+
+  <div
+    id="gallery"
+    class="gallery"
+  >
+
     <div class="loading">
       Loading gallery...
     </div>
+
   </div>
 
 </div>
+
+
+<!-- =========================
+     FULL-SCREEN VIEWER
+     ========================= -->
+
+<div
+  id="viewer"
+  class="viewer"
+  aria-hidden="true"
+>
+
+  <button
+    class="viewer-close"
+    type="button"
+    aria-label="Close viewer"
+    onclick="closeViewer()"
+  >
+    ×
+  </button>
+
+
+  <button
+    class="viewer-prev"
+    type="button"
+    aria-label="Previous image"
+    onclick="showPreviousImage()"
+  >
+    ‹
+  </button>
+
+
+  <img
+    id="viewerImage"
+    class="viewer-image"
+    src=""
+    alt=""
+  >
+
+
+  <button
+    class="viewer-next"
+    type="button"
+    aria-label="Next image"
+    onclick="showNextImage()"
+  >
+    ›
+  </button>
+
+
+  <div
+    id="viewerCaption"
+    class="viewer-caption"
+  ></div>
+
+</div>
+
 
 <script>
 
 const SUPABASE_URL =
   "https://vsrhycbtqwtlrqcdyqdj.supabase.co";
 
+
 const SUPABASE_KEY =
   "sb_publishable_K0Ha-NPagsXFw-HwHG5HbQ_d27vXgMJ";
+
 
 const client =
   supabase.createClient(
@@ -111,74 +812,168 @@ const client =
     SUPABASE_KEY
   );
 
-function escapeHtml(value) {
-  return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+
 let allGalleryItems = [];
+
 let galleryCategoryMap = {};
-let activeCategory = null;
+
+let currentVisibleItems = [];
+
+let viewerIndex = 0;
+
+
+/* =========================
+   ESCAPE HTML
+   ========================= */
+
+function escapeHtml(value) {
+
+  return String(value || "")
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   CATEGORY FILTERS
+   ========================= */
 
 function renderCategoryFilters(categories) {
+
   const filters =
-    document.getElementById("categoryFilters");
+    document.getElementById(
+      "categoryFilters"
+    );
+
 
   filters.innerHTML = `
+
     <button
+      type="button"
       class="category-filter active"
+      data-category=""
       onclick="filterGallery(null)"
     >
       All
     </button>
 
+
     ${categories.map(category => `
+
       <button
+        type="button"
         class="category-filter"
-        onclick="filterGallery('${category.id}')"
+        data-category="${escapeHtml(category.id)}"
+        onclick="filterGallery('${escapeHtml(category.id)}')"
       >
+
         ${escapeHtml(category.name)}
+
       </button>
+
     `).join("")}
+
   `;
+
 }
+
+
+/* =========================
+   FILTER GALLERY
+   ========================= */
 
 function filterGallery(categoryId) {
 
-  activeCategory = categoryId;
-
   document
-    .querySelectorAll(".category-filter")
+    .querySelectorAll(
+      ".category-filter"
+    )
     .forEach(button => {
-      button.classList.remove("active");
+
+      button.classList.remove(
+        "active"
+      );
+
     });
 
+
   const activeButton =
-    categoryId === null
-      ? document.querySelector(".category-filter")
-      : document.querySelector(
-          `.category-filter[onclick="filterGallery('${categoryId}')"]`
-        );
+    document.querySelector(
+      `.category-filter[data-category="${categoryId || ""}"]`
+    );
+
 
   if (activeButton) {
-    activeButton.classList.add("active");
+
+    activeButton.classList.add(
+      "active"
+    );
+
   }
 
+
   const filteredItems =
+
     categoryId === null
+
       ? allGalleryItems
+
       : allGalleryItems.filter(
-          item => item.category_id === categoryId
+          item =>
+            String(
+              item.category_id
+            ) === String(
+              categoryId
+            )
         );
 
-  renderGalleryItems(filteredItems);
-} function renderGalleryItems(items) {
+
+  renderGalleryItems(
+    filteredItems
+  );
+
+}
+
+
+/* =========================
+   RENDER GALLERY
+   ========================= */
+
+function renderGalleryItems(items) {
 
   const container =
-    document.getElementById("gallery");
+    document.getElementById(
+      "gallery"
+    );
+
+
+  currentVisibleItems =
+    items;
+
 
   if (!items.length) {
 
@@ -186,69 +981,419 @@ function filterGallery(categoryId) {
       "<div class='empty'>No visual quotes in this category yet.</div>";
 
     return;
+
   }
 
+
   container.innerHTML =
-    items.map(item => {
 
-      const category =
-        galleryCategoryMap[item.category_id] || "";
+    items.map(
+      (item, index) => {
 
-      return `
-        <article class="card">
+        const category =
+          galleryCategoryMap[
+            item.category_id
+          ] || "";
 
-          ${
-            item.image_url
-              ? `
-                <img
-                  src="${escapeHtml(item.image_url)}"
-                  alt="${escapeHtml(item.title)}"
-                  onerror="this.style.display='none'"
-                >
-              `
-              : ""
-          }
 
-          <div class="card-content">
+        return `
 
-            <h2>
-              ${escapeHtml(item.title)}
-            </h2>
+          <article
+            class="card"
+          >
+
 
             ${
-              item.description
-                ? `
-                  <div class="description">
-                    ${escapeHtml(item.description)}
-                  </div>
-                `
-                : ""
-            }
+              item.image_url
 
-            ${
-              category
                 ? `
-                  <button
-                    class="category"
-                    onclick="filterGallery('${item.category_id}')"
+
+                  <img
+                    src="${escapeHtml(item.image_url)}"
+                    alt="${escapeHtml(item.title)}"
+                    onclick="openViewer(${index})"
+                    onerror="this.style.display='none'"
                   >
-                    ${escapeHtml(category)}
-                  </button>
+
                 `
+
                 : ""
+
             }
 
-          </div>
 
-        </article>
-      `;
+            <div
+              class="card-content"
+            >
 
-    }).join("");
+
+              <h2>
+
+                ${escapeHtml(
+                  item.title
+                )}
+
+              </h2>
+
+
+              ${
+                item.description
+
+                  ? `
+
+                    <div
+                      class="description"
+                    >
+
+                      ${escapeHtml(
+                        item.description
+                      )}
+
+                    </div>
+
+                  `
+
+                  : ""
+
+              }
+
+
+              ${
+                category
+
+                  ? `
+
+                    <button
+                      type="button"
+                      class="category"
+                      onclick="filterGallery('${escapeHtml(item.category_id)}')"
+                    >
+
+                      ${escapeHtml(
+                        category
+                      )}
+
+                    </button>
+
+                  `
+
+                  : ""
+
+              }
+
+
+            </div>
+
+
+          </article>
+
+        `;
+
+      }
+    ).join("");
+
 }
+
+
+/* =========================
+   OPEN VIEWER
+   ========================= */
+
+function openViewer(index) {
+
+  if (
+    !currentVisibleItems.length
+  ) {
+
+    return;
+
+  }
+
+
+  viewerIndex =
+    index;
+
+
+  updateViewer();
+
+
+  const viewer =
+    document.getElementById(
+      "viewer"
+    );
+
+
+  viewer.classList.add(
+    "open"
+  );
+
+
+  viewer.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+
+  document.body.style.overflow =
+    "hidden";
+
+}
+
+
+/* =========================
+   UPDATE VIEWER
+   ========================= */
+
+function updateViewer() {
+
+  const item =
+    currentVisibleItems[
+      viewerIndex
+    ];
+
+
+  if (!item) {
+
+    return;
+
+  }
+
+
+  const image =
+    document.getElementById(
+      "viewerImage"
+    );
+
+
+  const caption =
+    document.getElementById(
+      "viewerCaption"
+    );
+
+
+  image.src =
+    item.image_url || "";
+
+
+  image.alt =
+    item.title ||
+    "Visual quote";
+
+
+  caption.textContent =
+    item.title || "";
+
+
+  const hasMultiple =
+    currentVisibleItems.length > 1;
+
+
+  document.querySelector(
+    ".viewer-prev"
+  ).style.display =
+
+    hasMultiple
+      ? "block"
+      : "none";
+
+
+  document.querySelector(
+    ".viewer-next"
+  ).style.display =
+
+    hasMultiple
+      ? "block"
+      : "none";
+
+}
+
+
+/* =========================
+   PREVIOUS IMAGE
+   ========================= */
+
+function showPreviousImage() {
+
+  if (
+    !currentVisibleItems.length
+  ) {
+
+    return;
+
+  }
+
+
+  viewerIndex =
+
+    (
+      viewerIndex -
+      1 +
+      currentVisibleItems.length
+    )
+    %
+    currentVisibleItems.length;
+
+
+  updateViewer();
+
+}
+
+
+/* =========================
+   NEXT IMAGE
+   ========================= */
+
+function showNextImage() {
+
+  if (
+    !currentVisibleItems.length
+  ) {
+
+    return;
+
+  }
+
+
+  viewerIndex =
+
+    (
+      viewerIndex +
+      1
+    )
+    %
+    currentVisibleItems.length;
+
+
+  updateViewer();
+
+}
+
+
+/* =========================
+   CLOSE VIEWER
+   ========================= */
+
+function closeViewer() {
+
+  const viewer =
+    document.getElementById(
+      "viewer"
+    );
+
+
+  viewer.classList.remove(
+    "open"
+  );
+
+
+  viewer.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+
+  document.getElementById(
+    "viewerImage"
+  ).src = "";
+
+
+  document.body.style.overflow =
+    "";
+
+}
+
+
+/* =========================
+   KEYBOARD CONTROLS
+   ========================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    const viewer =
+      document.getElementById(
+        "viewer"
+      );
+
+
+    if (
+      !viewer.classList.contains(
+        "open"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      closeViewer();
+
+    }
+
+
+    if (
+      event.key === "ArrowLeft"
+    ) {
+
+      showPreviousImage();
+
+    }
+
+
+    if (
+      event.key === "ArrowRight"
+    ) {
+
+      showNextImage();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   CLICK OUTSIDE IMAGE
+   ========================= */
+
+document
+  .getElementById(
+    "viewer"
+  )
+  .addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target.id ===
+        "viewer"
+      ) {
+
+        closeViewer();
+
+      }
+
+    }
+  );
+
+
+/* =========================
+   LOAD GALLERY
+   ========================= */
+
 async function loadGallery() {
 
   const container =
-    document.getElementById("gallery");
+    document.getElementById(
+      "gallery"
+    );
+
 
   try {
 
@@ -256,74 +1401,163 @@ async function loadGallery() {
       data: items,
       error
     } = await client
+
       .from("gallery")
+
       .select("*")
-      .eq("is_published", true)
-      .order("created_at", {
-        ascending: false
-      });
+
+      .eq(
+        "is_published",
+        true
+      )
+
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
+
 
     if (error) {
+
       throw error;
+
     }
 
-    if (!items || !items.length) {
+
+    if (
+      !items ||
+      !items.length
+    ) {
 
       container.innerHTML =
         "<div class='empty'>No gallery items published yet.</div>";
 
       return;
+
     }
 
-    allGalleryItems = items;
+
+    allGalleryItems =
+      items;
+
 
     const categoryIds = [
+
       ...new Set(
+
         items
-          .map(item => item.category_id)
+
+          .map(
+            item =>
+              item.category_id
+          )
+
           .filter(Boolean)
+
       )
+
     ];
+
 
     let categories = [];
 
-    if (categoryIds.length) {
+
+    if (
+      categoryIds.length
+    ) {
 
       const result =
         await client
-          .from("categories")
-          .select("id,name")
-          .in("id", categoryIds);
 
-      if (!result.error) {
-        categories = result.data || [];
+          .from(
+            "categories"
+          )
+
+          .select(
+            "id,name"
+          )
+
+          .in(
+            "id",
+            categoryIds
+          );
+
+
+      if (result.error) {
+
+        throw result.error;
+
       }
+
+
+      categories =
+        result.data || [];
+
     }
 
-    galleryCategoryMap = {};
 
-    categories.forEach(category => {
-      galleryCategoryMap[category.id] =
-        category.name;
-    });
+    categories.sort(
+      (a, b) =>
 
-    renderCategoryFilters(categories);
+        String(
+          a.name || ""
+        ).localeCompare(
 
-    renderGalleryItems(items);
+          String(
+            b.name || ""
+          )
+
+        )
+    );
+
+
+    galleryCategoryMap =
+      {};
+
+
+    categories.forEach(
+      category => {
+
+        galleryCategoryMap[
+          category.id
+        ] =
+          category.name;
+
+      }
+    );
+
+
+        renderCategoryFilters(
+      categories
+    );
+
+    renderGalleryItems(
+      items
+    );
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Gallery error:",
+      error
+    );
 
-    container.innerHTML =
-      `
-        <div class="error">
-          Could not load gallery.
-        </div>
-      `;
-  
+    container.innerHTML = `
+
+      <div class="error">
+
+        Could not load gallery.
+
+      </div>
+
+    `;
+
   }
+
 }
+
 
 loadGallery();
 
