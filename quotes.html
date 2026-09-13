@@ -487,8 +487,8 @@
 
 <header>
   <div class="archive-title">THE QUOTATIONS ARCHIVE</div>
-  <h1>Philosophy & Literature</h1>
-  <p>A growing digital archive of ideas and words</p>
+  <h1>The Quotations Archive</h1>
+  <p>Philosophy & Literature</p>
 </header>
 
 <nav>
@@ -503,7 +503,14 @@
 </nav>
 
 <main class="container">
-
+<a
+  id="backToQuotes"
+  class="back"
+  href="quotes.html"
+  style="display:none;"
+>
+  ← Back to All Quotes
+</a>
   <section class="intro">
     <h2 id="quotesTitle">Quotes</h2>
     <p>
@@ -544,7 +551,12 @@
 
     const authorFilter =
   new URLSearchParams(window.location.search).get("author");
+const backToQuotes =
+  document.getElementById("backToQuotes");
 
+if (authorFilter) {
+  backToQuotes.style.display = "inline-flex";
+}
 let query = client
   .from("quotes")
   .select(`
