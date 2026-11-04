@@ -1269,37 +1269,35 @@ function renderList(articles) {
     return;
   }
 
-  list.innerHTML = articles.map((article, index) => {
+  list.innerHTML = articles.map(article => {
 
     const category =
       article.categories?.name || "ARTICLE";
 
-    const image = article.cover_url
-      ? `
-        <img
-          class="article-thumb"
-          src="${escapeHtml(article.cover_url)}"
-          alt="${escapeHtml(article.title)}"
-          loading="lazy"
-        >
-      `
-      : `<div class="article-thumb-placeholder"></div>`;
+    const imageStyle = article.cover_url
+      ? `style="background-image:url('${escapeHtml(article.cover_url)}')"`
+      : "";
 
     return `
       <a
-        class="article-card"
+        class="featured"
         href="?article=${encodeURIComponent(article.slug)}"
       >
 
-        <div class="article-number">
-          ${String(index + 2).padStart(2, "0")}
-        </div>
+        <div
+          class="featured-image"
+          ${imageStyle}
+        ></div>
 
-        ${image}
+        <div class="featured-content">
 
-        <div class="article-main">
+          <div class="featured-label">
+            ${escapeHtml(category)}
+          </div>
 
-          <h3>${escapeHtml(article.title)}</h3>
+          <h3>
+            ${escapeHtml(article.title)}
+          </h3>
 
           ${
             article.excerpt
@@ -1307,12 +1305,10 @@ function renderList(articles) {
               : ""
           }
 
-        </div>
+          <span class="read-link">
+            Read article →
+          </span>
 
-        <div class="article-meta">
-          ${escapeHtml(category)}
-          <br>
-          ${formatDate(article.published_at)}
         </div>
 
       </a>
