@@ -1017,8 +1017,7 @@ function textToHtml(text) {
       "<em>$1</em>"
     );
 
-    safe = safe.replace(
-      /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gi,
+    /\[([^\]]+)\]\s*\(\s*(https?:\/\/[^\s)]+)\s*\)/gi,
       '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
     );
 
