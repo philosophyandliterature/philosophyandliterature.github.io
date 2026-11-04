@@ -1022,7 +1022,10 @@ const lines = normalizedText.split("\n");
       /\[([^\]]+)\]\s*\(\s*(https?:\/\/[^\s)]+)\s*\)/gi,
       '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
     );
-
+safe = safe.replace(
+  /(?<!["=])(https?:\/\/[^\s<]+)/gi,
+  '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+);
     return safe;
   }
 
