@@ -1214,85 +1214,63 @@ function renderFeatured(article) {
 
 function renderList(articles) {
 
-  const list =
-    document.getElementById(
-      "articleList"
-    );
-
+  const list = document.getElementById("articleList");
 
   if (!articles.length) {
-
     list.innerHTML = "";
-
     return;
-
   }
 
+  list.innerHTML = articles.map((article, index) => {
 
-  list.innerHTML =
+    const category =
+      article.categories?.name || "ARTICLE";
 
-    articles
-      .map(
-        (article, index) => {
+    const image = article.cover_url
+      ? `
+        <img
+          class="article-thumb"
+          src="${escapeHtml(article.cover_url)}"
+          alt="${escapeHtml(article.title)}"
+          loading="lazy"
+        >
+      `
+      : `<div class="article-thumb-placeholder"></div>`;
 
-          const category =
-            article.categories?.name
-            || "ARTICLE";
+    return `
+      <a
+        class="article-card"
+        href="?article=${encodeURIComponent(article.slug)}"
+      >
 
+        <div class="article-number">
+          ${String(index + 2).padStart(2, "0")}
+        </div>
 
-          return `
+        ${image}
 
-            <a
-              class="article-card"
-              href="?article=${encodeURIComponent(article.slug)}"
-            >
+        <div class="article-main">
 
-              <div class="article-number">
-                ${String(index + 2).padStart(2, "0")}
-              </div>
+          <h3>${escapeHtml(article.title)}</h3>
 
+          ${
+            article.excerpt
+              ? `<p>${escapeHtml(article.excerpt)}</p>`
+              : ""
+          }
 
-              <div class="article-main">
+        </div>
 
-                <h3>
-                  ${escapeHtml(article.title)}
-                </h3>
+        <div class="article-meta">
+          ${escapeHtml(category)}
+          <br>
+          ${formatDate(article.published_at)}
+        </div>
 
+      </a>
+    `;
 
-                ${
-                  article.excerpt
-                    ? `
-                      <p>
-                        ${escapeHtml(
-                          article.excerpt
-                        )}
-                      </p>
-                    `
-                    : ""
-                }
-
-              </div>
-
-
-              <div class="article-meta">
-
-                ${escapeHtml(category)}
-
-                <br>
-
-                ${formatDate(
-                  article.published_at
-                )}
-
-              </div>
-
-            </a>
-
-          `;
-
-        }
-      )
-      .join("");
+  }).join("");
 
 }
 
