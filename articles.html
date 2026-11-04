@@ -566,7 +566,11 @@ a {
 .reader-content em {
   font-style: italic;
 }
-
+.reader-content a {
+  color: #76533b;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 .reader-content hr {
   border: 0;
   border-top: 1px solid #d6cec2;
@@ -1000,6 +1004,7 @@ function textToHtml(text) {
   }
 
   function formatInline(value) {
+
     let safe = escapeHtml(value);
 
     safe = safe.replace(
@@ -1010,6 +1015,11 @@ function textToHtml(text) {
     safe = safe.replace(
       /\*(.*?)\*/g,
       "<em>$1</em>"
+    );
+
+    safe = safe.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gi,
+      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
     );
 
     return safe;
@@ -1035,9 +1045,8 @@ function textToHtml(text) {
 
       const match = line.match(/^(#{1,6})\s+(.*)$/);
       const level = match[1].length;
-      const content = formatInline(match[2]);
 
-      html += `<h${level}>${content}</h${level}>`;
+      html += `<h${level}>${formatInline(match[2])}</h${level}>`;
       continue;
     }
 
@@ -1045,6 +1054,7 @@ function textToHtml(text) {
       closeLists();
 
       const quote = line.replace(/^>\s+/, "");
+
       html += `<blockquote>“${formatInline(quote)}”</blockquote>`;
       continue;
     }
