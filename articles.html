@@ -1023,8 +1023,14 @@ const lines = normalizedText.split("\n");
       '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
     );
 safe = safe.replace(
-  /(?<!["=])(https?:\/\/[^\s<]+)/gi,
-  '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+  /https?:\/\/[^\s<]+/gi,
+  (url, offset, fullText) => {
+    if (offset > 0 && /["=]/.test(fullText[offset - 1])) {
+      return url;
+    }
+
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+  }
 );
     return safe;
   }
