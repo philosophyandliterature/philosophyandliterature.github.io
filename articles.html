@@ -986,7 +986,8 @@ function textToHtml(text) {
 
   if (!text) return "";
 
-  const lines = String(text).split("\n");
+  const normalizedText = String(text).replace(/\]\s*\n\s*\(/g, "](");
+const lines = normalizedText.split("\n");
   let html = "";
   let inUl = false;
   let inOl = false;
